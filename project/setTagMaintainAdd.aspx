@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="setTagMaintainAdd.aspx.cs" Inherits="project_setTagMaintainAdd" %>
+<%--不可Cache --%><%@ OutputCache Location="None" Duration="1" VaryByParam="*" %>

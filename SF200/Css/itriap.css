@@ -1,0 +1,298 @@
+﻿/* Generic CSS - for the general look and feel of the pages */
+/*****************************************************************************************************/
+body {
+	color:#000000;
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	margin:0px;
+	/*height:100%;  必須 Add by Tako */
+	/*overflow-y:auto; 必須 Add by Tako */
+	background-color:#FFFFFF;
+	}
+	
+div {text-align:left;
+	margin:0px;}
+
+a:link {color:#00B3ED;}
+	
+a:visited {color:#00B3ED;}
+	
+a:hover {color:#FF5501;}
+	
+a:active {color:#00B3ED;}
+	
+p { line-height:18px;
+	margin:10px 0px;}
+	
+table {
+	font-family: Times New Roman, Times, serif; /* Add by Hugo */
+	font-size: 12px; /* Add by Hugo */
+	width:100%;
+	border:1px solid  #B2B2B2;
+	margin:0px;}
+	
+th {
+	background-color:#DCEDF3;
+	font-weight: normal;
+	padding:6px 2px 4px;
+	white-space: nowrap;
+	border-top: 0px none;
+	border-right: 0px none;
+	border-bottom: 1px solid #B2B2B2;
+	border-left: 0px none;}
+	
+td {
+	margin:0px;
+	padding:0px 2px 0px 2px;}
+	
+form {
+	margin:0px;
+	padding:0px;}
+	
+input {
+	background-color:#FFFFFF;
+	border: 1px solid #B2B2B2;
+	line-height:18px;}
+	
+hr {border:2px dotted #999999;
+	margin:0px 10px;
+	padding:0px;}
+	
+html>body hr {border:1px dotted #999999;}
+	
+img { border: 0px;}
+
+/* Table CSS - for specific table styles */
+/*****************************************************************************************************/
+.Theader td {
+	background-color:#DCEDF3;
+	font-weight: normal;
+	padding:6px 2px 4px;
+	white-space: nowrap;
+	border-top: 0px none;
+	border-right: 0px none;
+	border-bottom: 1px solid #B2B2B2;
+	border-left: 0px none;}
+.TRowOdd td {}
+.TRowEven td { background-color:#F0F0F0; }
+.TFooter td {
+	background-color:#FFFFE6; 
+	font-weight: normal;
+	white-space: nowrap;
+	border-top: 1px solid #B2B2B2;
+	border-right: 0px none;
+	border-bottom: 0px none;
+	border-left: 0px none;}
+.PagerStyle table 
+{
+	border: none;
+	width: auto; 
+}
+
+
+/* Button CSS - for specific button styles, including some dynamic effects */
+/*****************************************************************************************************/
+.button{
+	text-align:center;
+	color:#00B3ED;
+	border:1px solid #BBBBBB;
+	background-color:#F0F0F0;
+	line-height:12px;
+	padding:2px 5px 0px 5px;
+	width: auto;
+	font-size: 12px;}
+	
+.btn_mouseover {
+	text-align:center;
+	/*color:#AF0348; Modify by Hugo */
+	color:#FF5501;
+	border:1px solid #BBBBBB;
+	/*background-color:#C8DDEB; Modify by Hugo */
+	background-color:#DDDDDD;
+	line-height:12px;
+	padding:2px 5px 0px 5px;
+	width: auto;
+	font-size: 12px;
+	cursor: hand;	
+ }
+.btn_mouseout {
+	text-align:center;
+	color:#00B3ED;
+	border:1px solid #BBBBBB;
+	background-color:#F0F0F0;
+	line-height:12px;
+	padding:2px 5px 0px 5px;
+	width: auto;
+	font-size: 12px;
+ }
+ /* For Help css */
+.help_button {
+	text-align:center;
+	color:#FFFFFF;
+	border:1px solid #BBBBBB;
+	background-color:#FF9933;
+	line-height:12px;
+	padding:4px 0px 0px;
+	width: auto;
+	font-size: 12px;
+}
+
+.help_btn_mouseover {
+	text-align:center;
+	color:#333333;
+	border:1px solid #808080;
+	background-color:#FFcc66;
+	line-height:12px;
+	padding:4px 0px 0px;
+	width: auto;
+	font-size: 12px;
+	cursor: hand;	}
+	
+html>body .button{padding:2px 5px 0px 5px;}
+
+/* TextBox CSS - for specific textbox styles */
+/*****************************************************************************************************/
+.textbox { width:70px; }
+
+.textboxReadonly
+{
+	background:#f2f2f2;
+	width:70px;
+}
+.textboxNum
+{
+	text-align:right;
+	width:70px;
+}
+.textboxNumReadonly
+{
+	padding: 0;
+	margin: 0;
+	border: #A7B1BA 1px solid;
+	background:#f2f2f2;
+	text-align:right;
+}
+.textareaReadonly
+{
+	background:#f2f2f2;
+	font-size:12px;
+}
+
+/* Image CSS */
+/*****************************************************************************************************/
+.img_mouseover {cursor: hand;}
+
+.img_mouseout { }
+
+/* CheckBox and CheckBoxList CSS*/
+/*****************************************************************************************************/
+.checkbox input { border:0px; }
+
+.checkboxlist input { border:0px; }
+
+.radiobutton, .checkbutton {
+	color:#578C27;
+	border:0px;}
+
+/* RadioButton and RadioButtonList CSS */
+/*****************************************************************************************************/
+.radiobutton input { border:0px; }
+
+.radiobuttonlist input { border:0px; }
+
+/* font CSS - for various font styles */
+/*****************************************************************************************************/
+.title {
+	font-family: Times New Roman, Times, serif;
+	font-size: 16px;
+	color:#000000;}
+.title-second {
+	font-family: Times New Roman, Times, serif;
+	font-size: 14px;
+	color:#000000;}
+.title-r {
+	text-align:right;
+	color:#578c27;}
+.title-l {
+	text-align:left;
+	color:#578c27;}
+.title-left {
+	text-align:left;
+	color:#578c27;
+	font-size: 12px;}
+.title-l span {
+	font-family: Times New Roman, Times, serif;
+	font-size: 14px;}	
+.title-hide{
+		text-align:right;
+		color:#BCD1A9;}		
+		
+.left {
+	text-align:left;}
+	
+.red{color:#FF5501;}
+
+.blue{color:#0000FF;}
+
+.bold{font-weight: bold;}
+
+.orange {color:#FF5501;}
+
+/* Other miscellaneous CSS - for all the other styles */
+/*****************************************************************************************************/
+.banner{
+	background-image:url(../../Images/banner-elite.gif);
+	/*tako/*width:852px;*/
+	/*width:100.6%;*/
+	width: 825px;
+	height:40px;}
+	
+.banner-tech{
+	background-image:url(../../Images/banner-03.gif);
+	/*tako/*width:852px;*/
+	/*width:100.6%;*/
+	width: 825px;
+	height:40px;}
+	
+.content {
+	width:830px; /* width:852px; modify by Hugo */
+	float:left;}
+	
+.content-sub {width:600px;float:left;}
+
+.border-none{border:0px none;}
+
+.SubAreaScollTop
+{
+	overflow-Y: auto;
+	height: 220pt;
+}
+.SubAreaScollTop table
+{
+	width: 99.5%;
+}
+
+.function {	
+	text-align:right;
+	margin:1px 1px 1px 0px; }	
+	
+.show-result-footer{
+	margin:15px 0px 0px 0px;
+	padding:12px 0px 0px 0px;
+	background-color: #F0F0F0;
+	border-top: 2px dotted #999999;
+	border-right: 0px dotted;
+	border-bottom: 2px dotted #999999;
+	border-left: 0px dotted;
+	height:24px;}
+	
+.show-result-footer span
+{
+	color:#000000;
+	font-size: 12px;
+}
+
+.subject{
+	float:right;
+	padding:2px 0px;}
+

@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="excelSampleTemplate.aspx.cs" Inherits="dl_excelSampleTemplate" %>
+<%--不可Cache --%><%@ OutputCache Location="None" Duration="1" VaryByParam="*" %>

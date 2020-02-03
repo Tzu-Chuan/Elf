@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="setRelatedWordUpdate.aspx.cs" Inherits="projectMgmt_setRelatedWordUpdate" %>
+<%--不可Cache --%><%@ OutputCache Location="None" Duration="1" VaryByParam="*" %>

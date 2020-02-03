@@ -1,0 +1,260 @@
+/* Add here all your css styles (customizations) */
+body {
+    margin: 0px 0px 0px 0px;
+    /*padding: 50px 0px 0px 0px;*//*padding-top固定選單的高度*/
+    /*color: #5a5a5a;*/
+    color: #333333;
+    font-size: 16px;
+    font-family: "Roboto Condensed", "Microsoft Jhenghei", "Helvetica Neue", Arial, Geneva, sans-serif;
+    background: #EEEEEE; 
+}
+p, 
+li,
+li a { 
+   /*color: #555;*/
+}
+
+a {
+   /*color: #72c02c;*/
+   /*color: #585f69;*/
+   text-decoration: none;  
+}
+
+a,
+a:focus, 
+a:hover, 
+a:active {
+   outline: 0 !important;
+}
+a:focus {
+    color: #8d9096;/*點選過後*/
+  text-decoration: none;
+}
+a:hover {
+   /*color: #72c02c;*/
+   color: #f0482c;
+   text-decoration: underline;
+}
+/*hr {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #DDDDDD currentcolor currentcolor;
+    border-image: none;
+    border-style: solid none none;
+    border-width: 1px 0 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}*/
+/*selected [option],
+selected [option][selected]{
+	color: #f0482c;
+    border: #f0482c !important;
+}*/
+
+
+
+.header{
+    border-bottom: solid 1px #CCC;
+
+    background: #FFF; /* Old browsers */
+    /*background: linear-gradient(135deg,  #18BA9B 0%,#FFFFFF 40%);*/ /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    /*background-color: #FFFFFF;*/
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+.header-fixed .header {
+	height: 78px;
+}
+/*針對ff的設定*/
+@-moz-document url-prefix() { 
+    .header-fixed .header {
+        height: 79px;
+    }
+}
+
+
+/*展開收合*/
+.clickable {
+    cursor: pointer;
+    }
+.ECcontent {
+        display: none;
+    }
+
+
+/*輔導資源管理--查詢選單的樣式*/
+.btn-main {
+  border-color: #ccc;
+  color: #333;
+  background-color: #EEEEEE;
+}
+
+.btn-main:hover,
+.btn-main:focus,
+.btn-main:active,
+.btn-main.active {
+  color: #333;
+  border-color: #adadad;
+  background-color: #DDDDDD;
+}
+
+/*End=====================================================*/
+
+/*研究方向與關連詞排版樣式 20180111*/
+blockquote .dl-horizontal dt{
+    width: 200px;
+    margin-right:10px;
+    font-weight: 100;
+    /*margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;*/
+    text-align: left;
+}
+blockquote .dl-horizontal dd{
+    /*margin-left: 60px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;*/
+}
+
+
+/*輔導資源及輔導資源管理用*/
+.gudince-description {
+	margin: 15px 15px 15px 15px;
+    padding: 0px 0px 0px 0px;
+    line-height: 1.5;
+    
+	/*letter-spacing: 2px;
+	transform: rotate(45deg);   
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);*/
+}
+/*.gudince-description H1{
+  font-size:200%
+}
+.gudince-description H2{
+  font-size:175%
+}
+.gudince-description H3{
+  font-size:150%
+}
+.gudince-description H4{
+  font-size:125%;
+}
+.gudince-description H5{
+  font-size:100%
+}
+.gudince-description H6{
+  font-size:85%
+}*/
+
+
+
+
+
+.gudince-description p{
+    /*margin: 0px 10px 10px 10px;*/
+    font-size: 14px;
+    text-align: left;
+}
+.gudince-description hr{
+    margin: 10px 15px 15px 15px;
+    padding: 0px 0px 0px 0px;
+}
+
+
+
+/*=========遮罩內相關的樣式=========*/
+    .guidanceHeadline {
+        text-align: center;
+    }
+
+    .guidanceHeadline h2 {
+        /*font-size: 26px;*/
+        color: #444444;
+        font-size: 28px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+
+
+    /*遮罩[詳細內容]body的樣式*/
+    .modal-body dt{
+        color: #000000;
+        /*line-height: 2;*/
+        padding: 2px 0;
+    }
+    .modal-body dd{
+        /*line-height: 2;*/
+        padding: 5px 0;
+    }
+
+
+    /*遮罩內[詳細內容]：當解析度小於767時*/
+    @media (max-width: 767px) {
+        .modal-body dt{
+            border-bottom: 1px dashed #CCCCCC;
+        }
+        .modal-body dd{
+            padding-bottom: 20px;
+        }
+    }
+
+    /*遮罩:登入+變更密碼*/
+    /*.modal-body .sky-form {
+        padding: 30px 50px 30px 50px;
+    }*/
+    /*iPad直向寬768*/
+    @media (max-width: 767px) {
+      .modal-body .sky-form {
+        padding: 30px 20px 20px 20px;
+        }
+    }
+
+    .modal-body hr {
+        margin: 20px 0 10px;
+    }
+    /*遮罩:form下間距*/
+    .modal-body .input-group {
+        margin-bottom: 5px;
+    }
+/*遮罩:會員管理--＞單位新增 (bootstrap是form-control-feedback)*/
+   /*.OrgForm-control-feedback{
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: -40px;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    color: #3c763d;
+    z-index: 2;
+}*/
+   /*button主色系樣式
+.btn-u-main {
+    background: #777777;
+}
+    .btn-u.btn-u-guidance:hover,
+    .btn-u.btn-u-guidance:focus,
+    .btn-u.btn-u-guidance:active,
+    .btn-u.btn-u-guidance.active,
+    .open .dropdown-toggle.btn-u.btn-u-guidance {
+        background: #555555;
+    }
+.btn-u-guidanceWhite {
+    color: #555555 !important;
+    border: 1px solid #CCCCCC;
+    background: #FFFFFF;
+}
+    .btn-u.btn-u-guidanceWhite:hover,
+    .btn-u.btn-u-guidanceWhite:focus,
+    .btn-u.btn-u-guidanceWhite:active,
+    .btn-u.btn-u-guidanceWhite.active,
+    .open .dropdown-toggle.btn-u.btn-u-guidanceWhite {
+        background: #EEEEEE;
+    }*/

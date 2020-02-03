@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="inputExcelCheck.aspx.cs" Inherits="projectMgmt_inputExcelCheck" %>
+<%--不可Cache --%><%@ OutputCache Location="None" Duration="1" VaryByParam="*" %>

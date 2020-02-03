@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+/* 覆寫原系統 */
+.header .navbar-default .navbar-nav > li > a{font-size: 14px;}
+@media (max-width: 991px) {
+    .deskonly{display: none;}
+    .mobleonly{display: inherit;}
+}
+@media (min-width: 1200px) {
+    .container{width:1440px;}
+    
+}

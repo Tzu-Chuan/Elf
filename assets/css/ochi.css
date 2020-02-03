@@ -1,0 +1,311 @@
+@charset "utf-8";
+/* 基本兩欄排版 */
+.twocol:after{display:block; clear:both; content:"."; visibility:hidden; height:0;}
+.twocol .right{float:right;}
+.twocol .left{float:left;}
+/* 文字對齊 */
+.textcenter{text-align:center;}
+.textleft{text-align:left;}
+.textright{text-align:right;}
+/* 圖片 */
+.imgcenter{margin:0 auto;}
+/* 間距微調與美編 */
+.margin5TB{margin-top:5px; margin-bottom:5px;}
+.margin10TB{margin-top:10px; margin-bottom:10px;}
+.margin15TB{margin-top:15px; margin-bottom:15px;}
+.margin20TB{margin-top:20px; margin-bottom:20px;}
+.margin25TB{margin-top:25px; margin-bottom:25px;}
+.margin30TB{margin-top:30px; margin-bottom:30px;}
+.margin5B{margin-bottom:5px;}
+.margin5T{margin-top:5px;}
+.margin10B{margin-bottom:10px;}
+.margin10T{margin-top:10px;}
+.margin15B{margin-bottom:15px;}
+.margin15T{margin-top:15px;}
+.margin20B{margin-bottom:20px;}
+.margin20T{margin-top:20px;}
+.margin25B{margin-bottom:25px;}
+.margin25T{margin-top:25px;}
+.margin30B{margin-bottom:30px;}
+.margin30T{margin-top:30px;}
+.margin35B{margin-bottom:35px;}
+.margin35T{margin-top:35px;}
+.margin40T{margin-top:40px;}
+.margin40B{margin-bottom:40px;}
+.margin45T{margin-top:45px;}
+.margin45B{margin-bottom:45px;}
+.margin50T{margin-top:50px;}
+.margin50B{margin-bottom:50px;}
+.padding5TB{padding-top:5px; padding-bottom:5px;}
+.padding5RL{padding-left:5px; padding-right:5px;}
+.padding10TB{padding-top:10px; padding-bottom:10px;}
+.padding10RL{padding-left:10px; padding-right:10px;}
+.padding5ALL{padding:5px;}
+.padding10ALL{padding:10px;}
+/* 常用尺寸 */
+.width1{width:1%;}
+.width2{width:2%;}
+.width3{width:3%;}
+.width4{width:4%;}
+.width5{width:5%;}
+.width6{width:6%;}
+.width7{width:7%;}
+.width8{width:8%;}
+.width9{width:9%;}
+.width10{width:10%;}
+.width11{width:11%;}
+.width12{width:12%;}
+.width13{width:13%;}
+.width14{width:14%;}
+.width15{width:15%;}
+.width16{width:16%;}
+.width17{width:17%;}
+.width18{width:18%;}
+.width19{width:19%;}
+.width20{width:20%;}
+.width21{width:21%;}
+.width22{width:22%;}
+.width23{width:23%;}
+.width24{width:24%;}
+.width25{width:25%;}
+.width26{width:26%;}
+.width27{width:27%;}
+.width28{width:28%;}
+.width29{width:29%;}
+.width30{width:30%;}
+.width31{width:31%;}
+.width32{width:32%;}
+.width33{width:33%;}
+.width34{width:34%;}
+.width35{width:35%;}
+.width36{width:36%;}
+.width37{width:37%;}
+.width38{width:38%;}
+.width39{width:39%;}
+.width40{width:40%;}
+.width41{width:41%;}
+.width42{width:42%;}
+.width43{width:43%;}
+.width44{width:44%;}
+.width45{width:45%;}
+.width46{width:46%;}
+.width47{width:47%;}
+.width48{width:48%;}
+.width49{width:49%;}
+.width50{width:50%;}
+.width51{width:51%;}
+.width52{width:52%;}
+.width53{width:53%;}
+.width54{width:54%;}
+.width55{width:55%;}
+.width56{width:56%;}
+.width57{width:57%;}
+.width58{width:58%;}
+.width59{width:59%;}
+.width60{width:60%;}
+.width61{width:61%;}
+.width62{width:62%;}
+.width63{width:63%;}
+.width64{width:64%;}
+.width65{width:65%;}
+.width66{width:66%;}
+.width67{width:67%;}
+.width68{width:68%;}
+.width69{width:69%;}
+.width70{width:70%;}
+.width71{width:71%;}
+.width72{width:72%;}
+.width73{width:73%;}
+.width74{width:74%;}
+.width75{width:75%;}
+.width76{width:76%;}
+.width77{width:77%;}
+.width78{width:78%;}
+.width79{width:79%;}
+.width80{width:80%;}
+.width81{width:81%;}
+.width82{width:82%;}
+.width83{width:83%;}
+.width84{width:84%;}
+.width85{width:85%;}
+.width86{width:86%;}
+.width87{width:87%;}
+.width88{width:88%;}
+.width89{width:89%;}
+.width90{width:90%;}
+.width91{width:91%;}
+.width92{width:92%;}
+.width93{width:93%;}
+.width94{width:94%;}
+.width95{width:95%;}
+.width96{width:96%;}
+.width97{width:97%;}
+.width98{width:98%;}
+.width99{width:99%;}
+.width100{width:100%;}
+
+/* line-hight-old */
+.lineheight01{line-height:1.2em;}
+.lineheight02{line-height:1.5em;}
+.lineheight03{line-height:1.8em;}
+.lineheight04{line-height:2em;}
+/* line-hight-new */
+.lineheight10em{line-height:1.0em;}
+.lineheight12em{line-height:1.2em;}
+.lineheight14em{line-height:1.4em;}
+.lineheight16em{line-height:1.6em;}
+.lineheight18em{line-height:1.8em;}
+.lineheight20em{line-height:2.0em;}
+.lineheight22em{line-height:2.2em;}
+.lineheight24em{line-height:2.4em;}
+/* font */
+.font-size1{font-size:0.769em;}
+.font-size2{font-size:0.923em;}
+.font-size3{font-size:1.154em;}
+.font-size4{font-size:1.385em;}
+.font-size5{font-size:1.615em;}
+.font-size6{font-size:1.843em;}
+.font-size7{font-size:2em;}
+.font-size8{font-size:2.2em;}
+.font-size9{font-size:2.5em;}
+.font-bold{font-weight:bold;}
+.font-debold{font-weight:normal;}
+
+.BoxBorderSa{border:1px solid #dadada;}
+.BoxBorderDa{border:2px dashed #dadada;}
+.BoxBgWa{background: #ffffff;}
+.BoxBgWb{background: #f2f2f2;}
+.BoxBgWc{background: #dadada;}
+.BoxBgBa{background: #08536c;}
+.BoxBgCa{background: #0da7e7;}
+.BoxBgCb{background: #71ad24;}
+.BoxBgCc{background: #ffaa06;}
+.BoxBgCd{background: #e00b0b;}
+.BoxBgOa{background: rgba(0,0,0,.1);}
+.BoxRadiusA{border-radius:10px;}
+.BoxRadiusAu{border-radius:10px 10px 0 0;}
+.BoxRadiusAd{border-radius:0 0 10px 10px ;}
+.BoxRadiusB{border-radius:6px; }
+.BoxRadiusC{border-radius:3px; }
+.BoxRadiusG{border-radius:50%;}
+.BoxShadowA{box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05), 0 2px 10px 0 rgba(0, 0, 0, 0.05);}
+.BoxShadowB{box-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)}
+.BoxShadowC{box-shadow: 0 4px 4px rgba(0,0,0,0.4), 0 2px 10px rgba(0,0,0,0.4)}
+.BoxShadowD{box-shadow: 7px 0 7px -7px rgba(0,0,0,0.2), -7px 0 7px -7px rgba(0,0,0,0.2);}
+.opa6{opacity: 0.6;}
+.opa5{opacity: 0.5;}
+.opa4{opacity: 0.4;}
+.opa3{opacity: 0.3;}
+.opa2{opacity: 0.2;}
+.IconCa{color:#0da7e7;}
+.IconCb{color:#71ad24;}
+.IconCc{color:#ffaa06;}
+.IconCd{color:#e00b0b;}
+.IconCli{color:#bcbcbc;}
+.font-size10{font-size:3em;}
+.font-size11{font-size:3.5em;}
+.font-size12{font-size:4em;}
+.font-size13{font-size:4.5em;}
+.font-size14{font-size:5em;}
+.font-size15{font-size:5.5em;}
+.font-size16{font-size:6em;}
+
+/* 表單樣式 */
+.gentable > table > th{border-bottom:1px solid #bababa; padding:5px;}
+.gentable > table{border-collapse:collapse;}
+.gentable > table > tbody > tr > td{padding:5px; border-collapse:collapse; border-bottom:1px dotted #bababa;}
+.gentable > table > tbody > tr > td.leftline{border-left:1px dotted #d4d4d4;}
+.gentable > table > tbody > tr:last-child td{border-bottom: 0;}
+.gentable > table > td.titlebg{background:#f1f6f9;}
+table.inlinewrapper td{padding:3px;}
+/* 覆寫原系統 */
+.header .navbar-default .navbar-nav > li > a{font-size: 14px;}
+@media (max-width: 991px) {
+    .deskonly{display: none;}
+    .mobleonly{display: inherit;}
+}
+@media (min-width: 992px) {
+    .deskonly{display: inherit;}
+    .mobleonly{display: none;}
+    .header-fixed .header {
+        height: 94px;
+    }
+    .header .navbar-default .navbar-nav > li > a{padding-top: 2px; padding-bottom: 2px;}
+    .header .navbar-default .navbar-nav > li .ochimenuicon{opacity: 0.3;}
+    .header .navbar-default .navbar-nav > li.active .ochimenuicon{opacity: 1;}
+}
+/* checkbox美化 */
+ul.ks-cboxtags {
+    list-style: none;
+    margin-left: -25px;
+    margin-bottom: 0;
+}
+ul.ks-cboxtags li{
+    display: inline;
+}
+ul.ks-cboxtags li label{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .9);
+    border: 1px solid rgba(139, 139, 139, .3);
+    color: #717171;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 2px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+ul.ks-cboxtags li label {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "FontAwesome";
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    content: "\f067";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before,ul.ks-cboxtags li input[type="radio"]:checked + label::before {
+    content: "\f00c";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label,ul.ks-cboxtags li input[type="radio"]:checked + label {
+    border: 1px solid #71d0e4;
+    background-color: #7fdcf0;
+    color: #000;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] ,ul.ks-cboxtags li input[type="radio"]{
+    display: inline-block;
+}
+ul.ks-cboxtags li input[type="checkbox"],ul.ks-cboxtags li input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+ul.ks-cboxtags li input[type="checkbox"]:focus + label ,ul.ks-cboxtags li input[type="radio"]:focus + label{
+    border: 1px solid #e9a1ff;
+}
+
+.maxheightA{height: 700px; }
+.maxheightA2{height: 500px; }
+.maxheightB{height: 180px; }
+ol.numlist{margin: 0 0 0 -20px;}
+ol.numlist li{margin-bottom: 8px;}
