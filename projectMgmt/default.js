@@ -320,7 +320,7 @@ function GetManager() {
     $.ajax({
         type: "POST",
         async: false, //在沒有返回值之前,不會執行下一步動作
-        url: "mgmtHandler/GetManagerRight.aspx",
+        url: "../Handler/GetManagerRight.aspx",
         error: function (xhr) {
             alert(xhr.responseText);
         },

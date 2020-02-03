@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Xml;
 
-public partial class projectMgmt_mgmtHandler_GetManagerRight : System.Web.UI.Page
+public partial class Handler_GetManagerRight : System.Web.UI.Page
 {
     ProjectMGMT_DB db = new ProjectMGMT_DB();
     protected void Page_Load(object sender, EventArgs e)
@@ -23,7 +23,7 @@ public partial class projectMgmt_mgmtHandler_GetManagerRight : System.Web.UI.Pag
             //string empno = (string.IsNullOrEmpty(Request["empno"])) ? "" : Request["empno"].ToString().Trim();
             string empno = SSOUtil.GetCurrentUser().工號;
 
-            DataTable dt = db.GetManagerList(empno);
+            DataTable dt = db.GetManager(empno);
 
             string xmlstr = string.Empty;
             xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");

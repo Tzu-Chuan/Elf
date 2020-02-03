@@ -94,7 +94,7 @@ from #tmp
         return ds;
     }
 
-    public DataTable GetManagerList(string empno)
+    public DataTable GetManager(string empno)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
