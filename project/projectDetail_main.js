@@ -6,6 +6,9 @@ var __isFirstLoad = 1;
 
 
 jQuery(document).ready(function () {
+
+
+    $("#ss").tooltip({ placement: 'top' });
     /*設定最新參數*/
     $('#search_date0').val($('#def_date0').val());
     $('#search_viewMode').val($('#def_viewMode').val());

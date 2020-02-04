@@ -206,7 +206,7 @@ template：
               <div class="col-sm-12">
                 <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
                 <div class="twocol">
-                  <div class="left"><H4>Recommended articles from monitored websites <img src="../images/information.png" width="20" /></H4>
+                  <div class="left"><H4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="ss" title="asdf" style="cursor: pointer;"></i></H4>
                   </div>
                   <div class="right"></div><!-- right -->
                 </div><!-- twocol -->

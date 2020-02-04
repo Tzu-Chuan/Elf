@@ -258,3 +258,13 @@ blockquote .dl-horizontal dd{
     .open .dropdown-toggle.btn-u.btn-u-guidanceWhite {
         background: #EEEEEE;
     }*/
+
+.white-tooltip + .tooltip > .tooltip-inner {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000000;
+}
+
+.white-tooltip + .tooltip > .tooltip-arrow {
+    border-bottom-color: #000;
+}

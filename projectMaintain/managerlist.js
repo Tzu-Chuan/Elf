@@ -364,7 +364,8 @@ function doEmpAdd(myobj)
 
     function setDataResult(result)
     {
-        location.reload();
+        getData(0);
+        $('#AddManager').modal('hide');
     }
 }
 
@@ -408,6 +409,6 @@ function doEmpDelete(empGuid)
     function setDataResult(result)
     {
         alert('Manager delete success.');
-        location.reload();
+        getData(0);
     }
 }

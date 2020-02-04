@@ -64,9 +64,16 @@
                 getData(0);
             });
 
+            // 查詢
             $(document).on("click", "#SearchBtn", function () {
                 getData(0);
             });
+
+            // 刪除人員
+            $(document).on("click", "#DeleteBtn", function () {
+                doEmpDelete($(this).attr("mguid"));
+            });
+
         });// end js
 
         function getData(p) {
@@ -98,7 +105,7 @@
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("deptid").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("empname").text().trim() + '(' + $(this).children("empno").text().trim() + ')</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';+ '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap"></td>';
+                                tabstr += '<td align="center" nowrap="nowrap"><a id="DeleteBtn" href="javascript:void(0);" mguid="'+$(this).children("manager_guid").text().trim()+'" class="btn-u btn-u-default"><i class="fa fa-trash-o"></i>&nbsp;Delete</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -179,7 +186,7 @@
             <form action="" class="sky-form">
 
               <p class="text-info">
-                <i class="fa fa-info-circle"></i>
+                <i class="fa fa-info-circle" id="ss" title="123123"></i>
                 【System Manager】Right：1.add project manager、2.add project、3.maintain all projects<br />
                 <i class="fa fa-info-circle"></i>
                 【Project Manager】Right：1.add project、2.maintain project
