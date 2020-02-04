@@ -202,13 +202,12 @@ template：
               <div id="blockTag" class="width100" />
             </div>
 
-
-
             <div class="row margin20T margin10B">
               <div class="col-sm-12">
                 <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
                 <div class="twocol">
-                  <div class="left"><H4>Recommended articles from monitored websites</H4></div>
+                  <div class="left"><H4>Recommended articles from monitored websites <img src="../images/information.png" width="20" /></H4>
+                  </div>
                   <div class="right"></div><!-- right -->
                 </div><!-- twocol -->
 
