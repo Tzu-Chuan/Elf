@@ -6,9 +6,11 @@ var __isFirstLoad = 1;
 
 
 jQuery(document).ready(function () {
+    $("#WebsiteDesc").attr("title", "<div style='text-align:left;'>．Monitored websites include: cnet, zdnet, RD World Online, CompositesWorld<br>．Automatically search all articles with the \"technology item\" indicated in this project, scored by your personal preference</div>");
+    $("#WebsiteDesc").tooltip({
+        placement: 'top'
+    });
 
-
-    $("#ss").tooltip({ placement: 'top' });
     /*設定最新參數*/
     $('#search_date0').val($('#def_date0').val());
     $('#search_viewMode').val($('#def_viewMode').val());
@@ -97,6 +99,10 @@ jQuery(document).ready(function () {
                 }
             }
         });
+    });
+
+    $(document).on("click", "input[name='cbResource'],input[name='cbTopic'],input[name='cbDate'],input[name='cbTag']", function () {
+        doDetailSearch();
     });
 
     /// 撈出查詢條件

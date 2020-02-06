@@ -206,7 +206,11 @@ template：
               <div class="col-sm-12">
                 <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
                 <div class="twocol">
-                  <div class="left"><H4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="ss" title="asdf" style="cursor: pointer;"></i></H4>
+                  <div class="left">
+                    <H4>
+                      Recommended articles from monitored websites 
+                      <i class="fa fa-info-circle white-tooltip" id="WebsiteDesc" data-html="true" style="cursor: pointer;"></i>
+                    </H4>
                   </div>
                   <div class="right"></div><!-- right -->
                 </div><!-- twocol -->
@@ -300,7 +304,7 @@ template：
 
 
                       <!--(2b)來源-->
-                      <section class="col-sm-3 col-md-3 searchitem1" style="display:none">
+                      <!--<section class="col-sm-3 col-md-3 searchitem1" style="display:none">
                         <label class="select">
                           <select name="viewMode" id="search_viewMode">
                             <option value="all" selected="selected">All resources</option>
@@ -308,10 +312,10 @@ template：
                           </select>
                           <i></i>
                         </label>
-                      </section>
+                      </section>-->
 
                       <!--(2c)研究方向-->
-                      <section class="col-sm-3 col-md-3 searchitem1" style="display:none">
+                      <!--<section class="col-sm-3 col-md-3 searchitem1" style="display:none">
                         <label class="select">
                           <select name="researchGuid" id="search_researchGuid">
                             <option value="all" selected="selected">All topics</option>
@@ -323,10 +327,10 @@ template：
                           </select>
                           <i></i>
                         </label>
-                      </section>
+                      </section>-->
 
                       <!--(2d)myTag-->
-                      <section class="col-sm-2 col-md-2 searchitem1" style="display:none">
+                      <!--<section class="col-sm-2 col-md-2 searchitem1" style="display:none">
                         <label class="select">
                           <select name="myTag" id="search_myTag">
                             <option value="all" selected="selected">No Tag</option>
@@ -338,11 +342,11 @@ template：
                           </select>
                           <i></i>
                         </label>
-                      </section>
+                      </section>-->
 
 
                       <!--(2d)搜尋鍵-->
-                      <div class="twocol">
+                      <!--<div class="twocol">
                         <div class="right">
                           <section class=" searchitem1">
                             <button class="btn-u btn-block btn-u-dark" type="button" onclick="doDetailSearch()">
@@ -350,7 +354,7 @@ template：
                             </button>
                           </section>
                         </div>
-                      </div>
+                      </div>-->
 
 
 

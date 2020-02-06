@@ -47,8 +47,7 @@ where PM_Empno=@empno ");
 
             if (empno != "admin")
             {
-                sb.Append(@" and empno=@empno");
-                sb.Append(@" or project_guid in (select * from #tmp)");
+                sb.Append(@" and empno=@empno or project_guid in (select * from #tmp)");
             }
 
             /*===關鍵字*/
