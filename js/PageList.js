@@ -11,6 +11,7 @@ var Page = {
     // 參數設定
     Option: {
         Selector: '', // Selector
+        FunctionName: 'getData',
         PageSize: 20, // 每頁顯示資料筆數,預設10
         PageNum: 10, // 分頁頁籤顯示數,預設10
         HomeBtn: false, // 顯示首頁按鈕
@@ -51,21 +52,21 @@ var Page = {
         //首頁
         if (Page.Option.HomeBtn == true) {
             if (nowPage == 0) PageListStr += '<span>首頁</span>&nbsp;&nbsp;';
-            else PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(0)">首頁</a>&nbsp;&nbsp;';
+            else PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName + '(0)">首頁</a>&nbsp;&nbsp;';
         }
 
         //上一階
         if (Page.Option.PrevStep == true) {
             if (nowPage == 0) { PageListStr += '<span>上' + PageNum + '頁</span>&nbsp;&nbsp;' }
-            else if (nowPage >= 10) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(' + (nowPage - PageNum) + ')">上' + PageNum + '頁</a>' }
-            else { PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(0)">上' + PageNum + '頁</a>&nbsp;&nbsp;' }
+            else if (nowPage >= 10) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName+'(' + (nowPage - PageNum) + ')">上' + PageNum + '頁</a>' }
+            else { PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName+'(0)">上' + PageNum + '頁</a>&nbsp;&nbsp;' }
         }
 
         PageListStr += '<ul class="pagination pagination-lg">';
 
         //上一頁
         if (Page.Option.PrevBtn == true) {
-            if (nowPage != 0) { PageListStr += '<li><a href="javascript:void(0);" onclick="getData(' + (nowPage - 1) + ')"><i class="fa fa-caret-left"></i>&nbsp; Previous</a></li>' }
+            if (nowPage != 0) { PageListStr += '<li><a href="javascript:void(0);" onclick="' + Page.Option.FunctionName+'(' + (nowPage - 1) + ')"><i class="fa fa-caret-left"></i>&nbsp; Previous</a></li>' }
             //else { PageListStr += '<span>上一頁</span>&nbsp;&nbsp;' }
         }
 
@@ -82,12 +83,12 @@ var Page = {
 
         for (var i = startPage; i <= endPage; i++) {
             if (i == nowPage) PageListStr += '<li class="active"><a href="javascript:void(0);">' + (i + 1) + '</a></li>';
-            else PageListStr += '<li><a href="javascript:void(0);" onclick="getData(' + i + ')">' + (i + 1) + '</a></li>'
+            else PageListStr += '<li><a href="javascript:void(0);" onclick="' + Page.Option.FunctionName + '(' + i + ')">' + (i + 1) + '</a></li>';
         }
 
         //下一頁
         if (Page.Option.NextBtn == true) {
-            if (nowPage != (PagesLen - 1)) { PageListStr += '<li><a href="javascript:void(0);" onclick="getData(' + (nowPage + 1) + ')">Next &nbsp;<i class="fa fa-caret-right"></i></a></li>' }
+            if (nowPage != (PagesLen - 1)) { PageListStr += '<li><a href="javascript:void(0);" onclick="' + Page.Option.FunctionName+'(' + (nowPage + 1) + ')">Next &nbsp;<i class="fa fa-caret-right"></i></a></li>' }
             //else { PageListStr += '<span>下一頁</span>&nbsp;&nbsp;' }
         }
 
@@ -96,13 +97,13 @@ var Page = {
         //下一階
         if (Page.Option.NextStep == true) {
             if (nowPage == (PagesLen - 1)) { PageListStr += '<span>下' + PageNum + '頁</span>&nbsp;&nbsp;' }
-            else if ((nowPage + 10) >= (PagesLen - 1)) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(' + (PagesLen - 1) + ')">下' + PageNum + '頁</a>&nbsp;&nbsp;' }
-            else { PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(' + (nowPage + PageNum) + ')">下' + PageNum + '頁</a>&nbsp;&nbsp;' }
+            else if ((nowPage + 10) >= (PagesLen - 1)) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName+'(' + (PagesLen - 1) + ')">下' + PageNum + '頁</a>&nbsp;&nbsp;' }
+            else { PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName+'(' + (nowPage + PageNum) + ')">下' + PageNum + '頁</a>&nbsp;&nbsp;' }
         }
 
         //最末頁
         if (Page.Option.LastBtn == true) {
-            if (nowPage != (PagesLen - 1)) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="getData(' + (PagesLen - 1) + ')">最末頁</a>' }
+            if (nowPage != (PagesLen - 1)) { PageListStr += '<a href="javascript:scroll(0,0)" onclick="' + Page.Option.FunctionName+'(' + (PagesLen - 1) + ')">最末頁</a>' }
             else { PageListStr += '<span class="disabled">最末頁</span>' }
         }
 
@@ -122,7 +123,7 @@ function JumpFun(e) {
         var p = parseInt(e.target.value) - 1;
 
         if (!isNaN(p))
-            getData(p);
+            Page.Option.FunctionName(p);
         else
             e.target.value = "";
     }

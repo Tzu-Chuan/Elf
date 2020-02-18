@@ -68,7 +68,7 @@
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
-                                tabstr += '<td><a href="../project/projectDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '">' + $(this).children("project_name").text().trim() + '</a></td>';
+                                tabstr += '<td><a href="../project/PjDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '">' + $(this).children("project_name").text().trim() + '</a></td>';
                                 tabstr += '<td>' + $(this).children("technology").text().trim() + '</td>';
                                 var StatusColor = '';
                                 if ($(this).children("status").text().trim() == 1)
@@ -91,6 +91,7 @@
                         else
                             tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
+                        $("html").scrollTop(0);
                         Page.Option.Selector = "#pageblock";
                         Page.CreatePage(p, $("total", data).text());
                     }

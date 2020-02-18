@@ -58,8 +58,8 @@ function getCloudSearchData()
     /*===get ajax*/
     $("#blockMessage").html("<img src='../images/loading1.gif'><font color='red'>資料查詢中...</font></img>");
     /* 測試資料 start*/
-    //var jsonval = { "ces": 1.0, "nvidia partners": 0.1, "car": 0.17, "drive": 0.26, "vehicles": 0.39, "driving smart": 0.12, "autonomous": 0.05, "ceo": 0.48, "power": 0.17, "mercedes": 0.04, "unveils": 0.09, "assistance": 0.02, "advanced": 0.02, "control": 0.07, "samsung": 0.85, "systems": 0.02, "driver": 0.02, "huang said": 0.02, "powerful use": 0.02, "announced": 0.25, "expands": 0.13, "launched": 0.21, "data": 0.72, "hit": 0.02, "shapiro": 0.02, "processors": 0.21, "intelligence": 0.25, "automotive": 0.39, "technologies": 0.12, "quantum": 0.19, "mobileye": 0.13, "compute": 0.11, "lenovo": 0.17, "chipsetrobotic": 0.17, "business tech": 0.07, "mobility": 0.09, "windows": 0.01, "network technology": 0.01, "techrepublic": 0.24, "cheaper": 0.19, "surface": 0.19, "conference": 0.09, "sunday": 0.01, "services": 0.11, "mapping": 0.17, "outlines": 0.14, "phone": 0.1, "preview": 0.11, "partnered": 0.01, "deals": 0.01 }
-    //setDataResult(jsonval);
+    var jsonval = { "ces": 1.0, "nvidia partners": 0.1, "car": 0.17, "drive": 0.26, "vehicles": 0.39, "driving smart": 0.12, "autonomous": 0.05, "ceo": 0.48, "power": 0.17, "mercedes": 0.04, "unveils": 0.09, "assistance": 0.02, "advanced": 0.02, "control": 0.07, "samsung": 0.85, "systems": 0.02, "driver": 0.02, "huang said": 0.02, "powerful use": 0.02, "announced": 0.25, "expands": 0.13, "launched": 0.21, "data": 0.72, "hit": 0.02, "shapiro": 0.02, "processors": 0.21, "intelligence": 0.25, "automotive": 0.39, "technologies": 0.12, "quantum": 0.19, "mobileye": 0.13, "compute": 0.11, "lenovo": 0.17, "chipsetrobotic": 0.17, "business tech": 0.07, "mobility": 0.09, "windows": 0.01, "network technology": 0.01, "techrepublic": 0.24, "cheaper": 0.19, "surface": 0.19, "conference": 0.09, "sunday": 0.01, "services": 0.11, "mapping": 0.17, "outlines": 0.14, "phone": 0.1, "preview": 0.11, "partnered": 0.01, "deals": 0.01 }
+    setDataResult(jsonval);
     /* 測試資料 end*/
 	
     $.ajax({

@@ -100,7 +100,7 @@ public partial class project_projectDetail : System.Web.UI.Page
         xArgs.AddParam("def_date0", "", req.date0);
         xArgs.AddParam("def_viewMode", "", req.viewMode);
         xArgs.AddParam("def_researchGuid", "", req.researchGuid);
-        //xArgs.AddParam("def_myTag", "", req.myTag);
+        xArgs.AddParam("def_myTag", "", req.myTag);
 
         xArgs.AddParam("tabName", "", "projectList");/*topbar tab用*/
 

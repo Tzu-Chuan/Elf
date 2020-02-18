@@ -266,8 +266,6 @@ template：
                       <input type="hidden" id="def_viewMode" name="def_viewMode" value="{$def_viewMode}"/>
                       <input type="hidden" id="def_researchGuid" name="def_researchGuid" value="{$def_researchGuid}"/>
                       <input type="hidden" id="def_myTag" name="def_myTag" value="{$def_myTag}"/>
-                      <input type="hidden" id="tpGuid" name="tpGuid" />
-                      <input type="hidden" id="tpid" name="tpid" />
 
 
                       <!--(2a)日期-->
@@ -490,7 +488,7 @@ template：
               </div><!-- col -->
               
               <!--Ask.com-->
-              <div class="col-lg-5 col-md-5 col-sm-12" style="display:none;">
+              <div class="col-lg-5 col-md-5 col-sm-12" style="display:none">
                 <div class="twocol">
                   <div class="left"><H4>Search from ask.com</H4></div>
                   <div class="right"></div><!-- right -->
