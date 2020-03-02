@@ -116,7 +116,7 @@ from #tmp
         return ds;
     }
 
-    public DataSet GetArticleList(string project_guid, string topic, int date, string myTag, string SortName, string pStart, string pEnd)
+    public DataSet GetArticleList(string project_guid, string website_guid, string topic, int date, string myTag, string SortName, string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
@@ -128,6 +128,7 @@ select * into #tmp from (
 	(  
 		select
 		article_guid
+        , website_guid
 		, project_guid
 		, title
 		, get_time
@@ -140,12 +141,20 @@ select * into #tmp from (
 	and project_guid=@project_guid
 	and score > 0 ");
 
-        if (date > 0)/*條件：時間*/
+        // 時間
+        if (website_guid !="")
+        {
+            sb.Append(@" and website_guid=@website_guid ");
+        }
+
+        // 時間
+        if (date > 0)
         {
             sb.Append(@" and get_time >= DateAdd(day,@date, CONVERT(VARCHAR(10) ,GETDATE(),111) ) ");
         }
 
-        if (myTag != "all")/*條件：有myTag條件時*/
+        // MyTag
+        if (myTag != "all")
         {
             sb.Append(@" and article_guid in 
                                     (select article_guid from sys_tagrec
@@ -169,11 +178,52 @@ select * from (
         DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@website_guid", website_guid);
         oCmd.Parameters.AddWithValue("@topic", topic);
         oCmd.Parameters.AddWithValue("@myTag", myTag);
         oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetWebsite(string project_guid, string topic, int date, string myTag)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select * ,(select count(*) from result_article where website_guid = tb.website_guid and category_score_xml.value('(/score/key[@name=(''"+ topic + @"'')])[1]', 'float') > 0 ");
+
+        if (date > 0)/*條件：時間*/
+        {
+            sb.Append(@" and get_time >= DateAdd(day,@date, CONVERT(VARCHAR(10) ,GETDATE(),111)) ");
+        }
+
+        if (myTag != "all")/*條件：有myTag條件時*/
+        {
+            sb.Append(@" and article_guid in 
+                                    (select article_guid from sys_tagrec
+                                    where project_guid = @project_guid 
+                                    and tagtype_guid=@myTag) ");
+        }
+
+        sb.Append(@") as results ");
+        sb.Append(@"from input_website as tb
+where project_guid=@project_guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@topic", topic);
+        oCmd.Parameters.AddWithValue("@myTag", myTag);
+        oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
 
         oda.Fill(ds);
         return ds;

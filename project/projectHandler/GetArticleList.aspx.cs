@@ -17,6 +17,13 @@ public partial class project_projectHandler_GetArticleList : System.Web.UI.Page
         ///說明:
         /// * Request["PageNo"]: 所在頁面
         /// * Request["PageSize"]: 一頁幾筆資料
+        /// * Request["PjGuid"]: 專案Guid
+        /// * Request["WebsiteGuid"]: Website Guid
+        /// * Request["Resources"]: Resources
+        /// * Request["Topics"]: Topics
+        /// * Request["Period"]: Period
+        /// * Request["MyTag"]: MyTag
+        /// * Request["SortName"]: 排序欄位
         /// * Request["keyword"]: 關鍵字
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -25,6 +32,7 @@ public partial class project_projectHandler_GetArticleList : System.Web.UI.Page
             string PageNo = (string.IsNullOrEmpty(Request["PageNo"])) ? "0" : Request["PageNo"].ToString().Trim();
             int PageSize = (string.IsNullOrEmpty(Request["PageSize"])) ? 20 : int.Parse(Request["PageSize"].ToString().Trim());
             string PjGuid = (string.IsNullOrEmpty(Request["PjGuid"])) ? "" : Request["PjGuid"].ToString().Trim();
+            string WebsiteGuid = (string.IsNullOrEmpty(Request["WebsiteGuid"])) ? "" : Request["WebsiteGuid"].ToString().Trim();
             string Resources = (string.IsNullOrEmpty(Request["resources"])) ? "" : Request["resources"].ToString().Trim();
             string Topics = (string.IsNullOrEmpty(Request["topics"])) ? "" : Request["topics"].ToString().Trim();
             int Period = (string.IsNullOrEmpty(Request["period"])) ? 0 : int.Parse(Request["period"].ToString().Trim());
@@ -37,7 +45,7 @@ public partial class project_projectHandler_GetArticleList : System.Web.UI.Page
             int pageStart = pageEnd - PageSize + 1;
 
             MGMT_db._KeyWord = keyword;
-            DataSet ds = MGMT_db.GetArticleList(PjGuid, Topics, Period, MyTag, SortName, pageStart.ToString(), pageEnd.ToString());
+            DataSet ds = MGMT_db.GetArticleList(PjGuid, WebsiteGuid, Topics, Period, MyTag, SortName, pageStart.ToString(), pageEnd.ToString());
 
             string xmlstr = string.Empty;
             string xmlstr2 = string.Empty;
