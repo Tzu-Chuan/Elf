@@ -132,7 +132,6 @@ select * into #tmp from (
 		, project_guid
 		, title
 		, get_time
-		, full_text 
 		,articledesc = paragraph_xml.value('(/paragraph/key[@name=''" + topic + @"''])[1]', 'varchar(max)')
 		,score =  category_score_xml.value('(/score/key[@name=''" + topic + @"''])[1]', 'float')
 		 from result_article
@@ -224,6 +223,93 @@ where project_guid=@project_guid ");
         oCmd.Parameters.AddWithValue("@topic", topic);
         oCmd.Parameters.AddWithValue("@myTag", myTag);
         oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetAskCom(string project_guid, string topic,int date)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+Select distinct a.related_guid --//關連詞id
+, a.related_sn --//關連詞新增時順序
+, a.name as related_name --//關連詞名稱
+, a.blacklist --//關連詞狀態
+, a.schedule --//是否納入每日排程
+, a.analyst_give--//關連詞來源
+, b.research_guid--//研究方向id
+, b.name as research_name --//研究方向名稱
+, b.research_sn  --//研究方向新增時順序
+, (select count(*) from result_search where related_guid = a.related_guid ");
+
+        if (date > 0)/*條件：時間*/
+        {
+            sb.Append(@" and get_time >= DateAdd(day,@date, CONVERT(VARCHAR(10) ,GETDATE(),111)) ");
+        }
+
+        sb.Append(@") as result_count --//各關連詞結果筆數
+From input_related_word a
+inner join input_research_direction b on (b.research_guid = a.research_guid) and (b.project_guid = @project_guid)
+where a.blacklist !=1--//排除黑名單(0=白,1=黑,2=候選詞)
+        and a.analyst_give !=2--//排除未審核(0=excel匯入時,1=使用者新增,2=系統產生未審核,3=系統產生已審核)  
+ ");
+
+        if (topic != "all")
+        {
+            sb.Append(@" and a.research_guid=@topic ");
+        }
+
+        sb.Append(@" order by research_sn, schedule desc, related_name asc--//改為有排程+關連詞. 2018/4/12,asam ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@topic", topic);
+        oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataSet GetAskComArticles(string related_guid, int date, string pStart, string pEnd)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select title, url, describe_text, score, get_time into #tmp
+                    from result_search
+                    where related_guid=@related_guid ");
+
+        if (date > 0)/*條件：時間*/
+        {
+            sb.Append(@" and get_time >= DateAdd(day,@date, CONVERT(VARCHAR(10) ,GETDATE(),111)) ");
+        }
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+	select ROW_NUMBER() over (order by score desc) itemNo,#tmp.*
+	from #tmp 
+)#t where itemNo between @pStart and @pEnd");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@related_guid", related_guid);
+        oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
 
         oda.Fill(ds);
         return ds;

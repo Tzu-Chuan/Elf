@@ -6,13 +6,53 @@ var __isFirstLoad = 1;
 
 
 jQuery(document).ready(function () {
+    // 撈出查詢條件
+    getResources();
+    // 文章列表
+    getData(0);
+    // Ask.com
+    getAskCom();
+    // 文字雲
+    getCloudSearchData();
+
     $("#WebsiteDesc").attr("title", "<div style='text-align:left;'>．Monitored websites include: cnet, zdnet, RD World Online, CompositesWorld<br>．Automatically search all articles with the \"technology item\" indicated in this project, scored by your personal preference</div>");
     $("#WebsiteDesc").tooltip({
         placement: 'top'
     });
 
-    // 文字雲
-    getCloudSearchData();
+    // 展開文章列表動作
+    $(document).on("show.bs.collapse", ".collapse", function () {
+        if (this.id == "ArticleListBlock_all") {
+            getData(0);
+        }
+        else if (this.id.indexOf("website") > -1) {
+            $("#articleByWebsite").find(".collapse.in").collapse("hide");
+            $("#tmpWebsite").val($(this).attr("wguid"));
+            getWebsiteArticle(0);
+        }
+        else if (this.id.indexOf("askcom") > -1) {
+            $("#AskComList").find(".collapse.in").collapse("hide");
+            $("#tmpAskCom").val($(this).attr("aguid"));
+            getAskComArticle(0);
+        }
+    });
+
+    // Sort Btn
+    $(document).on("click", "a[name='sortbtn']", function () {
+        $("a[name='sortbtn']").removeClass("btn-u-default");
+        if (this.id == "score")
+            $("#get_time").addClass("btn-u-default");
+        else
+            $("#score").addClass("btn-u-default");
+
+        $("#sortname").val(this.id);
+        getData(0);
+    });
+
+    // Tag Btn
+    $(document).on("click", "#tagbtn", function () {
+        doTagSelect($(this).attr("pjguid"), $(this).attr("articleguid"));
+    });
 
     // Change Schedule
     $(document).on("click", "button[name='ScheBtn'],button[name='NScheBtn']", function (e) {
@@ -54,14 +94,291 @@ jQuery(document).ready(function () {
 
     $(document).on("click", "input[name='cbResource'],input[name='cbTopic'],input[name='cbDate'],input[name='cbTag']", function () {
         getData(0);
+        getAskCom();
     });
 
-    /// 撈出查詢條件
-    getResources();
 });
 
-/*===tag select*/
+// 主要文章列表
+function getData(p) {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetArticleList.aspx",
+        data: {
+            PageNo: p,
+            PageSize: "20",
+            PjGuid: $.getQueryString("pjGuid"),
+            resources: $('input[name="cbResource"]:checked').val(),
+            topics: $('input[name="cbTopic"]:checked').val(),
+            period: $('input[name="cbDate"]:checked').val(),
+            mytag: $('input[name="cbTag"]:checked').val(),
+            SortName: $("#sortname").val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                if ($('input[name="cbResource"]:checked').val() == "all") {
+                    $("#allArticleBlock").show();
+                    $("#articleByWebsite").hide();
+                    $("#ArticlesList").empty();
+                    var str = '';
+                    $("#resultCount").html($("total", data).text() + " results");
+                    if ($(data).find("data_item").length > 0) {
+                        $(data).find("data_item").each(function (i) {
+                            str += "<li>";
+                            str += $(this).children("itemNo").text().trim() + "&nbsp;";
+                            str += '<a href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
+                            str += '<blockquote><small><em>';
+                            str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';
+                            str += '</em></small>';
+                            str += '<p>' + $(this).children("articledesc").text().trim() + '</p>';
+                            str += '</blockquote>';
+                            str += '</li>';
+                        });
+                    }
+                    else
+                        str += '<li>data not found</li>';
+                    $("#ArticlesList").append(str);
+                    $("#allArticleBlock").scrollTop(0);
+                    Page.Option.FunctionName = "getData";
+                    Page.Option.Selector = "#pageblock";
+                    Page.CreatePage(p, $("total", data).text());
+                }
+                else {
+                    $("#allArticleBlock").hide();
+                    $("#articleByWebsite").show();
+                    getWebSite();
+                }
+            }
+        }
+    });
+}
 
+
+// WebSite 列表
+function getWebSite() {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetWebsite.aspx",
+        data: {
+            PjGuid: $.getQueryString("pjGuid"),
+            topics: $('input[name="cbTopic"]:checked').val(),
+            period: $('input[name="cbDate"]:checked').val(),
+            mytag: $('input[name="cbTag"]:checked').val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                var str = '';
+                $("#resultCount").html($("total", data).text() + " results");
+                if ($(data).find("data_item").length > 0) {
+                    $(data).find("data_item").each(function (i) {
+                        str += '<div class="panel panel-default" >';
+                        str += '<div class="panel-heading">';
+                        str += '<div class="pull-right col-sm-4 col-md-3 margin-top-2">';
+                        str += '<span class="badge badge-sea rounded-2x col-sm-12 col-md-12">' + $(this).children("results").text().trim() + ' results</span>';
+                        str += '</div>';
+                        str += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#articleByWebsite" href="#ArticleListBlock_website_' + $(this).children("website_guid").text().trim() + '">website > ' + $(this).children("website_name").text().trim() + '</a>';
+                        str += '</div>';
+                        str += '<div id="ArticleListBlock_website_' + $(this).children("website_guid").text().trim() + '" wguid="' + $(this).children("website_guid").text().trim() + '" class="panel-collapse collapse">';
+                        str += '<div class="row">';
+                        str += '<div class="btn-group margin-bottom-30 col-md-6 col-md-offset-4" role="group">';
+                        str += '<a id="score" name="sortbtn" href="javascript:void(0);" class="btn-u" role="button">order by Score</a>';
+                        str += '<a id="get_time" name="sortbtn" href="javascript:void(0);" class="btn-u btn-u-default" role="button">order by Date</a>';
+                        str += '</div></div>';
+                        str += '<ol id="ArticlesList_' + $(this).children("website_guid").text().trim() + '" style="list-style-type: none;"></ol>';
+                        str += '<div name="pageblock_bywebsite" style="text-align:center;"></div>';
+                        str += '</div></div>';
+                    });
+                }
+
+                $("#articleByWebsite").empty();
+                $("#articleByWebsite").append(str);
+            }
+        }
+    });
+}
+
+// Website 文章列表
+function getWebsiteArticle(p) {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetArticleList.aspx",
+        data: {
+            PageNo: p,
+            PageSize: "20",
+            PjGuid: $.getQueryString("pjGuid"),
+            WebsiteGuid: $("#tmpWebsite").val(),
+            resources: $('input[name="cbResource"]:checked').val(),
+            topics: $('input[name="cbTopic"]:checked').val(),
+            period: $('input[name="cbDate"]:checked').val(),
+            mytag: $('input[name="cbTag"]:checked').val(),
+            SortName: $("#sortname").val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                $("#ArticlesList_" + $("#tmpWebsite").val()).empty();
+                var str = '';
+                $("#resultCount").html($("total", data).text() + " results");
+                if ($(data).find("data_item").length > 0) {
+                    $(data).find("data_item").each(function (i) {
+                        str += "<li>";
+                        str += $(this).children("itemNo").text().trim() + "&nbsp;";
+                        str += '<a href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
+                        str += '<blockquote><small><em>';
+                        str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';
+                        str += '</em></small>';
+                        str += '<p>' + $(this).children("articledesc").text().trim() + '</p>';
+                        str += '</blockquote>';
+                        str += '</li>';
+                    });
+                }
+                else
+                    str += '<li>data not found</li>';
+
+                $("#ArticlesList_" + $("#tmpWebsite").val()).append(str);
+                $("#articleByWebsite").scrollTop(0);
+                Page.Option.FunctionName = "getWebsiteArticle";
+                Page.Option.Selector = "div[name='pageblock_bywebsite']";
+                Page.CreatePage(p, $("total", data).text());
+            }
+        }
+    });
+}
+
+// Ask.com 列表
+function getAskCom() {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetAskCom.aspx",
+        data: {
+            PjGuid: $.getQueryString("pjGuid"),
+            topics: $('input[name="cbTopic"]:checked').val(),
+            period: $('input[name="cbDate"]:checked').val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                var str = '';
+                if ($(data).find("data_item").length > 0) {
+                    $(data).find("data_item").each(function (i) {
+                        if (i == 0 || $(this).prev().children("research_name").text().trim() != $(this).children("research_name").text().trim())
+                            str += '<div class="askCom_item"><br>Research topic：<span class="color-sea">' + $(this).children("research_name").text().trim() + '</span></div>';
+                        str += '<div class="panel panel-default askCom_item">';
+                        str += '<div class="panel-heading">';
+                        str += '<div class="pull-right col-sm-6 col-md-6 margin-top-2">';
+                        str += '<span class="badge badge-dark rounded-2x col-sm-4 col-md-4" style="margin-left: -20px;">' + $(this).children("result_count").text().trim() + ' results</span>';
+                        switch ($(this).children("analyst_give").text().trim()) {
+                            case "0":
+                                str += '<span class="badge badge-dark rounded-2x col-sm-4 col-md-4">default</span>';
+                                break;
+                            case "1":
+                                str += '<span class="badge badge-dark-blue rounded-2x col-sm-4 col-md-4">customized</span>';
+                                break;
+                            case "2":
+                            case "3":
+                                str += '<span class="badge badge-blue rounded-2x col-sm-4 col-md-4">learning</span>';
+                                break;
+                        }
+                        str += '<span class="col-sm-4 col-md-4">';
+                        if ($(this).children("schedule").text().trim() == 0)
+                            str += '<button name="NScheBtn" aid="' + $(this).children("related_guid").text().trim() + '" class="btn-u btn-u-xs btn-u-dark rounded-2x" style="margin-left: -15px;">not schedule</button>';
+                        else
+                            str += '<button name="ScheBtn" aid="' + $(this).children("related_guid").text().trim() + '" class="btn-u btn-u-xs btn-u-purple rounded-2x" style="margin-left: -15px;">schedule</button>';
+                        str += '</span>';
+                        str += '</div>';
+                        str += '<div><a class="accordion-toggle" data-toggle="collapse" data-parent="#AskComList" href="#askcom_' + $(this).children("related_guid").text().trim() + '">' + $(this).children("related_name").text().trim() + '</a></div>';
+                        str += '</div>';
+                        str += '<div id="askcom_' + $(this).children("related_guid").text().trim() + '" aguid="' + $(this).children("related_guid").text().trim() + '" class="panel-collapse collapse">';
+                        str += '<ol id="askcomArticle_' + $(this).children("related_guid").text().trim() + '" style="list-style-type:none; margin-top:10px;"></ol>';
+                        str += '<div name="pageblock_byaskcom" style="text-align:center;"></div>';
+                        str += '</div>';
+                        str += '</div>';
+                    });
+                }
+
+                $("#AskComList").empty();
+                $("#AskComList").append(str);
+            }
+        }
+    });
+}
+
+// Ask.com 文章列表
+function getAskComArticle(p) {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetAskComArticleList.aspx",
+        data: {
+            PageNo: p,
+            PageSize: "20",
+            Related_guid: $("#tmpAskCom").val(),
+            period: $('input[name="cbDate"]:checked').val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                $("#askcomArticle_" + $("#tmpAskCom").val()).empty();
+                var str = '';
+                if ($(data).find("data_item").length > 0) {
+                    $(data).find("data_item").each(function (i) {
+                        str += "<li>";
+                        str += $(this).children("itemNo").text().trim() + "&nbsp;";
+                        str += '<a href="' + $(this).children("url").text().trim() + '" target="_blank">' + $(this).children("title").text().trim() + '</a>';
+                        str += '<blockquote><small><em>';
+                        str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim()));
+                        str += '</em></small>';
+                        str += '<p>' + $(this).children("describe_text").text().trim() + '</p>';
+                        str += '</blockquote>';
+                        str += '</li>';
+                    });
+                }
+                else
+                    str += '<li>data not found</li>';
+
+                $("#askcomArticle_" + $("#tmpAskCom").val()).append(str);
+                Page.Option.FunctionName = "getAskComArticle";
+                Page.Option.Selector = "div[name='pageblock_byaskcom']";
+                Page.CreatePage(p, $("total", data).text());
+            }
+        }
+    });
+}
+
+// Tag Select
 function doTagSelect(a, b) {
     var dataObj = {};
     dataObj["pjid"] = a;
@@ -82,8 +399,8 @@ function doTagSelect(a, b) {
 
 }
 
+// Tag Save
 function doTagSelect_save() {
-
     var cbSelected = "";
     var cbPartObjs = $("#tagSelect_dataBlock").find("input[type=checkbox]:checked");
     for (var i = 0; i < cbPartObjs.length; i++) {
