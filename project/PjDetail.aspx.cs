@@ -10,6 +10,8 @@ using System.Xml;
 public partial class project_PjDetail : System.Web.UI.Page
 {
     Member m_db = new Member();
+    ProjectMGMT_DB mgmt_db = new ProjectMGMT_DB();
+    public string ProjectName, Technology;
     protected void Page_Load(object sender, EventArgs e)
     {
         string pjGuid = (string.IsNullOrEmpty(Request["pjGuid"])) ? "" : Request["pjGuid"].ToString().Trim();
@@ -36,6 +38,11 @@ public partial class project_PjDetail : System.Web.UI.Page
         }
         #endregion
 
-
+        DataTable prodt = mgmt_db.getProjectInfo(pjGuid);
+        if (prodt.Rows.Count > 0)
+        {
+            ProjectName = prodt.Rows[0]["project_name"].ToString();
+            Technology = prodt.Rows[0]["technology"].ToString();
+        }
     }
 }

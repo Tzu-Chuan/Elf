@@ -24,7 +24,7 @@ public class ProjectMGMT_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"Select project_name from input_project where project_guid=@project_guid ");
+        sb.Append(@"Select project_name,technology from input_project where project_guid=@project_guid ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;

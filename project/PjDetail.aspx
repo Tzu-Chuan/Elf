@@ -71,10 +71,10 @@
             <div class="container">
               <div class="row padding10TB">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size4">Project Name：</span><b></b>
+                  <span class="font-size4">Project Name：<%= ProjectName %></span><b></b>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size4">Technology item：</span><b></b>
+                  <span class="font-size4">Technology item：<%= Technology %></span><b></b>
                 </div>
               </div>
 
@@ -223,6 +223,46 @@
                         <input type="submit" value="Save" id="tagSelect_save" class="btn-u btn-u-lg btn-u-sea" onclick="doTagSelect_save();" />
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myTemplate_tagMaintain" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_03" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="myModalLabel_03">Tag Maintain</h2>
+                </div>
+                <div class="modal-body">
+                    <!--===msg-->
+                    <div id="tagMaintain_message" style="color: red;"></div>
+                    <br />
+                    <!--===content-->
+                    <div id="tagMaintain_dataBlock"></div>
+                    <!--===btn-->
+                    <div class="col-sm-12 col-md-12 text-right">
+                        <input type="submit" value="Cancel" id="tagMaintain_cancel" class="btn-u btn-u-lg btn-u-sea" style="margin-right: 10px;" onclick="doTagMaintain_cancel();" />
+                    </div>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Abstract-->
+    <div class="modal fade" id="block_abs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_abs" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="myModalLabel_03">Abstract</h2>
+                </div>
+                <div class="modal-body">Under construction</div>
             </div>
         </div>
     </div>
