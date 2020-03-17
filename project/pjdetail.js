@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
     // 文章列表
     getData(0);
     // Ask.com
-    getAskCom();
+    //getAskCom();
     // 文字雲
     getCloudSearchData();
 
@@ -94,7 +94,7 @@ jQuery(document).ready(function () {
 
     $(document).on("click", "input[name='cbResource'],input[name='cbTopic'],input[name='cbDate'],input[name='cbTag']", function () {
         getData(0);
-        getAskCom();
+        //getAskCom();
     });
 
 });

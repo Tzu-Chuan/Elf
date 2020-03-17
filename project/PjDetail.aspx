@@ -88,8 +88,8 @@
               <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
 
               <div class="row margin20T margin10B">
-                  <%--<div class="col-sm-12">--%>
-                      <div class="col-lg-7 col-md-7 col-sm-12">
+                  <div class="col-sm-12">
+                      <%--<div class="col-lg-7 col-md-7 col-sm-12">--%>
                       <div class="twocol">
                           <div class="left"><h4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="WebsiteDesc" data-html="true" style="cursor: pointer;"></i></h4></div>
                           <div class="right"></div>
@@ -179,7 +179,7 @@
                   </div>
                   
                   <!--Ask.com-->
-                  <div class="col-lg-5 col-md-5 col-sm-12">
+                  <div class="col-lg-5 col-md-5 col-sm-12" style="display:none;">
                       <div class="twocol">
                           <div class="left"><h4>Search from ask.com</h4></div>
                           <div class="right"></div><!-- right -->
