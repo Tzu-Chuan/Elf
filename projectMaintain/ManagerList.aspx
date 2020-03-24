@@ -42,7 +42,8 @@
 <head>
     <title>IEKElf</title>
     <script type="text/javascript">
-        $(document).ready(function () {//分頁設定
+        $(document).ready(function () {
+            //分頁設定
             Page.Option.SortMethod = "-";
             Page.Option.SortName = "create_time";
             getData(0);

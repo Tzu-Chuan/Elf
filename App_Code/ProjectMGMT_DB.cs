@@ -314,4 +314,61 @@ select * from (
         oda.Fill(ds);
         return ds;
     }
+
+    public DataSet GetWordList(string project_guid, string topic, string blacklist, string source, string pStart, string pEnd,string sortStr)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+SELECT 
+direction.name as Topic,
+word.related_guid,
+word.name,
+word.blacklist,
+word.schedule,
+word.analyst_give,
+word.similarity
+into #tmp
+FROM input_research_direction as direction
+  left join input_related_word as word on word.research_guid=direction.research_guid
+  where project_guid=@project_guid ");
+
+        if (topic != "all")
+        {
+            sb.Append(@" and direction.research_guid=@topic ");
+        }
+
+        if (blacklist != "all")
+        {
+            sb.Append(@" and word.blacklist=@blacklist ");
+        }
+
+        if (source != "all")
+        {
+            sb.Append(@" and word.analyst_give=@source ");
+        }
+
+        sb.Append(@"select count(*) as total from #tmp
+select * from (
+select ROW_NUMBER() over (order by " + sortStr + @") itemNo,#tmp.*
+from #tmp 
+)#t where itemNo between @pStart and @pEnd  ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@topic", topic);
+        oCmd.Parameters.AddWithValue("@blacklist", blacklist);
+        oCmd.Parameters.AddWithValue("@source", source);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
 }

@@ -141,22 +141,22 @@
         <div class="container">
             <div class="content">
                 <div class="row margin-bottom-10 animated">
-                <!--匯入excel-->
-                <div class="col-md-2 col-md-push-10 text-right">
-                    <a id="newProject" data-toggle="modal" data-target="#InitiateProject_01" class="btn-u btn-u-lg btn-u-sea" style="display:none;">Initiate a project</a>
-                </div>
+                    <!--匯入excel-->
+                    <div class="col-md-2 col-md-push-10 text-right">
+                        <a id="newProject" data-toggle="modal" data-target="#InitiateProject_01" class="btn-u btn-u-lg btn-u-sea" style="display: none;">Initiate a project</a>
+                    </div>
 
-                <!--查詢-->
-                <div class="col-md-10 col-md-pull-2">
-                    <div class="btn-group">
-                    <div class="btn-group">
-                        <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
+                    <!--查詢-->
+                    <div class="col-md-10 col-md-pull-2">
+                        <div class="btn-group">
+                            <div class="btn-group">
+                                <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
+                            </div>
+                            <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
+                                <i class="fa fa-search"></i>&nbsp;Search
+                            </button>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
-                        <i class="fa fa-search"></i>&nbsp;Search
-                    </button>
-                    </div>
-                </div>
                 </div>
 
                 <!--PageList-->
