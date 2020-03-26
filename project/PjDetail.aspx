@@ -61,7 +61,7 @@
 
     <!--===my js-->
     <script type="text/javascript" src="pjdetail.js"></script>
-    <script type="text/javascript" src="wordclould.js"></script>
+    <script type="text/javascript" src="wordcloud.js"></script>
     <title>IEKElf</title>
 </head>
 <body class="header-fixed boxed-layout">

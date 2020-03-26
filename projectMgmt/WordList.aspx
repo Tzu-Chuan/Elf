@@ -201,9 +201,7 @@
                 </div>
 
                 <!--PageList-->
-                <div>
-                    <a class="btn-u btn-u-sea margin-right-5" href="javascript:void(0);">Add</a>
-                </div>
+                <div style="margin-bottom:35px;"><div style="float:right;"><a class="btn-u btn-u-sea" href="javascript:void(0);">Add</a></div></div>
                 <div class="well">
                     <table id="tablist" class="table table-striped table-hover">
                         <thead>

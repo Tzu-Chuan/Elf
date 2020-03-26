@@ -371,4 +371,23 @@ from #tmp
         oda.Fill(ds);
         return ds;
     }
+
+    public DataTable GetArticleByGuid(string article_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from result_article where article_guid=@article_guid");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@article_guid", article_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
 }
