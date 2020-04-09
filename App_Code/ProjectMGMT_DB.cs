@@ -390,4 +390,264 @@ from #tmp
         oda.Fill(ds);
         return ds;
     }
+
+    public void addWord(SqlConnection oConn, SqlTransaction oTrans, string guid, string research_guid, string name, string blacklist)
+    {
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = @"insert into input_related_word (
+related_guid,
+research_guid,
+name,
+blacklist,
+schedule,
+analyst_give,
+create_time
+) values (
+@related_guid,
+@research_guid,
+@name,
+@blacklist,
+'1',
+'1',
+@create_time
+) ";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@related_guid", guid);
+        oCmd.Parameters.AddWithValue("@research_guid", research_guid);
+        oCmd.Parameters.AddWithValue("@name", name);
+        oCmd.Parameters.AddWithValue("@blacklist", blacklist);
+        oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+
+        oCmd.Transaction = oTrans;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void deleteWord(SqlConnection oConn, SqlTransaction oTrans, string related_guid)
+    {
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = @"delete from input_related_word where related_guid=@related_guid ";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@related_guid", related_guid);
+        
+        oCmd.Transaction = oTrans;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public DataTable GetWordByGuid(string related_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from input_related_word where related_guid=@related_guid");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@related_guid", related_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void UpdateWord(SqlConnection oConn, SqlTransaction oTrans, string related_guid,string research_guid, string name, string blacklist)
+    {
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = @"update input_related_word set
+research_guid=@research_guid,
+name=@name,
+blacklist=@blacklist,
+update_time=@update_time
+where related_guid=@related_guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@related_guid", related_guid);
+        oCmd.Parameters.AddWithValue("@research_guid", research_guid);
+        oCmd.Parameters.AddWithValue("@name", name);
+        oCmd.Parameters.AddWithValue("@blacklist", blacklist);
+        oCmd.Parameters.AddWithValue("@update_time", DateTime.Now);
+
+        oCmd.Transaction = oTrans;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void InsertWordLog(SqlConnection oConn, SqlTransaction oTrans, string pjGuid, string related_guid, string status)
+    {
+        InsertWordLog(oConn, oTrans, pjGuid, related_guid, status, "", "", "");
+    }
+
+    public void InsertWordLog(SqlConnection oConn, SqlTransaction oTrans, string pjGuid, string related_guid, string status, string orgtopic, string orgname, string orgblacklist)
+    {
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = @"insert into WordLog
+select 
+@pjGuid,
+related_guid,
+research_guid,
+name,
+blacklist,
+schedule,
+analyst_give,
+name_stem,
+score,
+q3_score,
+silimar_related_word,
+similarity,
+create_time,
+update_time,
+@orgtopic,
+@orgname,
+@orgblacklist,
+@status,
+getdate()
+from input_related_word
+where related_guid=@related_guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@pjGuid", pjGuid);
+        oCmd.Parameters.AddWithValue("@related_guid", related_guid);
+        oCmd.Parameters.AddWithValue("@status", status);
+        oCmd.Parameters.AddWithValue("@orgtopic", orgtopic);
+        oCmd.Parameters.AddWithValue("@orgname", orgname);
+        oCmd.Parameters.AddWithValue("@orgblacklist", orgblacklist);
+
+        oCmd.Transaction = oTrans;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public string GetTopicName(string research_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select name from input_research_direction where research_guid=@research_guid");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@research_guid", research_guid);
+
+        oda.Fill(ds);
+        string tmpstr = string.Empty;
+        if (ds.Rows.Count > 0)
+            tmpstr = ds.Rows[0]["name"].ToString();
+
+        return tmpstr;
+    }
+
+    public DataSet GetRecordList(string project_guid, string pStart, string pEnd)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+SELECT a.*,
+b.name as orgWordCategory,
+c.name as WordCategory
+into #tmp
+FROM WordLog as a
+left join input_research_direction as b on b.research_guid=a.research_guid 
+left join input_research_direction as c on c.research_guid=case when a.org_topic <>'' then a.org_topic else (select NEWID()) end 
+where a.project_guid=@project_guid ");
+
+        sb.Append(@"select count(*) as total from #tmp
+select * from (
+select ROW_NUMBER() over (order by createdate desc) itemNo,#tmp.*
+from #tmp 
+)#t where itemNo between @pStart and @pEnd  ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void UndoWord(string id)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        oCmd.CommandText = @"
+declare @mode nvarchar(20)
+select @mode=status from WordLog where id=@id
+
+declare @wGuid nvarchar(50)
+select @wGuid=related_guid from WordLog where id=@id
+
+if @mode='add'
+	begin
+		delete from input_related_word where related_guid=@wGuid
+	end
+else if @mode='update'
+	begin
+		delete from input_related_word where related_guid=@wGuid
+		insert into input_related_word
+		select 
+		related_guid,
+		org_topic,
+		org_name,
+		org_blacklist,
+		schedule,
+		analyst_give,
+		name_stem,
+		score,
+		q3_score,
+		silimar_related_word,
+		similarity,
+		create_time,
+		update_time
+		from WordLog
+		where id=@id 
+	end
+else if @mode='delete'
+	begin
+		insert into input_related_word
+		select 
+		related_guid,
+		research_guid,
+		name,
+		blacklist,
+		schedule,
+		analyst_give,
+		name_stem,
+		score,
+		q3_score,
+		silimar_related_word,
+		similarity,
+		create_time,
+		update_time
+		from WordLog
+		where id=@id 
+	end
+
+	
+delete from WordLog where related_guid=@wGuid and createdate >= (select createdate from WordLog where id=@id)
+";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@id", id);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }

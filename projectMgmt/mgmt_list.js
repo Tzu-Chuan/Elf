@@ -287,11 +287,6 @@ function doPjClose(pjGuid) {
     }
 }
 
-/*===func-維護詞庫*/
-function doRelatedWordMaintain(pjGuid) {
-    window.open("setRelatedWordUpdate.aspx?pjGuid=" + pjGuid)
-}
-
 /*===func-匯出*/
 function doExport(pjGuid) {
     location.href = "outputExcel.aspx?pjGuid=" + pjGuid;

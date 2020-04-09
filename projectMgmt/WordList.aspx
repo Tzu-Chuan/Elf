@@ -50,10 +50,117 @@
             getData(0);
             getTopics();
 
+            $(document).on("click", "#RecordBtn", function () {
+                window.open("ModifyRecord.aspx?pjGuid=" + $.getQueryString("pjGuid"));
+            });
+
             $(document).on("click", "input[name='cbTopic'],input[name='cbBlacklist'],input[name='cbSource']", function () {
                 getData(0);
             });
-        });
+
+            // 新增字詞跳窗
+            $(document).on("click", "#newWord", function () {
+                $("#addbtn").val("Add This Word");
+                $("#tmpGuid").val("");
+                $("#tmpTopic").val("");
+                $("#tmpWord").val("");
+                $("#tmpBlacklist").val("");
+                $("#m_ddlTopics").val($("#m_ddlTopics").find('option').first().val());
+                $("#m_word").val("");
+                $("#m_blacklist").val("0");
+                $('#addModal').modal('show');
+            });
+
+            // 新增字詞
+            $(document).on("click", "#addbtn", function () {
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "mgmtHandler/addWord.aspx",
+                    data: {
+                        pjGuid: $.getQueryString("pjGuid"),
+                        wGuid: $("#tmpGuid").val(),
+                        TopicID: $("#m_ddlTopics").val(),
+                        Word: $("#m_word").val(),
+                        Blacklist: $("#m_blacklist").val(),
+                        OrgTopic: $("#tmpTopic").val(),
+                        OrgWord: $("#tmpWord").val(),
+                        OrgBlacklist: $("#tmpBlacklist").val()
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            //alert($("Response", data).text());
+                            getData(0);
+                            $('#addModal').modal('hide');
+                        }
+                    }
+                });
+            });
+
+            // 刪除字詞
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("Confirm to delete this word?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "mgmtHandler/deleteWord.aspx",
+                        data: {
+                            pjGuid: $.getQueryString("pjGuid"),
+                            WordGuid: $(this).attr("aid")
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                getData(0);
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            // 編輯字詞
+            $(document).on("click", "a[name='editbtn']", function () {
+                $("#addbtn").val("Save");
+                $("#tmpGuid").val($(this).attr("aid"));
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "mgmtHandler/GetWord.aspx",
+                    data: {
+                        WordGuid: $(this).attr("aid")
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            $("#tmpTopic").val($("research_guid", data).text());
+                            $("#tmpWord").val($("name", data).text());
+                            $("#tmpBlacklist").val($("blacklist", data).text());
+                            $("#m_ddlTopics").val($("research_guid", data).text());
+                            $("#m_word").val($("name", data).text());
+                            $("#m_blacklist").val($("blacklist", data).text());
+                            $('#addModal').modal('show');
+                        }
+                    }
+                });
+            });
+        }); // end js
 
         function getData(p) {
             $.ajax({
@@ -93,7 +200,7 @@
                                 }
                                 tabstr += '<td align="center" nowrap="nowrap">' + blackStr + '</td>';
                                 var analysisStr = '';
-                                switch ($(this).children("blacklist").text().trim()) {
+                                switch ($(this).children("analyst_give").text().trim()) {
                                     case "0": analysisStr = "Default from excel"; break;
                                     case "1": analysisStr = "User Added"; break;
                                     case "2": analysisStr = "Learning-edited"; break;
@@ -101,8 +208,8 @@
                                 }
                                 tabstr += '<td align="center" nowrap="nowrap">' + analysisStr + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">';
-                                tabstr += '<a class="btn-u btn-u-default margin-right-5" href="javascript:void(0);">Edit</a>';
-                                tabstr += '<a class="btn-u btn-u-red margin-right-5" href="javascript:void(0);">Delete</a>';
+                                tabstr += '<a name="editbtn" class="btn-u btn-u-default margin-right-5" href="javascript:void(0);" aid="'+$(this).children("related_guid").text().trim()+'">Edit</a>';
+                                tabstr += '<a name="delbtn" class="btn-u btn-u-red margin-right-5" href="javascript:void(0);" aid="'+$(this).children("related_guid").text().trim()+'">Delete</a>';
                                 tabstr += '</td>';
                                 tabstr += '</tr>';
                             });
@@ -134,8 +241,10 @@
                         alert($(data).find("Error").attr("Message"));
                     }
                     else {
+                        var ddlstr = '';
                         var ULstr = '<li><input type="radio" id="TopicRadio" value="all" name="cbTopic" checked="checked" /><label for="TopicRadio">All topics</label></li>';
                         $(data).find("topic_item").each(function (i) {
+                            ddlstr += '<option value="' + $(this).children("research_guid").text().trim() + '">' + $(this).children("name").text().trim() + '</option>';
                             if (i == 0)
                                 ULstr += '<li><input type="radio" id="TopicRadio' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" /><label for="TopicRadio' + i + '" style="margin-left: 4px;">' + $(this).children("name").text().trim() + '</label></li>';
                             else
@@ -143,6 +252,8 @@
                         });
                         $("#topic_ul").empty();
                         $("#topic_ul").append(ULstr);
+                        $("#m_ddlTopics").empty();
+                        $("#m_ddlTopics").append(ddlstr);
                     }
                 }
             });
@@ -201,7 +312,10 @@
                 </div>
 
                 <!--PageList-->
-                <div style="margin-bottom:35px;"><div style="float:right;"><a class="btn-u btn-u-sea" href="javascript:void(0);">Add</a></div></div>
+                <div style="margin-bottom:35px;">
+                    <div style="float:left;"><a id="RecordBtn" class="btn-u btn-u-sea" href="javascript:void(0);">Record</a></div>
+                    <div style="float:right;"><a id="newWord" class="btn-u btn-u-sea" href="javascript:void(0);">Add New Word</a></div>
+                </div>
                 <div class="well">
                     <table id="tablist" class="table table-striped table-hover">
                         <thead>
@@ -222,6 +336,49 @@
         </div>
 
         <!--#include file="../templates/Footer.html"-->
+    </div>
+
+    <input id="tmpGuid" type="hidden" />
+    <input id="tmpTopic" type="hidden" />
+    <input id="tmpWord" type="hidden" />
+    <input id="tmpBlacklist" type="hidden" />
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="addLabel">Add New Word</h2>
+                </div>
+                <div class="modal-body">
+                    <table id="addtab" class="table table-striped">
+                        <tr>
+                            <th style="text-align: right; width:200px;">Research Topic</th>
+                            <td><select id="m_ddlTopics" class="form-control"></select></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">Related Key Word</th>
+                            <td><input id="m_word" type="text" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">Tag in articles?</th>
+                            <td>
+                                <select id="m_blacklist" class="form-control">
+                                    <option value="0">Whitelist</option>
+                                    <option value="1">Blacklist</option>
+                                    <option value="2">Candidate</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Cancel" class="btn-u btn-u-lg btn-u-sea" data-dismiss="modal" />
+                    <input type="button" id="addbtn" class="btn-u btn-u-lg btn-u-sea" />
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

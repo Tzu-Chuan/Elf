@@ -114,7 +114,7 @@
                                 if ($(this).children("status").text().trim() == 40)
                                     tabstr += '<a id="CloseBtn" href="javascript:void(0);" class="btn-u btn-u-sea margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa  fa-power-off margin-right-5"></i>Close</a>';
                                 if ($(this).children("status").text().trim() != 1 && $(this).children("status").text().trim() != 50)
-                                    tabstr += '<a id="MaintainBtn" href="javascript:void(0);" class="btn-u btn-u-dark-blue margin-right-5" pjguid="doRelatedWordMaintain("' + $(this).children("project_guid").text().trim() + '")"><i class="fa fa-wrench margin-right-5"></i>Maintain</a>';
+                                    tabstr += '<a href="WordList.aspx?pjGuid='+$(this).children("project_guid").text().trim()+'" class="btn-u btn-u-dark-blue margin-right-5"><i class="fa fa-wrench margin-right-5"></i>Maintain</a>';
                                 tabstr += '<a id="ExportBtn" href="javascript:void(0);" class="btn-u btn-u-dark margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-tasks margin-right-5"></i>Export</a>';
                                 if ($(this).children("MemberStatus").text().trim() == "Y")
                                     tabstr += '<a class="btn-u margin-right-5" href="MemberManage.aspx?pj=' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-wrench margin-right-5"></i>Member</a>';

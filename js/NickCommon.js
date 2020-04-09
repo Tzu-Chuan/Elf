@@ -37,5 +37,22 @@ $.extend({
         var arr = n.split(".");
         var re = /(\d{1,3})(?=(\d{3})+$)/g;
         return arr[0].replace(re, "$1,") + (arr.length == 2 ? "." + arr[1] : "");
+    },
+
+     // Get 時間
+    FormatTime: function (t) {
+        var d = new Date(t); // for now
+
+        var h = d.getHours();
+        h = (h < 10) ? ("0" + h) : h;
+
+        var m = d.getMinutes();
+        m = (m < 10) ? ("0" + m) : m;
+
+        var s = d.getSeconds();
+        s = (s < 10) ? ("0" + s) : s;
+
+        timestr = h + ":" + m + ":" + s;
+        return timestr;
     }
 });
