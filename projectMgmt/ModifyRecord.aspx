@@ -40,10 +40,39 @@
     <script type="text/javascript" src="../js/PageList.js"></script>
     <script type="text/javascript" src="../js/jquery-ui.1.12.1.js"></script>
     <script type="text/javascript" src="../js/NickCommon.js"></script>
+
+    
+        <!--===jquery dp-->
+        <link rel="stylesheet" type="text/css" href="../js/j_dp/css/bootstrap-datepicker.standalone.min.css" />
+        <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.min.js">;</script>
+        <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.zh-TW.min.js">;</script>
     <title>IEKElf</title>
     <script>
         $(document).ready(function () {
             getData(0);
+
+            $("input[name='input_date']").datepicker({
+                format: 'yyyy-mm-dd',
+                clearBtn: true
+            }).on('changeDate', function (e) {
+                var msg = "";
+                $(this).datepicker('hide');
+                if ($("#startdate").val() != "" && $("#enddate").val() != "") {
+                    var sd = $("#startdate").val().replace(/-/g, "");
+                    var ed = $("#enddate").val().replace(/-/g, "");
+                    if (parseInt(sd) > parseInt(ed))
+                        msg = "Time range error !!";
+                }
+
+                if (msg == "")
+                    getData(0);
+                else
+                    alert(msg);
+            });
+
+            $(document).on("change", "input[name='rbAction']", function () {
+                getData(0);
+            });
 
             $(document).on("click", "a[name='undobtn']", function () {
                 if (confirm("Confirm to undo this word?")) {
@@ -78,7 +107,10 @@
                 url: "mgmtHandler/GetRecordList.aspx",
                 data: {
                     PageNo: p,
-                    PjGuid: $.getQueryString("pjGuid")
+                    PjGuid: $.getQueryString("pjGuid"),
+                    Action: $("input[name='rbAction']:checked").val(),
+                    StartDate: $("#startdate").val(),
+                    EndDate: $("#enddate").val()
                 },
                 error: function (xhr) {
                     alert(xhr.responseText);
@@ -101,8 +133,8 @@
                                         break;
                                     case "update":
                                         descstr = 'Update Information<br>';
-                                        descstr += 'Research Topic：'+ $(this).children("orgWordCategory").text().trim() + ' → ' + $(this).children("WordCategory").text().trim() + '<br>';
                                         descstr += 'Related Key Word：' + $(this).children("org_name").text().trim() + ' → ' + $(this).children("name").text().trim() + '<br>';
+                                        descstr += 'Research Topic：' + $(this).children("orgWordCategory").text().trim() + ' → ' + $(this).children("WordCategory").text().trim() + '<br>';
                                         descstr += 'Tag in articles：' + FormatBlacklist($(this).children("org_blacklist").text().trim()) + ' → ' + FormatBlacklist($(this).children("blacklist").text().trim());
                                         break;
                                     case "delete":
@@ -113,7 +145,7 @@
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("status").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("createdate").text().trim())) + '<br>' + $.FormatTime($(this).children("createdate").text().trim()) + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">';
-                                tabstr += '<a name="undobtn" class="btn-u btn-u-red margin-right-5" href="javascript:void(0);" aid="'+$(this).children("id").text().trim()+'">Undo</a>';
+                                tabstr += '<a name="undobtn" class="btn-u btn-u-red margin-right-5" href="javascript:void(0);" aid="' + $(this).children("id").text().trim() + '">Undo</a>';
                                 tabstr += '</td>';
                                 tabstr += '</tr>';
                             });
@@ -124,7 +156,7 @@
                         Page.Option.Selector = "#pageblock";
                         Page.CreatePage(p, $("total", data).text());
                         $(window).scrollTop(0);
-                        
+
                     }
                 }
             });
@@ -146,7 +178,41 @@
         <!--#include file="../templates/Header.html"-->
         <div class="container">
             <div class="content">
-                <div class="well">
+                <div class="gentable">
+                    <table width="100%">
+                        <tr>
+                            <td style="vertical-align:middle; width:70px;">Resources</td>
+                            <td colspan="2">
+                                <ul class="ks-cboxtags">
+                                    <li><input type="radio" id="checkbox" value="" class="" name="rbAction" checked="checked" /><label for="checkbox">All Action</label></li>
+                                    <li><input type="radio" id="checkboxTwo" value="add" class="" name="rbAction" /><label for="checkboxTwo">add</label></li>
+                                    <li><input type="radio" id="checkboxThree" value="update" class="" name="rbAction" /><label for="checkboxThree">update</label></li>
+                                    <li><input type="radio" id="checkboxFour" value="delete" class="" name="rbAction" /><label for="checkboxFour">delete</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="margin-bottom:5px;">
+                    <span style="margin-right: 60px;">Time</span>
+                    <div class="btn-group">
+                        <input type="text" id="startdate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="Start Date" maxlength="10" style="background-color:white;" />
+                    </div>
+                    <div class="btn-group">
+                        <input type="text" id="enddate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="End Date" maxlength="10" style="background-color:white;" />
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <div class="btn-group">
+                        <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
+                    </div>
+                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
+                        <i class="fa fa-search"></i>&nbsp;Search
+                    </button>
+                </div>
+                <div class="well margin10T">
                     <table id="tablist" class="table table-striped table-hover">
                         <thead>
                             <tr>

@@ -54,7 +54,7 @@ template：
               <span class="sr-only">Toggle navigation</span>
               <span class="fa fa-bars"></span>
             </button>
-            <a class="navbar-brand" href="{$AppRoot}/project/default.aspx">
+            <a class="navbar-brand" href="{$AppRoot}/project/default_old.aspx">
               <img id="logo-header" src="../images/logo.png" alt="Logo"/>
             </a>
           </div>
@@ -70,11 +70,11 @@ template：
                   </xsl:when>
                 </xsl:choose>
                 <div class="textcenter font-size6 deskonly ochimenuicon">
-                  <a href="{$AppRoot}/project/default.aspx" style="text-decoration: none;">
+                  <a href="{$AppRoot}/project/default_old.aspx" style="text-decoration: none;">
                     <i class="iekeif-iek_list"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></i>
                   </a>
                 </div>
-                <a href="{$AppRoot}/project/default.aspx">Project List</a>
+                <a href="{$AppRoot}/project/default_old.aspx">Project List</a>
               </li>
 
               <!--===當使用者為「系統管理人員、或專案管理人員」時顯示-->
@@ -86,11 +86,11 @@ template：
                     </xsl:when>
                   </xsl:choose>
                   <div class="textcenter font-size6 deskonly ochimenuicon">
-                    <a href="{$AppRoot}/projectMgmt/default.aspx" style="text-decoration: none;">
+                    <a href="{$AppRoot}/projectMgmt/default_old.aspx" style="text-decoration: none;">
                       <i class="iekeif-iek_tool"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
                     </a>
                   </div>
-                  <a href="{$AppRoot}/projectMgmt/default.aspx">Project mgmt</a>
+                  <a href="{$AppRoot}/projectMgmt/default_old.aspx">Project mgmt</a>
                 </li>
               <!--</xsl:if>-->
                 
@@ -103,11 +103,11 @@ template：
                     </xsl:when>
                   </xsl:choose>
                   <div class="textcenter font-size6 deskonly ochimenuicon">
-                    <a href="{$AppRoot}/projectMaintain/default.aspx" style="text-decoration: none;">
+                    <a href="{$AppRoot}/projectMaintain/default_old.aspx" style="text-decoration: none;">
                       <i class="iekeif-iek_role"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                     </a>
                   </div>
-                  <a href="{$AppRoot}/projectMaintain/default.aspx">Project maintain</a>
+                  <a href="{$AppRoot}/projectMaintain/default_old.aspx">Project maintain</a>
                 </li>
               </xsl:if>
 		          <li>

@@ -283,10 +283,15 @@ template：
           document.Form1.currentPageIndex.value=page;
           document.Form1.submit();
           }
+
+          function doSearch()
+          {
+          location.href = "default.aspx?q=" + encodeURIComponent($('#keyword').val());
+          }
         </script>
 
         <!--===my js-->
-        <script type="text/javascript" src="default.js"></script>
+        <!--<script type="text/javascript" src="default.js"></script>-->
 
         <!--//////javascript end-->
         <!--**************************************************************************-->

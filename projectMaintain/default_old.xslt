@@ -232,7 +232,7 @@ template：
         </script>
 
         <!--===my js-->
-        <script type="text/javascript" src="default.js"></script>
+        <script type="text/javascript" src="default_old.js"></script>
 
         <!--/////////////////////////////////-->
       </body>

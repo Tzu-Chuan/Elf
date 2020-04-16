@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Xml;
 
-public partial class project_GetResources : System.Web.UI.Page
+public partial class Handler_GetResources : System.Web.UI.Page
 {
     Dao_Project db = new Dao_Project();
     protected void Page_Load(object sender, EventArgs e)

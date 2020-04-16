@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Xml;
 
-public partial class project_ChangeSchedule : System.Web.UI.Page
+public partial class project_projectHandler_ChangeSchedule : System.Web.UI.Page
 {
     Dao_ProjectMgmt db = new Dao_ProjectMgmt();
     protected void Page_Load(object sender, EventArgs e)

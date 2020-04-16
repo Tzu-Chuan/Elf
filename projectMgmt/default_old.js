@@ -182,7 +182,7 @@ function excelSave() {
             $("#btn_02a_save, #btn_02b_save").prop("disabled", false);
             if (data == "OK.") {
                 $("#InitiateProject_02").modal('hide');
-                getData(0);
+                location.reload();
             }
             else {
                 $("#message_02").text(data);
@@ -214,7 +214,8 @@ function doPjStart(pjGuid) {
             },
             success: function (data) {
                 if (data == "OK.") {
-                    getData(0);
+                    ////alert('Poject start success.');
+                    location.reload();
                 }
                 else {
                     alert(data);
@@ -245,7 +246,8 @@ function doPjDelete(pjGuid) {
             },
             success: function (data) {
                 if (data == "OK.") {
-                    getData(0);
+                    ////alert('Poject delete success.');
+                    location.reload();
                 }
                 else {
                     alert(data);
@@ -269,12 +271,15 @@ function doPjClose(pjGuid) {
             url: "setPjClose.aspx",
             type: "get",
             dataType: "html",
+            //////cache: false,
+            //////async: true,
             data: {
                 pjGuid: pjGuid
             },
             success: function (data) {
                 if (data == "OK.") {
-                    getData(0);
+                    ////alert('Project close success.');
+                    location.reload();
                 }
                 else {
                     alert(data);
@@ -285,6 +290,11 @@ function doPjClose(pjGuid) {
             }
         });
     }
+}
+
+/*===func-維護詞庫*/
+function doRelatedWordMaintain(pjGuid) {
+    window.open("setRelatedWordUpdate.aspx?pjGuid=" + pjGuid)
 }
 
 /*===func-匯出*/

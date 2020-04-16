@@ -229,7 +229,7 @@
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "../project/GetResources.aspx",
+                url: "../Handler/GetResources.aspx",
                 data: {
                     ProjectGuid: $.getQueryString("pjGuid")
                 },
@@ -354,12 +354,12 @@
                 <div class="modal-body">
                     <table id="addtab" class="table table-striped">
                         <tr>
-                            <th style="text-align: right; width:200px;">Research Topic</th>
-                            <td><select id="m_ddlTopics" class="form-control"></select></td>
-                        </tr>
-                        <tr>
                             <th style="text-align: right;">Related Key Word</th>
                             <td><input id="m_word" type="text" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right; width:200px;">Research Topic</th>
+                            <td><select id="m_ddlTopics" class="form-control"></select></td>
                         </tr>
                         <tr>
                             <th style="text-align: right;">Tag in articles?</th>

@@ -32,12 +32,6 @@ jQuery(document).ready(function () {
 });
 
 
-/*===============*/
-/*===搜尋*/
-function doSearch() {
-    location.href = "default.aspx?q=" + encodeURIComponent($('#keyword').val());;
-}
-
 /*===匯入*/
 /*https://dotblogs.com.tw/cross/2010/09/21/17840 */
 /*https://www.mkyong.com/jquery/jquery-ajax-submit-a-multipart-form */
@@ -182,7 +176,7 @@ function excelSave() {
             $("#btn_02a_save, #btn_02b_save").prop("disabled", false);
             if (data == "OK.") {
                 $("#InitiateProject_02").modal('hide');
-                location.reload();
+                getData(0);
             }
             else {
                 $("#message_02").text(data);
@@ -214,8 +208,7 @@ function doPjStart(pjGuid) {
             },
             success: function (data) {
                 if (data == "OK.") {
-                    ////alert('Poject start success.');
-                    location.reload();
+                    getData(0);
                 }
                 else {
                     alert(data);
@@ -246,8 +239,7 @@ function doPjDelete(pjGuid) {
             },
             success: function (data) {
                 if (data == "OK.") {
-                    ////alert('Poject delete success.');
-                    location.reload();
+                    getData(0);
                 }
                 else {
                     alert(data);
@@ -271,15 +263,12 @@ function doPjClose(pjGuid) {
             url: "setPjClose.aspx",
             type: "get",
             dataType: "html",
-            //////cache: false,
-            //////async: true,
             data: {
                 pjGuid: pjGuid
             },
             success: function (data) {
                 if (data == "OK.") {
-                    ////alert('Project close success.');
-                    location.reload();
+                    getData(0);
                 }
                 else {
                     alert(data);
@@ -290,11 +279,6 @@ function doPjClose(pjGuid) {
             }
         });
     }
-}
-
-/*===func-維護詞庫*/
-function doRelatedWordMaintain(pjGuid) {
-    window.open("setRelatedWordUpdate.aspx?pjGuid=" + pjGuid)
 }
 
 /*===func-匯出*/

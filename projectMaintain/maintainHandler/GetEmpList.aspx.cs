@@ -7,38 +7,37 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Xml;
 
-public partial class projectMgmt_mgmtHandler_GetRecordList : System.Web.UI.Page
+public partial class projectMaintain_maintainHandler_GetEmpList : System.Web.UI.Page
 {
-    ProjectMGMT_DB MGMT_db = new ProjectMGMT_DB();
+    ProjectMaintain_DB pm_db = new ProjectMaintain_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
-        ///功    能: 查詢辭庫維護列表
+        ///功    能: 查詢成員
         ///說明:
         /// * Request["PageNo"]: 所在頁面
         /// * Request["PageSize"]: 一頁幾筆資料
-        /// * Request["PjGuid"]: 專案Guid
         /// * Request["keyword"]: 關鍵字
-        /// * Request["Action"]: 更新動作
-        /// * Request["StartDate"]: 起始日期
-        /// * Request["EndDate"]: 結束日期
+        /// * Request["SortName"]: 排序欄位
+        /// * Request["SortMethod"]: 排序方式
+        ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
         try
         {
             string PageNo = (string.IsNullOrEmpty(Request["PageNo"])) ? "0" : Request["PageNo"].ToString().Trim();
             int PageSize = (string.IsNullOrEmpty(Request["PageSize"])) ? 20 : int.Parse(Request["PageSize"].ToString().Trim());
-
-            string PjGuid = (string.IsNullOrEmpty(Request["PjGuid"])) ? "" : Request["PjGuid"].ToString().Trim();
             string keyword = (string.IsNullOrEmpty(Request["keyword"])) ? "" : Request["keyword"].ToString().Trim();
-            string Action = (string.IsNullOrEmpty(Request["Action"])) ? "" : Request["Action"].ToString().Trim();
-            string StartDate = (string.IsNullOrEmpty(Request["StartDate"])) ? "" : Request["StartDate"].ToString().Trim();
-            string EndDate = (string.IsNullOrEmpty(Request["EndDate"])) ? "" : Request["EndDate"].ToString().Trim();
+            string SortName = (string.IsNullOrEmpty(Request["SortName"])) ? "" : Request["SortName"].ToString().Trim();
+            string SortMethod = (string.IsNullOrEmpty(Request["SortMethod"])) ? "-" : Request["SortMethod"].ToString().Trim();
+            SortMethod = (SortMethod == "+") ? "asc" : "desc";
+            string SortCommand = SortName + " " + SortMethod;
 
             //計算起始與結束
             int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
             int pageStart = pageEnd - PageSize + 1;
 
-            DataSet ds = MGMT_db.GetRecordList(PjGuid, keyword, Action, StartDate, EndDate, pageStart.ToString(), pageEnd.ToString());
+            pm_db._KeyWord = keyword;
+            DataSet ds = pm_db.GetEmpList(pageStart.ToString(), pageEnd.ToString(), SortCommand);
 
             string xmlstr = string.Empty;
             string xmlstr2 = string.Empty;

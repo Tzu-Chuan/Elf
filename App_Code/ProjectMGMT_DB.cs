@@ -134,6 +134,8 @@ select * into #tmp from (
 		, get_time
 		,articledesc = paragraph_xml.value('(/paragraph/key[@name=''" + topic + @"''])[1]', 'varchar(max)')
 		,score =  category_score_xml.value('(/score/key[@name=''" + topic + @"''])[1]', 'float')
+        ,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff
+        ,(select count(*) from ReadArticle where R_ArticleGuid=article_guid and R_Empno=@empno) as HaveRead
 		 from result_article
 	) as tb 
 	where (1=1)
@@ -176,6 +178,7 @@ select * from (
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         DataSet ds = new DataSet();
 
+        oCmd.Parameters.AddWithValue("@empno", SSOUtil.GetCurrentUser().工號);
         oCmd.Parameters.AddWithValue("@project_guid", project_guid);
         oCmd.Parameters.AddWithValue("@website_guid", website_guid);
         oCmd.Parameters.AddWithValue("@topic", topic);
@@ -183,6 +186,7 @@ select * from (
         oCmd.Parameters.Add("@date", SqlDbType.Int).Value = date * -1;
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
 
         oda.Fill(ds);
         return ds;
@@ -284,7 +288,7 @@ where a.blacklist !=1--//排除黑名單(0=白,1=黑,2=候選詞)
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select title, url, describe_text, score, get_time into #tmp
+        sb.Append(@"select title, url, describe_text, score, get_time,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff into #tmp
                     from result_search
                     where related_guid=@related_guid ");
 
@@ -546,7 +550,7 @@ where related_guid=@related_guid ";
         return tmpstr;
     }
 
-    public DataSet GetRecordList(string project_guid, string pStart, string pEnd)
+    public DataSet GetRecordList(string project_guid,string keyword,string action,string sday,string eday, string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
@@ -562,6 +566,20 @@ left join input_research_direction as b on b.research_guid=a.research_guid
 left join input_research_direction as c on c.research_guid=case when a.org_topic <>'' then a.org_topic else (select NEWID()) end 
 where a.project_guid=@project_guid ");
 
+        // 關鍵字
+        if (keyword != "")
+            sb.Append(@"and (lower(isnull(a.name,'')+isnull(org_name,'')) like '%" + keyword + "%') ");
+
+        if (action != "")
+            sb.Append(@"and status=@action ");
+
+        if (sday != "" && eday != "")
+            sb.Append(@"and createdate between CONVERT(datetime,@sday) and DATEADD(day,1,CONVERT(datetime,@eday)) ");
+        else if (sday != "")
+            sb.Append(@"and createdate >= CONVERT(datetime,@sday) ");
+        else if (eday != "")
+            sb.Append(@"and createdate <= DATEADD(day,1, CONVERT(datetime,@eday)) ");
+
         sb.Append(@"select count(*) as total from #tmp
 select * from (
 select ROW_NUMBER() over (order by createdate desc) itemNo,#tmp.*
@@ -574,6 +592,9 @@ from #tmp
         DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@action", action);
+        oCmd.Parameters.AddWithValue("@sday", sday);
+        oCmd.Parameters.AddWithValue("@eday", eday);
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
 

@@ -76,7 +76,7 @@ jQuery(document).ready(function () {
         $.ajax({
             type: "POST",
             async: false, //在沒有返回值之前,不會執行下一步動作
-            url: "ChangeSchedule.aspx",
+            url: "projectHandler/ChangeSchedule.aspx",
             data: {
                 r_guid: $(this).attr("aid"),
                 r_sche: RSche
@@ -85,8 +85,6 @@ jQuery(document).ready(function () {
             success: function (data) {
                 if ($(data).find("Error").length > 0) {
                     alert($(data).find("Error").attr("Message"));
-                }
-                else {
                 }
             }
         });
@@ -97,6 +95,23 @@ jQuery(document).ready(function () {
         //getAskCom();
     });
 
+    $(document).on("click", "a[name='alink']", function () {
+        $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "projectHandler/ArticleReadStatus.aspx",
+            data: {
+                area: "article",
+                gid: $(this).attr("atGuid")
+            },
+            error: function (xhr) { alert(xhr.responseText); },
+            success: function (data) {
+                if ($(data).find("Error").length > 0) {
+                    alert($(data).find("Error").attr("Message"));
+                }
+            }
+        });
+    });
 });
 
 // 主要文章列表
@@ -132,8 +147,12 @@ function getData(p) {
                     if ($(data).find("data_item").length > 0) {
                         $(data).find("data_item").each(function (i) {
                             str += "<li>";
-                            str += $(this).children("itemNo").text().trim() + "&nbsp;";
-                            str += '<a href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            str += $(this).children("itemNo").text().trim() + '.&nbsp;';
+                            if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                                str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
+                            var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
+                            //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                             str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                             str += '<blockquote><small><em>';
                             str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';
@@ -160,7 +179,6 @@ function getData(p) {
         }
     });
 }
-
 
 // WebSite 列表
 function getWebSite() {
@@ -243,8 +261,12 @@ function getWebsiteArticle(p) {
                 if ($(data).find("data_item").length > 0) {
                     $(data).find("data_item").each(function (i) {
                         str += "<li>";
-                        str += $(this).children("itemNo").text().trim() + "&nbsp;";
-                        str += '<a href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        str += $(this).children("itemNo").text().trim() + ".&nbsp;";
+                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                            str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
+                        var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
+                        //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                         str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                         str += '<blockquote><small><em>';
                         str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';
@@ -356,7 +378,9 @@ function getAskComArticle(p) {
                 if ($(data).find("data_item").length > 0) {
                     $(data).find("data_item").each(function (i) {
                         str += "<li>";
-                        str += $(this).children("itemNo").text().trim() + "&nbsp;";
+                        str += $(this).children("itemNo").text().trim() + ".&nbsp;";
+                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                            str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                         str += '<a href="' + $(this).children("url").text().trim() + '" target="_blank">' + $(this).children("title").text().trim() + '</a>';
                         str += '<blockquote><small><em>';
                         str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim()));
@@ -515,7 +539,7 @@ function getResources() {
     $.ajax({
         type: "POST",
         async: false, //在沒有返回值之前,不會執行下一步動作
-        url: "GetResources.aspx",
+        url: "../Handler/GetResources.aspx",
         data: {
             ProjectGuid: $.getQueryString("pjGuid")
         },

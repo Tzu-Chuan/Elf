@@ -83,7 +83,7 @@ jQuery(document).ready(function () {
         $.ajax({
             type: "POST",
             async: false, //在沒有返回值之前,不會執行下一步動作
-            url: "ChangeSchedule.aspx",
+            url: "projectHandler/ChangeSchedule.aspx",
             data: {
                 r_guid: $(this).attr("aid"),
                 r_sche: RSche
@@ -435,7 +435,7 @@ function getResources() {
     $.ajax({
         type: "POST",
         async: false, //在沒有返回值之前,不會執行下一步動作
-        url: "GetResources.aspx",
+        url: "../Handler/GetResources.aspx",
         data: {
             ProjectGuid: $.getQueryString("pjGuid")
         },

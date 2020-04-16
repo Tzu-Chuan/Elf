@@ -89,7 +89,7 @@
 
               <div class="row margin20T margin10B">
                   <div class="col-sm-12">
-                      <%--<div class="col-lg-7 col-md-7 col-sm-12">--%>
+                      <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
                       <div class="twocol">
                           <div class="left"><h4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="WebsiteDesc" data-html="true" style="cursor: pointer;"></i></h4></div>
                           <div class="right"></div>
