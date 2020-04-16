@@ -1,7 +1,38 @@
 ﻿$(document).ready(function () {
     // 文字雲
     WordCloud();
+
+    getData();
 });
+
+function getData() {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "projectHandler/GetArticleDetail.aspx",
+        data: {
+            atGuid: $.getQueryString("atGuid")
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                if ($(data).find("data_item").length > 0) {
+                    $(data).find("data_item").each(function (i) {
+                        $("#Summary").html($(this).children("abstract_iekelf").text().trim());
+                        $("#ArticleTitle").html("<h3>" + $(this).children("title").text().trim()+"</h3>");
+                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim()+'">' + $(this).children("website_name").text().trim()+'</a>');
+                        $("#ArticleContent").html($(this).children("full_text").text().trim());
+                    });
+                }
+            }
+        }
+    });
+}
 
 function WordCloud() {
     $.ajax({

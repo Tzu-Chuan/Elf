@@ -38,7 +38,8 @@ public partial class projectMgmt_mgmtHandler_GetRecordList : System.Web.UI.Page
             int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
             int pageStart = pageEnd - PageSize + 1;
 
-            DataSet ds = MGMT_db.GetRecordList(PjGuid, keyword, Action, StartDate, EndDate, pageStart.ToString(), pageEnd.ToString());
+            MGMT_db._KeyWord = keyword;
+            DataSet ds = MGMT_db.GetRecordList(PjGuid, Action, StartDate, EndDate, pageStart.ToString(), pageEnd.ToString());
 
             string xmlstr = string.Empty;
             string xmlstr2 = string.Empty;

@@ -108,6 +108,7 @@
                 data: {
                     PageNo: p,
                     PjGuid: $.getQueryString("pjGuid"),
+                    keyword: $("#keyword").val(),
                     Action: $("input[name='rbAction']:checked").val(),
                     StartDate: $("#startdate").val(),
                     EndDate: $("#enddate").val()
@@ -178,10 +179,19 @@
         <!--#include file="../templates/Header.html"-->
         <div class="container">
             <div class="content">
+                <div class="btn-group">
+                    <div class="btn-group">
+                        <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
+                    </div>
+                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
+                        <i class="fa fa-search"></i>&nbsp;Search
+                    </button>
+                </div>
+
                 <div class="gentable">
                     <table width="100%">
                         <tr>
-                            <td style="vertical-align:middle; width:70px;">Resources</td>
+                            <td style="vertical-align:middle; width:70px; padding:0px;">Action</td>
                             <td colspan="2">
                                 <ul class="ks-cboxtags">
                                     <li><input type="radio" id="checkbox" value="" class="" name="rbAction" checked="checked" /><label for="checkbox">All Action</label></li>
@@ -204,14 +214,6 @@
                     </div>
                 </div>
 
-                <div class="btn-group">
-                    <div class="btn-group">
-                        <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
-                    </div>
-                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
-                        <i class="fa fa-search"></i>&nbsp;Search
-                    </button>
-                </div>
                 <div class="well margin10T">
                     <table id="tablist" class="table table-striped table-hover">
                         <thead>

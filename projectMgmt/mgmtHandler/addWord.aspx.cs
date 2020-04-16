@@ -25,6 +25,7 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
         /// * Request["OrgTopic"]: 原 分類
         /// * Request["OrgWord"]: 原 字詞
         /// * Request["OrgBlacklist"]: 原 黑/白名單
+        /// * Request["OrgAnalysis"]: 原 字詞來源
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -44,6 +45,7 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
             string OrgTopic = (string.IsNullOrEmpty(Request["OrgTopic"])) ? "" : Request["OrgTopic"].ToString().Trim();
             string OrgWord = (string.IsNullOrEmpty(Request["OrgWord"])) ? "" : Request["OrgWord"].ToString().Trim();
             string OrgBlacklist = (string.IsNullOrEmpty(Request["OrgBlacklist"])) ? "" : Request["OrgBlacklist"].ToString().Trim();
+            string OrgAnalysis = (string.IsNullOrEmpty(Request["OrgAnalysis"])) ? "" : Request["OrgAnalysis"].ToString().Trim();
 
             string newGuid = Guid.NewGuid().ToString();
 
@@ -60,8 +62,8 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
                 desc += "Research Topic：" + mgmt_db.GetTopicName(OrgTopic) + " → " + mgmt_db.GetTopicName(TopicID) + "<br>";
                 desc += "Related Key Word：" + OrgWord + " → " + Word + "<br>";
                 desc += "Tag in articles：" + GetBlacklistName(OrgBlacklist) + " → " + GetBlacklistName(Blacklist);
-                mgmt_db.UpdateWord(oConn, myTrans, wGuid, TopicID, Word, Blacklist);
                 mgmt_db.InsertWordLog(oConn, myTrans, pjGuid, wGuid, "update", OrgTopic, OrgWord, OrgBlacklist);
+                mgmt_db.UpdateWord(oConn, myTrans, wGuid, TopicID, Word, Blacklist, OrgAnalysis);
                 xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>Save Done</Response></root>";
             }
 

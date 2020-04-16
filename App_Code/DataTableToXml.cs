@@ -31,7 +31,7 @@ public class DataTableToXml
                     catch
                     {
                         if (dt.Columns[i].DataType == typeof(DateTime))
-                            Rows[i] = DateTime.Parse("1900/01/01");
+                            Rows[i] = DBNull.Value;
                         if (dt.Columns[i].DataType == typeof(int) ||
                             dt.Columns[i].DataType == typeof(Int16) ||
                             dt.Columns[i].DataType == typeof(Int32) ||

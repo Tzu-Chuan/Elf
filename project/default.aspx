@@ -84,7 +84,8 @@
                                 tabstr += '<td align="center" nowrap="nowrap"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("OwnerName").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim())) + '</td>';
+                                var closed_time = ($(this).children("stop_time").text().trim() == "") ? "" : $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim()));
+                                tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
                                 tabstr += '</tr>';
                             });
                         }

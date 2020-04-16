@@ -105,7 +105,8 @@
                                 tabstr += '<td align="center" nowrap="nowrap"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("OwnerName").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim())) + '</td>';
+                                var closed_time = ($(this).children("stop_time").text().trim() == "") ? "" : $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim()));
+                                tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">';
                                 if ($(this).children("status").text().trim() == 1) {
                                     tabstr += '<a id="StartBtn" href="javascript:void(0);" class="btn-u btn-u-red margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-power-off margin-right-5"></i>Start</a>';

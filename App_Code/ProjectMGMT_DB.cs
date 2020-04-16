@@ -192,6 +192,29 @@ select * from (
         return ds;
     }
 
+    public DataTable GetArticleDetail(string article_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select article.*,web.website_name,optsite_url from result_article as article
+  left join input_website as web on web.website_guid=article.website_guid
+  left join sys_opt_site on optsite_name=web.website_name
+where article_guid=@article_guid ");
+        
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@article_guid", article_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetWebsite(string project_guid, string topic, int date, string myTag)
     {
         SqlCommand oCmd = new SqlCommand();
@@ -329,6 +352,7 @@ select * from (
 SELECT 
 direction.name as Topic,
 word.related_guid,
+word.research_guid,
 word.name,
 word.blacklist,
 word.schedule,
@@ -352,6 +376,12 @@ FROM input_research_direction as direction
         if (source != "all")
         {
             sb.Append(@" and word.analyst_give=@source ");
+        }
+
+        // 關鍵字
+        if (KeyWord != "")
+        {
+            sb.Append(@"and (lower(isnull(word.name,'')) like '%" + KeyWord + "%') ");
         }
 
         sb.Append(@"select count(*) as total from #tmp
@@ -459,16 +489,23 @@ create_time
         return ds;
     }
 
-    public void UpdateWord(SqlConnection oConn, SqlTransaction oTrans, string related_guid,string research_guid, string name, string blacklist)
+    public void UpdateWord(SqlConnection oConn, SqlTransaction oTrans, string related_guid, string research_guid, string name, string blacklist, string org_analysis)
     {
         SqlCommand oCmd = oConn.CreateCommand();
-        oCmd.CommandText = @"update input_related_word set
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"update input_related_word set
 research_guid=@research_guid,
 name=@name,
 blacklist=@blacklist,
-update_time=@update_time
-where related_guid=@related_guid ";
+update_time=@update_time ");
 
+        if (org_analysis == "3")
+            sb.Append(@",analyst_give='2' ");
+
+        sb.Append(@"where related_guid=@related_guid ");
+
+        oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         oCmd.Parameters.AddWithValue("@related_guid", related_guid);
@@ -550,7 +587,7 @@ where related_guid=@related_guid ";
         return tmpstr;
     }
 
-    public DataSet GetRecordList(string project_guid,string keyword,string action,string sday,string eday, string pStart, string pEnd)
+    public DataSet GetRecordList(string project_guid,string action,string sday,string eday, string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
@@ -567,8 +604,8 @@ left join input_research_direction as c on c.research_guid=case when a.org_topic
 where a.project_guid=@project_guid ");
 
         // 關鍵字
-        if (keyword != "")
-            sb.Append(@"and (lower(isnull(a.name,'')+isnull(org_name,'')) like '%" + keyword + "%') ");
+        if (KeyWord != "")
+            sb.Append(@"and (lower(isnull(a.name,'')+isnull(org_name,'')) like '%" + KeyWord + "%') ");
 
         if (action != "")
             sb.Append(@"and status=@action ");

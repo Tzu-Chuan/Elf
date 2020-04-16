@@ -48,10 +48,14 @@
 
             getData(0);
 
-              /// 表頭排序
+             /// 表頭排序
             $(document).on("click", "a[name='sortbtn']", function () {
                 if (Page.Option.SortName != $(this).attr("sortname")) {
-                    Page.Option.SortMethod = "-";
+                    var nowMethod = $(this).find("i").attr("class");
+                    if (nowMethod == "fa fa-angle-up")
+                        Page.Option.SortMethod = "+";
+                    else
+                        Page.Option.SortMethod = "-";
                 }
                 Page.Option.SortName = $(this).attr("sortname");
                 if (Page.Option.SortMethod == "-") {
@@ -68,7 +72,11 @@
             /// 員工列表 表頭排序
             $(document).on("click", "a[name='emp_sortbtn']", function () {
                 if (Page.Option.SortName != $(this).attr("sortname")) {
-                    Page.Option.SortMethod = "-";
+                    var nowMethod = $(this).find("i").attr("class");
+                    if (nowMethod == "fa fa-angle-up")
+                        Page.Option.SortMethod = "+";
+                    else
+                        Page.Option.SortMethod = "-";
                 }
                 Page.Option.SortName = $(this).attr("sortname");
                 if (Page.Option.SortMethod == "-") {

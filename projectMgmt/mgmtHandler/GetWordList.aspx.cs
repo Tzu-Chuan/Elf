@@ -20,6 +20,7 @@ public partial class projectMgmt_mgmtHandler_GetWordList : System.Web.UI.Page
         /// * Request["SortName"]: 排序欄位
         /// * Request["SortMethod"]: 排序方式
         /// * Request["PjGuid"]: 專案Guid
+        /// * Request["keyword"]: 關鍵字
         /// * Request["Topic"]: input_research_direction.name
         /// * Request["Blacklist"]: input_related_word.blacklist
         /// * Request["Source"]: input_related_word.analyst_give
@@ -35,6 +36,7 @@ public partial class projectMgmt_mgmtHandler_GetWordList : System.Web.UI.Page
             string SortCommand = SortName + " " + SortMethod;
 
             string PjGuid = (string.IsNullOrEmpty(Request["PjGuid"])) ? "" : Request["PjGuid"].ToString().Trim();
+            string keyword = (string.IsNullOrEmpty(Request["keyword"])) ? "" : Request["keyword"].ToString().Trim();
             string Topic = (string.IsNullOrEmpty(Request["Topic"])) ? "all" : Request["Topic"].ToString().Trim();
             string Blacklist = (string.IsNullOrEmpty(Request["Blacklist"])) ? "all" : Request["Blacklist"].ToString().Trim();
             string Source = (string.IsNullOrEmpty(Request["Source"])) ? "all" : Request["Source"].ToString().Trim();
@@ -43,6 +45,7 @@ public partial class projectMgmt_mgmtHandler_GetWordList : System.Web.UI.Page
             int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
             int pageStart = pageEnd - PageSize + 1;
 
+            MGMT_db._KeyWord = keyword;
             DataSet ds = MGMT_db.GetWordList(PjGuid, Topic, Blacklist, Source, pageStart.ToString(), pageEnd.ToString(), SortCommand);
 
             string xmlstr = string.Empty;

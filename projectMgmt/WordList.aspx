@@ -50,6 +50,27 @@
             getData(0);
             getTopics();
 
+            /// 表頭排序
+            $(document).on("click", "a[name='sortbtn']", function () {
+                if (Page.Option.SortName != $(this).attr("sortname")) {
+                    var nowMethod = $(this).find("i").attr("class");
+                    if (nowMethod == "fa fa-angle-up")
+                        Page.Option.SortMethod = "+";
+                    else
+                        Page.Option.SortMethod = "-";
+                }
+                Page.Option.SortName = $(this).attr("sortname");
+                if (Page.Option.SortMethod == "-") {
+                    Page.Option.SortMethod = "+";
+                    $(this).find("i").attr("class", 'fa fa-angle-up');
+                }
+                else {
+                    Page.Option.SortMethod = "-";
+                    $(this).find("i").attr("class", 'fa fa-angle-down');
+                }
+                getData(0);
+            });
+
             $(document).on("click", "#RecordBtn", function () {
                 window.open("ModifyRecord.aspx?pjGuid=" + $.getQueryString("pjGuid"));
             });
@@ -85,7 +106,8 @@
                         Blacklist: $("#m_blacklist").val(),
                         OrgTopic: $("#tmpTopic").val(),
                         OrgWord: $("#tmpWord").val(),
-                        OrgBlacklist: $("#tmpBlacklist").val()
+                        OrgBlacklist: $("#tmpBlacklist").val(),
+                        OrgAnalysis: $("#tmpAnalysis").val()
                     },
                     error: function (xhr) {
                         alert(xhr.responseText);
@@ -129,7 +151,6 @@
                 }
             });
 
-
             // 編輯字詞
             $(document).on("click", "a[name='editbtn']", function () {
                 $("#addbtn").val("Save");
@@ -152,6 +173,7 @@
                             $("#tmpTopic").val($("research_guid", data).text());
                             $("#tmpWord").val($("name", data).text());
                             $("#tmpBlacklist").val($("blacklist", data).text());
+                            $("#tmpAnalysis").val($("analyst_give", data).text());
                             $("#m_ddlTopics").val($("research_guid", data).text());
                             $("#m_word").val($("name", data).text());
                             $("#m_blacklist").val($("blacklist", data).text());
@@ -170,6 +192,7 @@
                 data: {
                     PageNo: p,
                     PjGuid: $.getQueryString("pjGuid"),
+                    keyword : $("#keyword").val(),
                     Topic: $('input[name="cbTopic"]:checked').val(),
                     Blacklist: $('input[name="cbBlacklist"]:checked').val(),
                     Source: $('input[name="cbSource"]:checked').val(),
@@ -190,8 +213,8 @@
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("Topic").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("name").text().trim() + '</td>';
+                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("Topic").text().trim() + '</td>';
                                 var blackStr = '';
                                 switch ($(this).children("blacklist").text().trim()) {
                                     case "0": blackStr = "Whitelist"; break;
@@ -267,7 +290,7 @@
         <!-- container -->
         <div class="container">
             <div class="content">
-                <%--<div class="row margin-bottom-10 animated">
+                <div class="row margin-bottom-10 animated">
                     <div class="col-md-2 col-md-push-10 text-right"></div>
                     <div class="col-md-10 col-md-pull-2">
                         <div class="btn-group">
@@ -275,12 +298,12 @@
                             <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);"><i class="fa fa-search"></i>&nbsp;Search</button>
                         </div>
                     </div>
-                </div>--%>
+                </div>
 
                 <div class="gentable">
                     <table width="100%">
                         <tr>
-                            <td valign="middle">Topics</td>
+                            <td valign="middle">Research Topic</td>
                             <td>
                                 <ul id="topic_ul" class="ks-cboxtags"></ul>
                             </td>
@@ -313,18 +336,18 @@
 
                 <!--PageList-->
                 <div style="margin-bottom:35px;">
-                    <div style="float:left;"><a id="RecordBtn" class="btn-u btn-u-sea" href="javascript:void(0);">Record</a></div>
-                    <div style="float:right;"><a id="newWord" class="btn-u btn-u-sea" href="javascript:void(0);">Add New Word</a></div>
+                    <div style="float:left;"><a id="newWord" class="btn-u btn-u-sea" href="javascript:void(0);">Add New Word</a></div>
+                    <div style="float:right;"><a id="RecordBtn" class="btn-u btn-u-sea" href="javascript:void(0);">Maintain History</a></div>
                 </div>
                 <div class="well">
                     <table id="tablist" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="text-align: center;">SN</th>
-                                <th style="text-align: center;">Research Topic</th>
-                                <th style="text-align: center;">Related Key Word</th>
-                                <th style="text-align: center;">Tag in articles?</th>
-                                <th style="text-align: center;">Source</th>
+                                <th style="text-align: center;">Related Key Word&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="name"><i class="fa fa-angle-up"></i></a></th>
+                                <th style="text-align: center;">Research Topic&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="Topic"><i class="fa fa-angle-up"></i></a></th>
+                                <th style="text-align: center;">Tag in articles&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="blacklist"><i class="fa fa-angle-up"></i></a></th>
+                                <th style="text-align: center;">Source&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="analyst_give"><i class="fa fa-angle-down"></i></a></th>
                                 <th style="text-align: center;">Function</th>
                             </tr>
                         </thead>
@@ -342,6 +365,7 @@
     <input id="tmpTopic" type="hidden" />
     <input id="tmpWord" type="hidden" />
     <input id="tmpBlacklist" type="hidden" />
+    <input id="tmpAnalysis" type="hidden" />
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
