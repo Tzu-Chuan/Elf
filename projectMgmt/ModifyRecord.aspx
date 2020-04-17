@@ -41,11 +41,11 @@
     <script type="text/javascript" src="../js/jquery-ui.1.12.1.js"></script>
     <script type="text/javascript" src="../js/NickCommon.js"></script>
 
-    
-        <!--===jquery dp-->
-        <link rel="stylesheet" type="text/css" href="../js/j_dp/css/bootstrap-datepicker.standalone.min.css" />
-        <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.min.js">;</script>
-        <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.zh-TW.min.js">;</script>
+
+    <!--===jquery dp-->
+    <link rel="stylesheet" type="text/css" href="../js/j_dp/css/bootstrap-datepicker.standalone.min.css" />
+    <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.min.js">;</script>
+    <script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.zh-TW.min.js">;</script>
     <title>IEKElf</title>
     <script>
         $(document).ready(function () {
@@ -183,15 +183,13 @@
                     <div class="btn-group">
                         <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
                     </div>
-                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);">
-                        <i class="fa fa-search"></i>&nbsp;Search
-                    </button>
+                    <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);"><i class="fa fa-search"></i>&nbsp;Search</button>
                 </div>
 
                 <div class="gentable">
                     <table width="100%">
                         <tr>
-                            <td style="vertical-align:middle; width:70px; padding:0px;">Action</td>
+                            <td style="vertical-align: middle; width: 70px; padding: 0px;">Action</td>
                             <td colspan="2">
                                 <ul class="ks-cboxtags">
                                     <li><input type="radio" id="checkbox" value="" class="" name="rbAction" checked="checked" /><label for="checkbox">All Action</label></li>
@@ -204,13 +202,13 @@
                     </table>
                 </div>
 
-                <div style="margin-bottom:5px;">
+                <div style="margin-bottom: 5px;">
                     <span style="margin-right: 60px;">Time</span>
                     <div class="btn-group">
-                        <input type="text" id="startdate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="Start Date" maxlength="10" style="background-color:white;" />
+                        <input type="text" id="startdate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="Start Date" maxlength="10" style="background-color: white;" />
                     </div>
                     <div class="btn-group">
-                        <input type="text" id="enddate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="End Date" maxlength="10" style="background-color:white;" />
+                        <input type="text" id="enddate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="End Date" maxlength="10" style="background-color: white;" />
                     </div>
                 </div>
 
@@ -228,8 +226,10 @@
                         <tbody></tbody>
                     </table>
                     <div id="pageblock" style="text-align: center;"></div>
-                </div><!--/well-->
-            </div><!--/content-->
+                </div>
+                <!--/well-->
+            </div>
+            <!--/content-->
         </div>
         <!--#include file="../templates/Footer.html"-->
     </div>

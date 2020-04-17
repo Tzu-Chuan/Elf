@@ -520,10 +520,10 @@ update_time=@update_time ");
 
     public void InsertWordLog(SqlConnection oConn, SqlTransaction oTrans, string pjGuid, string related_guid, string status)
     {
-        InsertWordLog(oConn, oTrans, pjGuid, related_guid, status, "", "", "");
+        InsertWordLog(oConn, oTrans, pjGuid, related_guid, status, "", "", "","");
     }
 
-    public void InsertWordLog(SqlConnection oConn, SqlTransaction oTrans, string pjGuid, string related_guid, string status, string orgtopic, string orgname, string orgblacklist)
+    public void InsertWordLog(SqlConnection oConn, SqlTransaction oTrans, string pjGuid, string related_guid, string status, string orgtopic, string orgname, string orgblacklist, string organalyst_give)
     {
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = @"insert into WordLog
@@ -545,6 +545,7 @@ update_time,
 @orgtopic,
 @orgname,
 @orgblacklist,
+@organalyst_give,
 @status,
 getdate()
 from input_related_word
@@ -559,6 +560,7 @@ where related_guid=@related_guid ";
         oCmd.Parameters.AddWithValue("@orgtopic", orgtopic);
         oCmd.Parameters.AddWithValue("@orgname", orgname);
         oCmd.Parameters.AddWithValue("@orgblacklist", orgblacklist);
+        oCmd.Parameters.AddWithValue("@organalyst_give", organalyst_give);
 
         oCmd.Transaction = oTrans;
         oCmd.ExecuteNonQuery();
@@ -595,8 +597,8 @@ where related_guid=@related_guid ";
 
         sb.Append(@"
 SELECT a.*,
-b.name as orgWordCategory,
-c.name as WordCategory
+b.name as WordCategory,
+c.name as orgWordCategory
 into #tmp
 FROM WordLog as a
 left join input_research_direction as b on b.research_guid=a.research_guid 
@@ -664,7 +666,7 @@ else if @mode='update'
 		org_name,
 		org_blacklist,
 		schedule,
-		analyst_give,
+		org_analyst_give,
 		name_stem,
 		score,
 		q3_score,

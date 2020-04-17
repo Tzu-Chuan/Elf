@@ -49,6 +49,18 @@ jQuery(document).ready(function () {
         getData(0);
     });
 
+    // Website Sort Btn
+    $(document).on("click", "a[name='website_sortbtn']", function () {
+        $("a[name='website_sortbtn']").removeClass("btn-u-default");
+        if ($(this).attr("aid") == "score")
+            $("a[aid='get_time']").addClass("btn-u-default");
+        else
+            $("a[aid='score']").addClass("btn-u-default");
+
+        $("#sortname").val($(this).attr("aid"));
+        getWebsiteArticle(0);
+    });
+
     // Tag Btn
     $(document).on("click", "#tagbtn", function () {
         doTagSelect($(this).attr("pjguid"), $(this).attr("articleguid"));
@@ -151,8 +163,8 @@ function getData(p) {
                             if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
                                 str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                             var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
-                            //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
-                            str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                             str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                             str += '<blockquote><small><em>';
                             str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';
@@ -214,8 +226,8 @@ function getWebSite() {
                         str += '<div id="ArticleListBlock_website_' + $(this).children("website_guid").text().trim() + '" wguid="' + $(this).children("website_guid").text().trim() + '" class="panel-collapse collapse">';
                         str += '<div class="row">';
                         str += '<div class="btn-group margin-bottom-30 col-md-6 col-md-offset-4" role="group">';
-                        str += '<a id="score" name="sortbtn" href="javascript:void(0);" class="btn-u" role="button">order by Score</a>';
-                        str += '<a id="get_time" name="sortbtn" href="javascript:void(0);" class="btn-u btn-u-default" role="button">order by Date</a>';
+                        str += '<a aid="score" name="website_sortbtn" href="javascript:void(0);" class="btn-u" role="button">order by Score</a>';
+                        str += '<a aid="get_time" name="website_sortbtn" href="javascript:void(0);" class="btn-u btn-u-default" role="button">order by Date</a>';
                         str += '</div></div>';
                         str += '<ol id="ArticlesList_' + $(this).children("website_guid").text().trim() + '" style="list-style-type: none;"></ol>';
                         str += '<div name="pageblock_bywebsite" style="text-align:center;"></div>';
@@ -265,8 +277,8 @@ function getWebsiteArticle(p) {
                         if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
                             str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                         var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
-                        //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
-                        str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                         str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                         str += '<blockquote><small><em>';
                         str += 'date:' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim())) + ' | score:<font color="red">' + $(this).children("score").text().trim() + '</font>';

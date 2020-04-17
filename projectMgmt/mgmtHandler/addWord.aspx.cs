@@ -58,12 +58,8 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
             }
             else
             {
-                string desc = "Update Information<br>";
-                desc += "Research Topic：" + mgmt_db.GetTopicName(OrgTopic) + " → " + mgmt_db.GetTopicName(TopicID) + "<br>";
-                desc += "Related Key Word：" + OrgWord + " → " + Word + "<br>";
-                desc += "Tag in articles：" + GetBlacklistName(OrgBlacklist) + " → " + GetBlacklistName(Blacklist);
-                mgmt_db.InsertWordLog(oConn, myTrans, pjGuid, wGuid, "update", OrgTopic, OrgWord, OrgBlacklist);
                 mgmt_db.UpdateWord(oConn, myTrans, wGuid, TopicID, Word, Blacklist, OrgAnalysis);
+                mgmt_db.InsertWordLog(oConn, myTrans, pjGuid, wGuid, "update", OrgTopic, OrgWord, OrgBlacklist, OrgAnalysis);
                 xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>Save Done</Response></root>";
             }
 
