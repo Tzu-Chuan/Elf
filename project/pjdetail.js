@@ -163,7 +163,7 @@ function getData(p) {
                             if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
                                 str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                             var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
-                            str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                            str += '<a name="alink" target="_blank" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                             //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                             str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                             str += '<blockquote><small><em>';
@@ -277,7 +277,7 @@ function getWebsiteArticle(p) {
                         if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
                             str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                         var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
-                        str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
+                        str += '<a name="alink" target="_blank" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                         //str += '<a name="alink" atGuid="' + $(this).children("article_guid").text().trim() + '" href="UC.aspx" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
                         str += '<a id="tagbtn" href="javascript:void(0);" pjguid="' + $(this).children("project_guid").text().trim() + '" articleguid="' + $(this).children("article_guid").text().trim() + '">[tag]</a>';
                         str += '<blockquote><small><em>';
