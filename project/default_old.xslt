@@ -286,7 +286,7 @@ template：
 
           function doSearch()
           {
-          location.href = "default.aspx?q=" + encodeURIComponent($('#keyword').val());
+          location.href = "default_old.aspx?q=" + encodeURIComponent($('#keyword').val());
           }
         </script>
 
