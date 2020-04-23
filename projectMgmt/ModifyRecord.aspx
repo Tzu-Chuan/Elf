@@ -213,7 +213,8 @@
                 </div>
 
                 <div class="well margin10T">
-                    <table id="tablist" class="table table-striped table-hover">
+                    <div style="overflow:auto;">
+                        <table id="tablist" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="text-align: center;">SN</th>
@@ -225,6 +226,7 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+                    </div>
                     <div id="pageblock" style="text-align: center;"></div>
                 </div>
                 <!--/well-->

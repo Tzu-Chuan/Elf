@@ -88,7 +88,7 @@
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
+                                tabstr += '<td align="center">' + $(this).children("itemNo").text().trim() + '</td>';
                                 tabstr += '<td><a href="../project/PjDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '">' + $(this).children("project_name").text().trim() + '</a></td>';
                                 tabstr += '<td>' + $(this).children("technology").text().trim() + '</td>';
                                 var StatusColor = '';
@@ -102,8 +102,8 @@
                                     StatusColor = "label rounded-2x label-dark col-sm-12 col-md-9";
                                 else if (parseInt($(this).children("status").text().trim()) >= 60 && parseInt($(this).children("status").text().trim()) <= 69)
                                     StatusColor = "label rounded-2x label-danger col-sm-12 col-md-9";
-                                tabstr += '<td align="center" nowrap="nowrap"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("OwnerName").text().trim() + '</td>';
+                                tabstr += '<td align="center"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
+                                tabstr += '<td align="center">' + $(this).children("OwnerName").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';
                                 var closed_time = ($(this).children("stop_time").text().trim() == "") ? "" : $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim()));
                                 tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
@@ -162,25 +162,27 @@
 
                 <!--PageList-->
                 <div class="well">
-                <table id="tablist" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th style="text-align:center;">NO</th>
-                        <th style="text-align:center;">Project Name</th>
-                        <th style="text-align:center;">Tech Item</th>
-                        <th style="text-align:center; width:90px;">Status</th>
-                        <th style="text-align:center;">Owner</th>
-                        <th style="text-align:center;">Create Time</th>
-                        <th style="text-align:center;">Closed Time</th>
-                        <th style="text-align:center;">Function</th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                <div id="pageblock" style="text-align:center;"></div>
+                    <div style="overflow:auto;">
+                        <table id="tablist" class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th style="text-align:center;">NO</th>
+                                <th style="text-align:center;">Project Name</th>
+                                <th style="text-align:center;">Tech Item</th>
+                                <th style="text-align:center; width:90px;">Status</th>
+                                <th style="text-align:center;">Owner</th>
+                                <th style="text-align:center;">Create Time</th>
+                                <th style="text-align:center;">Closed Time</th>
+                                <th style="text-align:center;">Function</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div id="pageblock" style="text-align:center;"></div>
 
-                <!--/*專案狀態圖示說明*/-->
-                <p class="text-info">
+                    <!--/*專案狀態圖示說明*/-->
+                    <p class="text-info">
                     <i class="fa fa-info-circle"></i>Status Explain：
                 </p>
                     <table>

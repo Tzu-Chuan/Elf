@@ -78,7 +78,7 @@ from #tmp
         return ds;
     }
 
-    public DataSet GetEmpList(string pStart, string pEnd, string sortStr)
+    public DataSet GetEmpList(string mode, string pStart, string pEnd, string sortStr)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Common"]);
@@ -95,7 +95,10 @@ com_mailadd
 into #tmp
 FROM comper
 left join orgcod on org_orgcd=com_orgcd
-where com_orgcd='58' ");
+where 1=1 ");
+
+        if (mode == "manager")
+            sb.Append(@"and com_orgcd='58' ");
 
         // 關鍵字
         if (KeyWord != "")

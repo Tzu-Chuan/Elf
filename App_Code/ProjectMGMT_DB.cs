@@ -24,7 +24,7 @@ public class ProjectMGMT_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"Select project_name,technology from input_project where project_guid=@project_guid ");
+        sb.Append(@"Select project_name,technology,create_time from input_project where project_guid=@project_guid ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -65,14 +65,14 @@ left join pj_status on status_id=input_project.status
 where 1=1 ");
 
         if (empno != "admin")
-            sb.Append(@"and PR.empno=@empno or input_project.project_guid in (select * from #tmpMemberProj) ");
+            sb.Append(@"and (PR.empno=@empno or input_project.project_guid in (select * from #tmpMemberProj)) ");
 
         // 關鍵字
         if (KeyWord != "")
         {
             sb.Append(@"and (lower(
                                 isnull(technology,'')+isnull(tn_related_word,'')+isnull(status_en_name,'')+isnull(PR.empname+'('+PR.empno+')','')
-                                ) like '%" + KeyWord + "%') ");
+                                ) like '%" + KeyWord.ToLower() + "%') ");
         }
 
         sb.Append(@"select count(*) as total from #tmp
@@ -135,6 +135,7 @@ select * into #tmp from (
 		,articledesc = paragraph_xml.value('(/paragraph/key[@name=''" + topic + @"''])[1]', 'varchar(max)')
 		,score =  category_score_xml.value('(/score/key[@name=''" + topic + @"''])[1]', 'float')
         ,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff
+        ,(select CONVERT(nvarchar(10),min(get_time),23) from result_article where project_guid=@project_guid) as MinTime
         ,(select count(*) from ReadArticle where R_ArticleGuid=article_guid and R_Empno=@empno) as HaveRead
 		 from result_article
 	) as tb 
@@ -311,7 +312,9 @@ where a.blacklist !=1--//排除黑名單(0=白,1=黑,2=候選詞)
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select title, url, describe_text, score, get_time,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff into #tmp
+        sb.Append(@"select title, url, describe_text, score, get_time,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff
+                    ,(select CONVERT(nvarchar(10),min(get_time),23) from result_search where related_guid=@related_guid) as MinTime
+                    into #tmp
                     from result_search
                     where related_guid=@related_guid ");
 

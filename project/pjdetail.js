@@ -160,7 +160,9 @@ function getData(p) {
                         $(data).find("data_item").each(function (i) {
                             str += "<li>";
                             str += $(this).children("itemNo").text().trim() + '.&nbsp;';
-                            if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                            //建立專案後第一批進來的文章不顯示 new
+                            var atGetDate = $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim()));
+                            if (parseInt($(this).children("DaysDiff").text().trim()) < 3 && $(this).children("MinTime").text().trim() != atGetDate)
                                 str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                             var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
                             str += '<a name="alink" target="_blank" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '" style="' + aColor + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
@@ -274,7 +276,9 @@ function getWebsiteArticle(p) {
                     $(data).find("data_item").each(function (i) {
                         str += "<li>";
                         str += $(this).children("itemNo").text().trim() + ".&nbsp;";
-                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                        //建立專案後第一批進來的文章不顯示 new
+                        var atGetDate = $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim()));
+                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3 && $(this).children("MinTime").text().trim() != atGetDate)
                             str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                         var aColor = (parseInt($(this).children("HaveRead").text().trim()) > 0) ? "color:#609;" : "";
                         str += '<a name="alink" target="_blank" atGuid="' + $(this).children("article_guid").text().trim() + '" href="articleDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '&atGuid=' + $(this).children("article_guid").text().trim() + '">' + $(this).children("title").text().trim() + '</a>&nbsp;&nbsp;';
@@ -391,7 +395,9 @@ function getAskComArticle(p) {
                     $(data).find("data_item").each(function (i) {
                         str += "<li>";
                         str += $(this).children("itemNo").text().trim() + ".&nbsp;";
-                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3)
+                        //建立專案後第一批進來的文章不顯示 new
+                        var atGetDate = $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("get_time").text().trim()));
+                        if (parseInt($(this).children("DaysDiff").text().trim()) < 3 && $(this).children("MinTime").text().trim() != atGetDate)
                             str += '<img src="../images/new_article.png" width="25px" />&nbsp;';
                         str += '<a href="' + $(this).children("url").text().trim() + '" target="_blank">' + $(this).children("title").text().trim() + '</a>';
                         str += '<blockquote><small><em>';

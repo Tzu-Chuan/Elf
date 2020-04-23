@@ -244,9 +244,10 @@
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "maintainHandler/GetEmpList.aspx",
+                url: "../Handler/GetEmpList.aspx",
                 data: {
                     PageNo: p,
+                    mode: "manager",
                     keyword: $("#emp_keyword").val(),
                     SortName: Page.Option.SortName,
                     SortMethod: Page.Option.SortMethod
@@ -312,20 +313,22 @@
 
               <!--PageList-->
               <div class="well">
-                <table id="tablist" class="table table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th nowrap="" style="text-align:center;">NO.</th>
-                      <th nowrap="" style="text-align:center;">Role&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="role_id"><i class="fa fa-angle-up"></i></a></th>
-                      <th nowrap="" style="text-align:center;">Deptid&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="deptid"><i class="fa fa-angle-up"></i></a></th>
-                      <th nowrap="" style="text-align:center;">Name&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="empno"><i class="fa fa-angle-up"></i></a></th>
-                      <th nowrap="" style="text-align:center;">Create Time&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="create_time"><i class="fa fa-angle-down"></i></a></th>
-                      <th nowrap="" style="text-align:center;">Function</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-                <div id="pageblock" style="text-align:center;"></div>
+                  <div style="overflow:auto;">
+                      <table id="tablist" class="table table-striped table-hover">
+                          <thead>
+                              <tr>
+                                  <th nowrap="" style="text-align: center;">NO.</th>
+                                  <th nowrap="" style="text-align: center;">Role&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="role_id"><i class="fa fa-angle-up"></i></a></th>
+                                  <th nowrap="" style="text-align: center;">Deptid&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="deptid"><i class="fa fa-angle-up"></i></a></th>
+                                  <th nowrap="" style="text-align: center;">Name&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="empno"><i class="fa fa-angle-up"></i></a></th>
+                                  <th nowrap="" style="text-align: center;">Create Time&nbsp;<a href="javascript:void(0);" name="sortbtn" sortname="create_time"><i class="fa fa-angle-down"></i></a></th>
+                                  <th nowrap="" style="text-align: center;">Function</th>
+                              </tr>
+                          </thead>
+                          <tbody></tbody>
+                      </table>
+                  </div>
+                  <div id="pageblock" style="text-align:center;"></div>
               </div><!--/well-->
             </div><!--/content-->
           </div>
@@ -394,7 +397,8 @@
                         <a href="javascript:void(0);" class="btn btn-main" id="emp_SearchBtn"><i class="fa fa-search"></i>&nbsp;Search</a>
                     </div>
                     <div class="well margin10T">
-                        <table id="emptab" class="table table-striped table-hover">
+                        <div style="overflow:auto;">
+                            <table id="emptab" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th nowrap="" style="text-align: center;">No.</th>
@@ -407,6 +411,7 @@
                             </thead>
                             <tbody></tbody>
                         </table>
+                        </div>
                         <div id="emp_pageblock" style="text-align: center;"></div>
                     </div>
                 </div>

@@ -67,7 +67,7 @@
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
+                                tabstr += '<td align="center">' + $(this).children("itemNo").text().trim() + '</td>';
                                 tabstr += '<td><a href="../project/PjDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '">' + $(this).children("project_name").text().trim() + '</a></td>';
                                 tabstr += '<td>' + $(this).children("technology").text().trim() + '</td>';
                                 var StatusColor = '';
@@ -82,7 +82,7 @@
                                 else if (parseInt($(this).children("status").text().trim()) >= 60 && parseInt($(this).children("status").text().trim()) <= 69)
                                     StatusColor = "label rounded-2x label-danger col-sm-12 col-md-9";
                                 tabstr += '<td align="center" nowrap="nowrap"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("OwnerName").text().trim() + '</td>';
+                                tabstr += '<td align="center">' + $(this).children("OwnerName").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';
                                 var closed_time = ($(this).children("stop_time").text().trim() == "") ? "" : $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim()));
                                 tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
@@ -128,7 +128,8 @@
 
                 <!--PageList-->
                 <div class="well">
-                <table id="tablist" class="table table-striped table-hover">
+                    <div style="overflow:auto;">
+                        <table id="tablist" class="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th style="text-align:center;">NO</th>
@@ -142,34 +143,35 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <div id="pageblock" style="text-align:center;"></div>
+                    </div>
+                    <div id="pageblock" style="text-align:center;"></div>
 
-                <!--/*專案狀態圖示說明*/-->
-                <p class="text-info">
-                    <i class="fa fa-info-circle"></i>Status Explain：
-                </p>
+                    <!--/*專案狀態圖示說明*/-->
+                    <p class="text-info">
+                        <i class="fa fa-info-circle"></i>Status Explain：
+                    </p>
                     <table>
-                        <tr>
-                            <td><span class="label rounded-2x label-info col-md-9">Inception</span>：</td>
-                            <td>The project is initiated and will not be analyzed before STARTing it. The project manager can still DELETE the project at this phase.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="label rounded-2x label-orange col-md-9">Analyzing</span>：</td>
-                            <td>The tech item related articles are being searched, categorized, ranked, and recommended. The outcome will be ready for reading after finishing the first time of analyzing.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="label rounded-2x label-success col-md-9">Ready</span>：</td>
-                            <td>The project is ready to be read.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="label rounded-2x label-dark col-md-9">Closed</span>：</td>
-                            <td>The project is closed. Data won’t be updated after being closed.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="label rounded-2x label-danger col-md-9">Error</span>：</td>
-                            <td>Please contact manager to get correction.</td>
-                        </tr>
-                    </table>
+                            <tr>
+                                <td><span class="label rounded-2x label-info col-md-9">Inception</span>：</td>
+                                <td>The project is initiated and will not be analyzed before STARTing it. The project manager can still DELETE the project at this phase.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="label rounded-2x label-orange col-md-9">Analyzing</span>：</td>
+                                <td>The tech item related articles are being searched, categorized, ranked, and recommended. The outcome will be ready for reading after finishing the first time of analyzing.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="label rounded-2x label-success col-md-9">Ready</span>：</td>
+                                <td>The project is ready to be read.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="label rounded-2x label-dark col-md-9">Closed</span>：</td>
+                                <td>The project is closed. Data won’t be updated after being closed.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="label rounded-2x label-danger col-md-9">Error</span>：</td>
+                                <td>Please contact manager to get correction.</td>
+                            </tr>
+                        </table>
                 </div><!--/well-->
             </div><!--/content-->
         </div>

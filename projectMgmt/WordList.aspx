@@ -340,7 +340,8 @@
                     <div style="float:right;"><a id="RecordBtn" class="btn-u btn-u-sea" href="javascript:void(0);">Maintain History</a></div>
                 </div>
                 <div class="well">
-                    <table id="tablist" class="table table-striped table-hover">
+                    <div style="overflow:auto;">
+                        <table id="tablist" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style="text-align: center;">SN</th>
@@ -353,6 +354,7 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+                    </div>
                     <div id="pageblock" style="text-align: center;"></div>
                 </div><!--/well-->
             </div><!--/content-->
