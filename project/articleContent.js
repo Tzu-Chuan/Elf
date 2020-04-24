@@ -12,6 +12,13 @@
             $('.dropdowns').removeClass('navFixed'); /* 移除選單固定效果 */
         }
     });
+
+    $(document).on("click", "input[name='cbDate']", function () {
+        if ($(this).is(":checked"))
+            $(this).closest("li").find("label").css("background-color", "#FF2D2D");
+        else
+            $(this).closest("li").find("label").css("background-color", "#FFFFFF");
+    });
 });
 
 function getData() {
