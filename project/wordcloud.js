@@ -18,12 +18,12 @@ function getCloudSearchData()
     var __pjguid = $.getQueryString("pjGuid");
 
     /*===get url*/
-    var __url = "http://61.61.246.46/archives/project_word_cloud/project/"+ __pjguid
+    var __url = "http://61.61.246.46/archives/project_word_cloud/project/" + __pjguid;
 
     /*===get ajax*/
     $("#blockMessage").html("<img src='../images/loading1.gif'><font color='red'>資料查詢中...</font></img>");
     /* 測試資料 start*/
-    //var jsonval = { "ces": 1.0, "nvidia partners": 0.1, "car": 0.17, "drive": 0.26, "vehicles": 0.39, "driving smart": 0.12, "autonomous": 0.05, "ceo": 0.48, "power": 0.17, "mercedes": 0.04, "unveils": 0.09, "assistance": 0.02, "advanced": 0.02, "control": 0.07, "samsung": 0.85, "systems": 0.02, "driver": 0.02, "huang said": 0.02, "powerful use": 0.02, "announced": 0.25, "expands": 0.13, "launched": 0.21, "data": 0.72, "hit": 0.02, "shapiro": 0.02, "processors": 0.21, "intelligence": 0.25, "automotive": 0.39, "technologies": 0.12, "quantum": 0.19, "mobileye": 0.13, "compute": 0.11, "lenovo": 0.17, "chipsetrobotic": 0.17, "business tech": 0.07, "mobility": 0.09, "windows": 0.01, "network technology": 0.01, "techrepublic": 0.24, "cheaper": 0.19, "surface": 0.19, "conference": 0.09, "sunday": 0.01, "services": 0.11, "mapping": 0.17, "outlines": 0.14, "phone": 0.1, "preview": 0.11, "partnered": 0.01, "deals": 0.01 }
+    //var jsonval = {"coronavirus": 1.0, "tech": 0.13, "times": 0.03, "technology": 0.02, "spreads": 0.02, "including": 0.06, "dashboard": 0.02, "financial": 0.05, "chinese": 0.02, "china": 0.02, "live data": 0.01, "cases": 0.17, "security": 0.09, "confirmed": 0.05, "traveler": 0.01, "outbreak": 0.01, "recoveries": 0.01, "health": 0.24, "messonnier": 0.01, "bugprevents": 0.01, "australia": 0.01, "amid": 0.01, "reports": 0.01, "centerfor": 0.01, "sms": 0.01, "safecybersecurity": 0.01, "world": 0.01, "province": 0.01, "affecting": 0.01, "tracking": 0.1, "disease": 0.05, "controland": 0.01, "areas": 0.01, "eastrespiratory syndrome": 0.01, "ofinfected": 0.01, "learning": 0.01, "withchinese investigators": 0.01, "techrepublic": 0.12, "conference": 0.01, "online": 0.05, "deadly": 0.01, "boston": 0.01, "harvardmedical": 0.01, "virus": 0.03, "ntruth": 0.05, "people": 0.04, "infected": 0.07, "media": 0.02, "posts": 0.02, "nthe information": 0.01}
     //setDataResult(jsonval);
     /* 測試資料 end*/
 	

@@ -9,6 +9,10 @@ public partial class project_ArticleContent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if(string.IsNullOrEmpty(Request["atGuid"]))
+        {
+            Response.Write("Parameters Error !!");
+            Response.End();
+        }
     }
 }

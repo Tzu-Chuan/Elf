@@ -3,6 +3,15 @@
     WordCloud();
 
     getData();
+    
+    var TopDistance = $(".dropdowns").offset().top;
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > TopDistance) {          /* 要滑動到選單的距離 */
+            $('.dropdowns').addClass('navFixed');   /* 幫選單加上固定效果 */
+        } else {
+            $('.dropdowns').removeClass('navFixed'); /* 移除選單固定效果 */
+        }
+    });
 });
 
 function getData() {
@@ -24,9 +33,9 @@ function getData() {
                 if ($(data).find("data_item").length > 0) {
                     $(data).find("data_item").each(function (i) {
                         $("#Summary").html($(this).children("abstract_iekelf").text().trim());
-                        $("#ArticleTitle").html("<h3>" + $(this).children("title").text().trim()+"</h3>");
-                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim()+'">' + $(this).children("website_name").text().trim()+'</a>');
-                        $("#ArticleContent").html($(this).children("full_text").text().trim());
+                        $("#ArticleTitle").html($(this).children("title").text().trim());
+                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
+                        $("#ArticleContent").html($(this).children("full_text").text().trim().replace(/\./g,".<br><br>"));
                     });
                 }
             }
