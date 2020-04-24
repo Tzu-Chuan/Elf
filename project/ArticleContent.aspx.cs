@@ -11,7 +11,7 @@ public partial class project_ArticleContent : System.Web.UI.Page
     {
         if(string.IsNullOrEmpty(Request["atGuid"]))
         {
-            Response.Write("Parameters Error !!");
+            Response.Write("Message：Parameter Error !!");
             Response.End();
         }
     }

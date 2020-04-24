@@ -71,11 +71,6 @@
             margin-top: 0;
             min-width: 1140px;
         }
-
-        .checkbtn {
-            font-weight: bold;
-            font-size: 18px;
-        }
     </style>
 </head>
 <body class="header-fixed boxed-layout" >
@@ -96,12 +91,12 @@
               
                <div class="margin5TB dropdowns" style="background-color:#b0bec5; padding:5px 0px;">
                    <ul class="ks-cboxtags">
-                        <li><input type="checkbox" id="checkboxOne" value="0" name="cbDate" checked="checked" /><label for="checkboxOne" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">All</label></li>
-                        <li><input type="checkbox" id="checkboxTwo" value="1" name="cbDate" /><label for="checkboxTwo" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">AAA</label></li>
-                        <li><input type="checkbox" id="checkboxThree" value="7" name="cbDate" /><label for="checkboxThree" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">BBB</label></li>
-                        <li><input type="checkbox" id="checkboxFour" value="30" name="cbDate" /><label for="checkboxFour" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">CCC</label></li>
-                        <li><input type="checkbox" id="checkboxFive" value="180" name="cbDate" /><label for="checkboxFive" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">DDD</label></li>
-                        <li><input type="checkbox" id="checkboxsix" value="365" name="cbDate" /><label for="checkboxsix" style="font-weight: bold; font-size: 18px; font-family:Segoe UI;">EEE</label></li>
+                        <li><input type="checkbox" id="checkboxOne" value="0" name="cbDate" checked="checked" /><label for="checkboxOne" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">All</label></li>
+                        <li><input type="checkbox" id="checkboxTwo" value="1" name="cbDate" /><label for="checkboxTwo" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">AAA</label></li>
+                        <li><input type="checkbox" id="checkboxThree" value="7" name="cbDate" /><label for="checkboxThree" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">BBB</label></li>
+                        <li><input type="checkbox" id="checkboxFour" value="30" name="cbDate" /><label for="checkboxFour" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">CCC</label></li>
+                        <li><input type="checkbox" id="checkboxFive" value="180" name="cbDate" /><label for="checkboxFive" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">DDD</label></li>
+                        <li><input type="checkbox" id="checkboxsix" value="365" name="cbDate" /><label for="checkboxsix" style="margin-right:5px; font-weight: bold; font-size: 18px; font-family:Segoe UI;">EEE</label></li>
                     </ul>
                </div>
               <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size:18px; font-family:Segoe UI;"></div>
