@@ -71,13 +71,12 @@
             <div class="container">
               <div class="row padding10TB">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size4">Project Name：<%= ProjectName %></span><b></b>
+                  <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size4">Technology item：<%= Technology %></span><b></b>
+                  <span class="font-size3">Technology item：<%= Technology %></span><b></b>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -86,6 +85,7 @@
               <!--文字雲-->
               <div class="twocol margin10T"><div class="left"><H4>At a glance: word cloud</H4></div></div>
               <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
+              <div id="blockMessage"></div>
 
               <div class="row margin20T margin10B">
                   <div class="col-sm-12">

@@ -286,6 +286,18 @@
 <body class="header-fixed boxed-layout">
     <div class="wrapper">
         <!--#include file="../templates/Header.html"-->
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row padding10TB">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <span class="font-size3">Technology item：<%= Technology %></span><b></b>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- container -->
         <div class="container">

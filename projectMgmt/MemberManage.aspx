@@ -59,6 +59,7 @@
 
             // 查詢員工跳窗
             $(document).on("click", "#addMember", function () {
+                $("#emp_keyword").val("");
                 $("#EmpList").modal("show");
 
                 //分頁設定
@@ -70,6 +71,20 @@
             // 查詢員工
             $(document).on("click", "#emp_SearchBtn", function () {
                 getEmployeeList(0);
+            });
+
+            $(document).on("keypress", "#emp_keyword", function (e) {
+                if ((e.keyCode == 13) || (e.key == "Enter") || (e.code == "Enter")) {
+                    try {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    catch (err) {
+                        e.cancelBubble = true;
+                    }
+                    getEmployeeList(0);
+                    return false;
+                }
             });
 
             // 新增成員

@@ -1,16 +1,13 @@
-﻿/*pageList*/
-
-
-/*############################################################################*/
-/*===文字雲搜尋*/
-function doClouldSearch()
-{
-    getCloudSearchData();
-}
+﻿$(document).ready(function () {
+    // RWD 依視窗大小重繪文字雲
+    d3.select(window).on('resize', getCloudSearchData);
+});
 
 /*===文字雲取資料*/
 function getCloudSearchData()
 {
+    // RWD 抓DIV當下width
+    var BlockWidth = parseInt($('#blockTag').width());
     /*===clear cloud*/
     $('#blockTag').html("");
 
@@ -37,7 +34,7 @@ function getCloudSearchData()
         },
         error: function (jqXHR, textStatus, exception)
         {
-            $("#blockMessage").html("結果訊息：" + jqXHR.responseText);
+            $("#blockMessage").html("<font color='red'>Word Cloud message：" + exception + ".</font>");
         }
     });
 
@@ -67,11 +64,11 @@ function getCloudSearchData()
         if (__newData.length == 0)
         {
             ////alert(__newData.length);
-            $("#blockMessage").html("<font color='red'>訊息：沒有此條件的文字雲,請調整時間.</font>");
+            $("#blockMessage").html("<font color='red'>word cloud message：data not found.</font>");
         }
         else
         {
-            $("#blockMessage").html("&nbsp;");
+            $("#blockMessage").html("");
         }
 
         /*===修正為v4語法*/
@@ -88,7 +85,7 @@ function getCloudSearchData()
 
 
         d3.layout.cloud()
-        .size([1000, 150])
+        .size([BlockWidth, 150])
         .words(
            __newData.map(function (arg)
            {
@@ -115,11 +112,11 @@ function getCloudSearchData()
         function draw(words)
         {
             d3.select("#blockTag")
-            .append("svg")
-                .attr("width", 1000)
+                .append("svg")
+                .attr("width", BlockWidth)
                 .attr("height", 150)
             .append("g")
-                .attr("transform", "translate(500,75)")
+                .attr("transform", "translate(" + BlockWidth/2+",75)")
             .selectAll("text")
                 .data(words)
                 .enter()

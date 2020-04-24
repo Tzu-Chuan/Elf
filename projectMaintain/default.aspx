@@ -140,6 +140,20 @@
                 getData(0);
             });
 
+            $(document).on("keypress", "#emp_keyword", function (e) {
+                if ((e.keyCode == 13) || (e.key == "Enter") || (e.code == "Enter")) {
+                    try {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    catch (err) {
+                        e.cancelBubble = true;
+                    }
+                    getEmployeeList(0);
+                    return false;
+                }
+            });
+
             // 刪除人員
             $(document).on("click", "a[name='DeleteBtn']", function () {
                 if (confirm("Confirm to delete this manager?")) {

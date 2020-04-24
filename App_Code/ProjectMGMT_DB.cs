@@ -492,6 +492,27 @@ create_time
         return ds;
     }
 
+    public DataTable CheckWordExist(string project_guid,string name)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from input_related_word where
+research_guid in (SELECT research_guid FROM input_research_direction where project_guid=@project_guid) and name=@name ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+        oCmd.Parameters.AddWithValue("@name", name);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void UpdateWord(SqlConnection oConn, SqlTransaction oTrans, string related_guid, string research_guid, string name, string blacklist, string org_analysis)
     {
         SqlCommand oCmd = oConn.CreateCommand();

@@ -16,7 +16,7 @@ public partial class project_PjDetail : System.Web.UI.Page
     {
         string pjGuid = (string.IsNullOrEmpty(Request["pjGuid"])) ? "" : Request["pjGuid"].ToString().Trim();
 
-        #region 瀏覽權限
+        #region 瀏覽權限 (是否為專案成員)
         if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
         {
             m_db._PM_ProjectGuid = pjGuid;

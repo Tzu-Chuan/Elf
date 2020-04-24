@@ -177,8 +177,24 @@
 <body>
     <div class="wrapper">
         <!--#include file="../templates/Header.html"-->
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row padding10TB">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <span class="font-size3">Technology item：<%= Technology %></span><b></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="content">
+                <div class="twocol">
+                    <div class="right"><h1>Maintain History</h1></div>
+                </div>
                 <div class="btn-group">
                     <div class="btn-group">
                         <input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" />
@@ -203,7 +219,7 @@
                 </div>
 
                 <div style="margin-bottom: 5px;">
-                    <span style="margin-right: 60px;">Time</span>
+                    <span style="margin-right: 55px;">Time</span>
                     <div class="btn-group">
                         <input type="text" id="startdate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="Start Date" maxlength="10" style="background-color: white;" />
                     </div>
