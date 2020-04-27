@@ -67,135 +67,134 @@
 <body class="header-fixed boxed-layout">
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
-          <div class="breadcrumbs">
+        <div class="breadcrumbs">
             <div class="container">
-              <div class="row padding10TB">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
+                <div class="row padding10TB">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="font-size3 margin5B"><b>Project Name：<%= ProjectName %></b></div>
+                        <div class="font-size3"><b>Technology item：<%= Technology %></b></div>
+                    </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                  <span class="font-size3">Technology item：<%= Technology %></span><b></b>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
-          <div class="container">
-              <div class="text-right margin10T"><a data-toggle="modal" data-target="#block_abs" class="btn-u" >Abstract</a></div>
-              <!--文字雲-->
-              <div class="twocol margin10T"><div class="left"><H4>At a glance: word cloud</H4></div></div>
-              <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
-              <div id="blockMessage"></div>
+        <div class="container">
+            <div class="text-right margin10T"><a data-toggle="modal" data-target="#block_abs" class="btn-u" >Abstract</a></div>
+            <!--文字雲-->
+            <div class="twocol margin10T"><div class="left"><H4>At a glance: word cloud</H4></div></div>
+            <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
+            <div id="blockMessage"></div>
+            <input type="hidden" id="tmpCloud" />
 
-              <div class="row margin20T margin10B">
-                  <div class="col-sm-12">
-                      <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
-                      <div class="twocol">
-                          <div class="left"><h4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="WebsiteDesc" data-html="true" style="cursor: pointer;"></i></h4></div>
-                          <div class="right"></div>
-                      </div>
+            <div class="row margin20T margin10B">
+                <div class="col-sm-12">
+                    <!--<div class="col-lg-7 col-md-7 col-sm-12">-->
+                    <div class="twocol">
+                        <div class="left"><h4>Recommended articles from monitored websites <i class="fa fa-info-circle white-tooltip" id="WebsiteDesc" data-html="true" style="cursor: pointer;"></i></h4></div>
+                        <div class="right"></div>
+                    </div>
 
-                      <div class="BoxBorderSa maxheightA">
-                          <div class="padding5ALL ">
-                              <!-- Search Block-->
-                              <div class="gentable">
-                                  <table width="100%">
-                                      <tr>
-                                          <td width="70" valign="middle">Resources</td>
-                                          <td>
-                                              <ul class="ks-cboxtags">
-                                                  <li><input type="radio" id="checkboxTwo" value="all" class="" name="cbResource" checked="checked" /><label for="checkboxTwo">All resources</label></li>
-                                                  <li><input type="radio" id="checkboxThree" value="site" class="" name="cbResource" /><label for="checkboxThree">By website</label></li>
-                                              </ul>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td valign="middle">Topics</td>
-                                          <td><ul id="topic_ul" class="ks-cboxtags"></ul></td>
-                                      </tr>
-                                      <tr>
-                                          <td valign="middle">Period</td>
-                                          <td>
-                                              <ul class="ks-cboxtags">
-                                                  <li><input type="radio" id="checkboxOne3" value="0" class="" name="cbDate" checked="checked" /><label for="checkboxOne3">Max period</label></li>
-                                                  <li><input type="radio" id="checkboxTwo3" value="1" class="" name="cbDate" /><label for="checkboxTwo3">1 Day</label></li>
-                                                  <li><input type="radio" id="checkboxThree3" value="7" class="" name="cbDate" /><label for="checkboxThree3">1 Week</label></li>
-                                                  <li><input type="radio" id="checkboxFour3" value="30" class="" name="cbDate" /><label for="checkboxFour3">1 Month</label></li>
-                                                  <li><input type="radio" id="checkboxFive3" value="180" class="" name="cbDate" /><label for="checkboxFive3">6 Months</label></li>
-                                                  <li><input type="radio" id="checkboxsix3" value="365" class="" name="cbDate" /><label for="checkboxsix3">1 Year</label></li>
-                                              </ul>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td valign="middle">Tag</td>
-                                          <td><ul id="tag_ul" class="ks-cboxtags"></ul></td>
-                                      </tr>
-                                  </table>
-                              </div>
+                    <div class="BoxBorderSa maxheightA">
+                        <div class="padding5ALL ">
+                            <!-- Search Block-->
+                            <div class="gentable">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="70" valign="middle">Resources</td>
+                                        <td>
+                                            <ul class="ks-cboxtags">
+                                                <li><input type="radio" id="checkboxTwo" value="all" class="" name="cbResource" checked="checked" /><label for="checkboxTwo">All resources</label></li>
+                                                <li><input type="radio" id="checkboxThree" value="site" class="" name="cbResource" /><label for="checkboxThree">By website</label></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle">Topics</td>
+                                        <td><ul id="topic_ul" class="ks-cboxtags"></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle">Period</td>
+                                        <td>
+                                            <ul class="ks-cboxtags">
+                                                <li><input type="radio" id="checkboxOne3" value="0" class="" name="cbDate" checked="checked" /><label for="checkboxOne3">Max period</label></li>
+                                                <li><input type="radio" id="checkboxTwo3" value="1" class="" name="cbDate" /><label for="checkboxTwo3">1 Day</label></li>
+                                                <li><input type="radio" id="checkboxThree3" value="7" class="" name="cbDate" /><label for="checkboxThree3">1 Week</label></li>
+                                                <li><input type="radio" id="checkboxFour3" value="30" class="" name="cbDate" /><label for="checkboxFour3">1 Month</label></li>
+                                                <li><input type="radio" id="checkboxFive3" value="180" class="" name="cbDate" /><label for="checkboxFive3">6 Months</label></li>
+                                                <li><input type="radio" id="checkboxsix3" value="365" class="" name="cbDate" /><label for="checkboxsix3">1 Year</label></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle">Tag</td>
+                                        <td><ul id="tag_ul" class="ks-cboxtags"></ul></td>
+                                    </tr>
+                                </table>
+                            </div>
 
-                              <!--Articles Block-->
-                              <input id="sortname" type="hidden" value="score" />
-                              <div class="scroll-wrapper maxheightA2 scrollbar-outer" style="position: relative;">
-                                <!--ALL-->
-                                <div id="allArticleBlock" style="max-height: 478px; overflow-y:scroll;">
-                                    <div id="accordion_1" class="panel-group acc-v1">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <!--總筆數-->
-                                                <div class="pull-right col-sm-4 col-md-3 margin-top-2">
-                                                    <span id="resultCount" class="badge badge-sea rounded-2x col-sm-12 col-md-12"></span>
-                                                </div>
-
-                                                <!--展開連結-->
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_1" href="#ArticleListBlock_all">all articles</a>
+                            <!--Articles Block-->
+                            <input id="sortname" type="hidden" value="score" />
+                            <div class="scroll-wrapper maxheightA2 scrollbar-outer" style="position: relative;">
+                            <!--ALL-->
+                            <div id="allArticleBlock" style="max-height: 478px; overflow-y:scroll;">
+                                <div id="accordion_1" class="panel-group acc-v1">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <!--總筆數-->
+                                            <div class="pull-right col-sm-4 col-md-3 margin-top-2">
+                                                <span id="resultCount" class="badge badge-sea rounded-2x col-sm-12 col-md-12"></span>
                                             </div>
 
-                                            <div id="ArticleListBlock_all" class="panel-collapse collapse in">
-                                                <!--排序-->
-                                                <div class="row">
-                                                    <div class="btn-group margin-bottom-30 col-md-6 col-md-offset-4" role="group" aria-label="">
-                                                        <a id="score" name="sortbtn" href="javascript:void(0);" class="btn-u" role="button">order by Score</a>
-                                                        <a id="get_time" name="sortbtn" href="javascript:void(0);" class="btn-u btn-u-default" role="button">order by Date</a>
-                                                    </div>
-                                                </div>
+                                            <!--展開連結-->
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_1" href="#ArticleListBlock_all">all articles</a>
+                                        </div>
 
-                                            <!--文章列表-->
-                                            <ol id="ArticlesList" style="list-style-type: none;"></ol>
+                                        <div id="ArticleListBlock_all" class="panel-collapse collapse in">
+                                            <!--排序-->
+                                            <div class="row">
+                                                <div class="btn-group margin-bottom-30 col-md-6 col-md-offset-4" role="group" aria-label="">
+                                                    <a id="score" name="sortbtn" href="javascript:void(0);" class="btn-u" role="button">order by Score</a>
+                                                    <a id="get_time" name="sortbtn" href="javascript:void(0);" class="btn-u btn-u-default" role="button">order by Date</a>
+                                                </div>
+                                            </div>
+
+                                        <!--文章列表-->
+                                        <ol id="ArticlesList" style="list-style-type: none;"></ol>
                                                       
-                                            <div id="pageblock" style="text-align:center;"></div>
-                                            </div>
+                                        <div id="pageblock" style="text-align:center;"></div>
                                         </div>
                                     </div>
-                                    <br />
                                 </div>
+                                <br />
+                            </div>
                                   
-                                <!--Website-->
-                                <div id="articleByWebsite" class="panel-group acc-v1" style="max-height: 478px; overflow-y: scroll;"></div>
-                                <input type="hidden" id="tmpWebsite" />
-                              </div>
-                              <!--Articles Block End-->
-                          </div>
-                      </div>
-                  </div>
+                            <!--Website-->
+                            <div id="articleByWebsite" class="panel-group acc-v1" style="max-height: 478px; overflow-y: scroll;"></div>
+                            <input type="hidden" id="tmpWebsite" />
+                            </div>
+                            <!--Articles Block End-->
+                        </div>
+                    </div>
+                </div>
                   
-                  <!--Ask.com-->
-                  <div class="col-lg-5 col-md-5 col-sm-12" style="display:none;">
-                      <div class="twocol">
-                          <div class="left"><h4>Search from ask.com</h4></div>
-                          <div class="right"></div><!-- right -->
-                      </div><!-- twocol -->
+                <!--Ask.com-->
+                <div class="col-lg-5 col-md-5 col-sm-12" style="display:none;">
+                    <div class="twocol">
+                        <div class="left"><h4>Search from ask.com</h4></div>
+                        <div class="right"></div><!-- right -->
+                    </div><!-- twocol -->
 
-                      <div class="BoxBorderSa maxheightA scrollbar-outer">
-                          <div class="padding5ALL">
-                              <div id="AskComBlock" style="max-height: 688px; overflow-y:scroll;">
-                                  <div id="AskComList" class="panel-group acc-v1"></div>
-                                  <input type="hidden" id="tmpAskCom" />
-                              </div>
-                          </div><!-- padding5ALL -->
-                      </div><!-- BoxBorderSa -->
-                  </div>
-              </div>
-          </div>
+                    <div class="BoxBorderSa maxheightA scrollbar-outer">
+                        <div class="padding5ALL">
+                            <div id="AskComBlock" style="max-height: 688px; overflow-y:scroll;">
+                                <div id="AskComList" class="panel-group acc-v1"></div>
+                                <input type="hidden" id="tmpAskCom" />
+                            </div>
+                        </div><!-- padding5ALL -->
+                    </div><!-- BoxBorderSa -->
+                </div>
+            </div>
+        </div>
          <!--#include file="../templates/Footer.html"-->
     </div>
 

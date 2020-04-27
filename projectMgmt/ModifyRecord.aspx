@@ -180,11 +180,9 @@
         <div class="breadcrumbs">
             <div class="container">
                 <div class="row padding10TB">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <span class="font-size3">Technology item：<%= Technology %></span><b></b>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="font-size3 margin5B"><b>Project Name：<%= ProjectName %></b></div>
+                        <div class="font-size3"><b>Technology item：<%= Technology %></b></div>
                     </div>
                 </div>
             </div>

@@ -384,7 +384,7 @@ FROM input_research_direction as direction
         // 關鍵字
         if (KeyWord != "")
         {
-            sb.Append(@"and (lower(isnull(word.name,'')) like '%" + KeyWord + "%') ");
+            sb.Append(@"and (lower(isnull(word.name,'')) like '%" + KeyWord.ToLower() + "%') ");
         }
 
         sb.Append(@"select count(*) as total from #tmp

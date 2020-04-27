@@ -244,8 +244,8 @@
             <div style="padding: 10px 0 6px;border-bottom: solid 1px #eee;background: rgba(0, 0, 0, 0.03);">
                 <div class="container">
                     <div class="row padding10TB">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            Tech Item：<b><%= PjName %></b>
+                        <div class="col-lg-12 col-md-12 col-sm-12 font-size3">
+                            <b>Tech Item：<%= PjName %></b>
                         </div>
                     </div>
                 </div>

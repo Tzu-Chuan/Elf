@@ -71,6 +71,10 @@
                 getData(0);
             });
 
+            $(document).on("search", "#keyword", function () {
+                getData(0);
+            });
+
             $(document).on("click", "#RecordBtn", function () {
                 window.open("ModifyRecord.aspx?pjGuid=" + $.getQueryString("pjGuid"));
             });
@@ -289,11 +293,9 @@
         <div class="breadcrumbs">
             <div class="container">
                 <div class="row padding10TB">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <span class="font-size3">Project Name：<%= ProjectName %></span><b></b>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <span class="font-size3">Technology item：<%= Technology %></span><b></b>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="font-size3 margin5B"><b>Project Name：<%= ProjectName %></b></div>
+                        <div class="font-size3"><b>Technology item：<%= Technology %></b></div>
                     </div>
                 </div>
             </div>
@@ -306,7 +308,7 @@
                     <div class="col-md-2 col-md-push-10 text-right"></div>
                     <div class="col-md-10 col-md-pull-2">
                         <div class="btn-group">
-                            <div class="btn-group"><input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" /></div>
+                            <div class="btn-group"><input type="text" id="keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input keyword" on /></div>
                             <button type="button" class="btn btn-main" id="SearchBtn" onclick="getData(0);"><i class="fa fa-search"></i>&nbsp;Search</button>
                         </div>
                     </div>
