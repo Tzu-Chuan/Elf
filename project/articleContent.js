@@ -2,20 +2,38 @@
     // 文字雲
     WordCloud();
 
+    // RWD 依視窗大小重繪文字雲
+    d3.select(window).on('resize', WordCloud);
+
+    getResources();
+
     getData();
     
     var TopDistance = $(".dropdowns").offset().top;
     $(window).scroll(function () {
-        if ($(this).scrollTop() > TopDistance) {          /* 要滑動到選單的距離 */
+        if ($(this).scrollTop() >= TopDistance) {          /* 要滑動到選單的距離 */
             $('.dropdowns').addClass('navFixed');   /* 幫選單加上固定效果 */
         } else {
             $('.dropdowns').removeClass('navFixed'); /* 移除選單固定效果 */
         }
     });
 
-    $(document).on("click", "input[name='cbDate']", function () {
+    //checkbox check all
+    $(document).on("click", "#Topic_all", function () {
+        if ($("#Topic_all").prop("checked")) {
+            $("input[name='cbTopic']").each(function () {
+                $(this).prop("checked", true);
+            });
+        } else {
+            $("input[name='cbTopic']").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+
+    $(document).on("click", "input[name='cbTopic']", function () {
         if ($(this).is(":checked"))
-            $(this).closest("li").find("label").css("background-color", "#FF2D2D");
+            $(this).closest("li").find("label").css("background-color", "red");
         else
             $(this).closest("li").find("label").css("background-color", "#FFFFFF");
     });
@@ -51,24 +69,32 @@ function getData() {
 }
 
 function WordCloud() {
-    $.ajax({
-        type: "POST",
-        async: false, //在沒有返回值之前,不會執行下一步動作
-        url: "projectHandler/GetArticleWordCloud.aspx",
-        data: {
-            atGuid: $.getQueryString("atGuid")
-        },
-        success: function (data) {
-            setDataResult($("textrank_keyword", data).text());
-        },
-        error: function (jqXHR, textStatus, exception) {
-            //alert(jqXHR.responseText);
-            $("#blockMessage").html("結果訊息：" + jqXHR.responseText);
-        }
-    });
+    if ($("#tmpCloud").val() == "") {
+        $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "projectHandler/GetArticleWordCloud.aspx",
+            data: {
+                atGuid: $.getQueryString("atGuid")
+            },
+            success: function (data) {
+                setDataResult($("textrank_keyword", data).text());
+                $("#tmpCloud").val(JSON.stringify($("textrank_keyword", data).text()));
+            },
+            error: function (jqXHR, textStatus, exception) {
+                $("#blockMessage").html("<font color='red'>Word Cloud message：" + exception + "</font>");
+            }
+        });
+    }
+    else
+        setDataResult($.parseJSON($("#tmpCloud").val()));
 }
 
 function setDataResult(jsonData) {
+    $("#blockTag").html("");
+    // RWD 抓DIV當下width
+    var BlockWidth = parseInt($('#blockTag').width());
+
     var __newData = new Array();
     var __obj = null;
     jsonData = jsonData.replace(/\'/g,"\"")
@@ -96,7 +122,7 @@ function setDataResult(jsonData) {
 
 
     d3.layout.cloud()
-        .size([1000, 150])
+        .size([BlockWidth, 150])
         .words(
             __newData.map(function (arg) {
                 return { text: arg.text, size: 10 + arg.size * 50, sizeorg: arg.size };
@@ -114,26 +140,22 @@ function setDataResult(jsonData) {
     function draw(words) {
         d3.select("#blockTag")
             .append("svg")
-            .attr("width", 1000)
+            .attr("width", BlockWidth)
             .attr("height", 150)
             .append("g")
-            .attr("transform", "translate(500,75)")
+            .attr("transform", "translate(" + BlockWidth / 2 + ",75)")
             .selectAll("text")
             .data(words)
             .enter()
             .append("text")
             .style("font-size", function (d) { return d.size + "px"; })
             .style("font-family", defaultFont)
-            ////.style("cursor", 'pointer')//當滑鼠移上去時，變換cursor
-            ////.style("fill", function (d, i) { return fill(i); })
             .style("fill", function (d, i) {
                 /*紅,橙,藍,綠*/
-                ////if (d.sizeorg >= 0.8) { return fill(i); }
                 if (d.sizeorg >= 0.3) { return "red"; }
                 else if (d.sizeorg >= 0.2 && d.sizeorg < 0.3) { return "#FF7F0E"; }
                 else if (d.sizeorg >= 0.1 && d.sizeorg < 0.2) { return "#ADC7EF"; }
                 else if (d.sizeorg >= 0 && d.sizeorg < 0.1) { return "#9CDF8C"; }
-                ////else { return "#AEC7E8"; }
                 else { return "grey"; }
             })
             .attr("text-anchor", "middle")
@@ -143,28 +165,38 @@ function setDataResult(jsonData) {
             .text(function (d) {
                 return d.text;
             })
-            //.on('click', function (d)
-            //{
-            //    //window.open(d.url);
-            //})
             .on('mouseover', function (d) {
-                //////var matrix = this.getScreenCTM();
-                //////tooltip.transition().duration(200).style("opacity", .9);
-                //////tooltip.html("ggg")
-                //////  .style("left", (window.pageXOffset + matrix.e) + "px")
-                //////  .style("top", (window.pageYOffset + matrix.f) + "px");
 
-                //window.open(d.url);
-                //alert(d.size)
-
-                ////$('div#blockPopUp').html("score:" + d.sizeorg)
-                ////$('div#blockPopUp').show()
-                ////.css('top', d3.event.clientY-150)
-                ////.css('left', d3.event.clientX-140)
             })
             .on("mouseout", function (d) {
                 tooltip.transition().duration(500).style("opacity", 0);
-                ////$('div#blockPopUp').hide()
             });
     }
+}
+
+function getResources() {
+    $.ajax({
+        type: "POST",
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "../Handler/GetResources.aspx",
+        data: {
+            ProjectGuid: $("#tmpPjGuid").val()
+        },
+        error: function (xhr) {
+            alert(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                alert($(data).find("Error").attr("Message"));
+            }
+            else {
+                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI;">All</label></li>';
+                $(data).find("topic_item").each(function (i) {
+                    ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI;">' + $(this).children("name").text().trim() + '</label></li>';
+                });
+                $("#topicTag").empty();
+                $("#topicTag").append(ULstr);
+            }
+        }
+    });
 }

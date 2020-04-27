@@ -734,4 +734,24 @@ delete from WordLog where related_guid=@wGuid and createdate >= (select createda
         oCmd.ExecuteNonQuery();
         oCmd.Connection.Close();
     }
+
+
+    public DataTable GetProjectGuid_By_ArticleGuid(string article_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from result_article where article_guid=@article_guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@article_guid", article_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
 }
