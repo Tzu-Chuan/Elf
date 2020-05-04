@@ -31,7 +31,7 @@ function getCloudSearchData() {
                 $("#tmpCloud").val(JSON.stringify(jsonData));
             },
             error: function (jqXHR, textStatus, exception) {
-                $("#blockMessage").html("<font color='red'>Word Cloud message：" + exception + ".</font>");
+                $("#blockMessage").html("<font color='red'>Word Cloud message：" + exception + "</font>");
             }
         });
     }

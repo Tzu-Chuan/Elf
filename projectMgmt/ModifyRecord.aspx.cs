@@ -25,7 +25,7 @@ public partial class projectMgmt_ModifyRecord : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/projectMgmt/MGMT_List.aspx");
+            Response.Redirect("~/projectMgmt/default.aspx");
         }
     }
 }

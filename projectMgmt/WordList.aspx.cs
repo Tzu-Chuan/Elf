@@ -26,7 +26,7 @@ public partial class projectMgmt_WordList : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/projectMgmt/MGMT_List.aspx");
+            Response.Redirect("~/projectMgmt/default.aspx");
         }
     }
 }

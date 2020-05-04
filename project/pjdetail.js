@@ -571,20 +571,14 @@ function getResources() {
             else {
                 var ULstr = '<li><input type="radio" id="TopicRadio" value="all" name="cbTopic" checked="checked" /><label for="TopicRadio">All topics</label></li>';
                 $(data).find("topic_item").each(function (i) {
-                    if (i == 0)
-                        ULstr += '<li><input type="radio" id="TopicRadio' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" /><label for="TopicRadio' + i + '" style="margin-left: 4px;">' + $(this).children("name").text().trim() + '</label></li>';
-                    else
-                        ULstr += '<li><input type="radio" id="TopicRadio' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" /><label for="TopicRadio' + i + '" style="margin-left: 4px;">' + $(this).children("name").text().trim() + '</label></li>';
+                    ULstr += '<li><input type="radio" id="TopicRadio' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" /><label for="TopicRadio' + i + '" style="margin-left: 4px;">' + $(this).children("name").text().trim() + '</label></li>';
                 });
                 $("#topic_ul").empty();
                 $("#topic_ul").append(ULstr);
 
                 var tagStr = '<li><input type="radio" id="TagRadio" value="all" name="cbTag" checked="checked" /><label for="TagRadio">No Tag</label></li>';
                 $(data).find("mytag_item").each(function (i) {
-                    if (i == 0)
-                        tagStr += '<li><input type="radio" id="TagRadio' + i + '" value="' + $(this).children("tagtype_guid").text().trim() + '" name="cbTag" /><label for="TagRadio' + i + '" style="margin-left: 4px;">' + $(this).children("tagtype_name").text().trim() + '</label></li>';
-                    else
-                        tagStr += '<li><input type="radio" id="TagRadio' + i + '" value="' + $(this).children("tagtype_guid").text().trim() + '" name="cbTag" /><label for="TagRadio' + i + '" style="margin-left: 4px;">' + $(this).children("tagtype_name").text().trim() + '</label></li>';
+                    tagStr += '<li><input type="radio" id="TagRadio' + i + '" value="' + $(this).children("tagtype_guid").text().trim() + '" name="cbTag" /><label for="TagRadio' + i + '" style="margin-left: 4px;">' + $(this).children("tagtype_name").text().trim() + '</label></li>';
                 });
                 $("#tag_ul").empty();
                 $("#tag_ul").append(tagStr);

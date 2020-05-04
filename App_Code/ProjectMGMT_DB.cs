@@ -131,7 +131,7 @@ select * into #tmp from (
         , website_guid
 		, project_guid
 		, title
-		, get_time
+		, CONVERT(nvarchar(10),get_time,23) as get_time
 		,articledesc = paragraph_xml.value('(/paragraph/key[@name=''" + topic + @"''])[1]', 'varchar(max)')
 		,score =  category_score_xml.value('(/score/key[@name=''" + topic + @"''])[1]', 'float')
         ,(SELECT DATEDIFF(DAY,get_time,getdate())) as DaysDiff
@@ -170,7 +170,7 @@ select * into #tmp from (
 select count(*) as total from #tmp
 
 select * from (
-	select ROW_NUMBER() over (order by " + SortName + @" desc) itemNo,#tmp.*
+	select ROW_NUMBER() over (order by " + SortName + @") itemNo,#tmp.*
 	from #tmp 
 )#t where itemNo between @pStart and @pEnd");
 

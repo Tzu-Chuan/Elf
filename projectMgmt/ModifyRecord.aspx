@@ -70,6 +70,20 @@
                     alert(msg);
             });
 
+            $(document).on("keypress", "#keyword", function (e) {
+                if ((e.keyCode == 13) || (e.key == "Enter") || (e.code == "Enter")) {
+                    try {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    catch (err) {
+                        e.cancelBubble = true;
+                    }
+                    getData(0);
+                    return false;
+                }
+            });
+
             $(document).on("change", "input[name='rbAction']", function () {
                 getData(0);
             });

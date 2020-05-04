@@ -44,6 +44,12 @@ public partial class project_projectHandler_GetArticleList : System.Web.UI.Page
             int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
             int pageStart = pageEnd - PageSize + 1;
 
+            //排序處理(2020-5-4 時間排序時,分數要排第二排序 by nick)
+            if (SortName == "get_time")
+                SortName = "get_time desc,score desc";
+            else
+                SortName = "score desc";
+
             MGMT_db._KeyWord = keyword;
             DataSet ds = MGMT_db.GetArticleList(PjGuid, WebsiteGuid, Topics, Period, MyTag, SortName, pageStart.ToString(), pageEnd.ToString());
 
