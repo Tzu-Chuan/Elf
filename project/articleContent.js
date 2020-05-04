@@ -22,18 +22,22 @@
     $(document).on("click", "#Topic_all", function () {
         if ($("#Topic_all").prop("checked")) {
             $("input[name='cbTopic']").each(function () {
+                var color = $(this).closest("li").find("label").attr("colorstr");
+                $(this).closest("li").find("label").css("background-color", color);
                 $(this).prop("checked", true);
             });
         } else {
             $("input[name='cbTopic']").each(function () {
                 $(this).prop("checked", false);
+                $(this).closest("li").find("label").css("background-color", "#FFFFFF");
             });
         }
     });
 
     $(document).on("click", "input[name='cbTopic']", function () {
+        var color = $(this).closest("li").find("label").attr("colorstr");
         if ($(this).is(":checked"))
-            $(this).closest("li").find("label").css("background-color", "red");
+            $(this).closest("li").find("label").css("background-color", color);
         else
             $(this).closest("li").find("label").css("background-color", "#FFFFFF");
     });
@@ -190,13 +194,24 @@ function getResources() {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
-                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI;">All</label></li>';
+                var color = ["red", "orange", "yellow", "#00BB00", "#2894FF", "purple"];
+                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF;">All</label></li>';
                 $(data).find("topic_item").each(function (i) {
-                    ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI;">' + $(this).children("name").text().trim() + '</label></li>';
+                    var ColorStr = (i > 5) ? GetRandomColor() : color[i];
+                    ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
                 });
                 $("#topicTag").empty();
                 $("#topicTag").append(ULstr);
             }
         }
     });
+}
+
+function GetRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
