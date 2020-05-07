@@ -21,12 +21,14 @@ public partial class project_projectHandler_GetArticleDetail : System.Web.UI.Pag
         try
         {
             string atGuid = (string.IsNullOrEmpty(Request["atGuid"])) ? "" : Request["atGuid"].ToString().Trim();
-            
-            DataTable dt = MGMT_db.GetArticleDetail(atGuid);
+
+            DataSet ds = MGMT_db.GetArticleDetail(atGuid);
 
             string xmlstr = string.Empty;
-            xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+            string xmlstr2 = string.Empty;
+            xmlstr = DataTableToXml.ConvertDatatableToXML(ds.Tables[0], "dataList", "data_item");
+            xmlstr2 = DataTableToXml.ConvertDatatableToXML(ds.Tables[1], "WordList", "word_item");
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + "</root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)

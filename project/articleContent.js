@@ -8,8 +8,9 @@
     getResources();
 
     getData();
-    
+
     var TopDistance = $(".dropdowns").offset().top;
+    $('.dropdowns').css("width", $('#ArticleContent').width() + "px");
     $(window).scroll(function () {
         if ($(this).scrollTop() >= TopDistance) {          /* 要滑動到選單的距離 */
             $('.dropdowns').addClass('navFixed');   /* 幫選單加上固定效果 */
@@ -18,28 +19,49 @@
         }
     });
 
+    $(window).resize(function () {
+        $('.dropdowns').css("width", $('#ArticleContent').width() + "px");
+    });
+    
     //checkbox check all
     $(document).on("click", "#Topic_all", function () {
         if ($("#Topic_all").prop("checked")) {
+            // Topic
             $("input[name='cbTopic']").each(function () {
                 var color = $(this).closest("li").find("label").attr("colorstr");
                 $(this).closest("li").find("label").css("background-color", color);
                 $(this).prop("checked", true);
             });
-        } else {
-            $("input[name='cbTopic']").each(function () {
-                $(this).prop("checked", false);
-                $(this).closest("li").find("label").css("background-color", "#FFFFFF");
+
+            // 標記文字
+            $(".tagword").each(function () {
+                $(this).css("background-color", $(this).attr("colorstr"));
             });
+        }
+        else {
+            // Topic
+            $("input[name='cbTopic']").prop("checked", false);
+            $("input[name='cbTopic']").closest("li").find("label").css("background-color", "#FFFFFF");
+            // 標記文字
+            $(".tagword").css("background-color", "#FFFFFF");
         }
     });
 
     $(document).on("click", "input[name='cbTopic']", function () {
-        var color = $(this).closest("li").find("label").attr("colorstr");
-        if ($(this).is(":checked"))
+        if ($(this).is(":checked")) {
+            var color = $(this).closest("li").find("label").attr("colorstr");
             $(this).closest("li").find("label").css("background-color", color);
-        else
+            // 標記文字
+            $("span[name='" + this.value + "']").each(function () {
+                $(this).css("background-color", color);
+            });
+        }
+        else {
+            // Topic
             $(this).closest("li").find("label").css("background-color", "#FFFFFF");
+            // 標記文字
+            $("span[name='" + this.value + "']").css("background-color", "#FFFFFF");
+        }
     });
 });
 
@@ -59,14 +81,24 @@ function getData() {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
+                var content = '';
                 if ($(data).find("data_item").length > 0) {
                     $(data).find("data_item").each(function (i) {
                         $("#Summary").html($(this).children("abstract_iekelf").text().trim());
                         $("#ArticleTitle").html($(this).children("title").text().trim());
                         $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
-                        $("#ArticleContent").html($(this).children("full_text").text().trim().replace(/\./g,".<br><br>"));
+                        content = $(this).children("full_text").text().trim().replace(/\./g, ".<br><br>");
                     });
                 }
+
+                if ($(data).find("word_item").length > 0) {
+                    $(data).find("word_item").each(function (i) {
+                        var word = new RegExp($(this).children("name").text(), 'g');
+                        var color = $('input[name="cbTopic"][value="' + $(this).children("research_guid").text() + '"]').closest("li").find("label").attr("colorstr");
+                        content = content.replace(word, '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + $(this).children("name").text() + '</span>');
+                    });
+                }
+                $("#ArticleContent").html(content);
             }
         }
     });
@@ -94,6 +126,7 @@ function WordCloud() {
         setDataResult($.parseJSON($("#tmpCloud").val()));
 }
 
+// 繪出文字雲
 function setDataResult(jsonData) {
     $("#blockTag").html("");
     // RWD 抓DIV當下width
@@ -178,7 +211,7 @@ function setDataResult(jsonData) {
     }
 }
 
-function getResources() {
+function getResources(color) {
     $.ajax({
         type: "POST",
         async: false, //在沒有返回值之前,不會執行下一步動作
@@ -194,8 +227,8 @@ function getResources() {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
-                var color = ["red", "orange", "yellow", "#00BB00", "#2894FF", "purple"];
                 var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF;">All</label></li>';
+                var color = ["red", "orange", "yellow", "#00BB00", "#2894FF", "purple"];
                 $(data).find("topic_item").each(function (i) {
                     var ColorStr = (i > 5) ? GetRandomColor() : color[i];
                     ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';

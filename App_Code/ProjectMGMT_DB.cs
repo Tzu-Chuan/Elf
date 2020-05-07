@@ -193,22 +193,31 @@ select * from (
         return ds;
     }
 
-    public DataTable GetArticleDetail(string article_guid)
+    public DataSet GetArticleDetail(string article_guid)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select article.*,web.website_name,optsite_url from result_article as article
+        sb.Append(@"
+declare @pjguid nvarchar(50);
+select @pjguid=project_guid from result_article where article_guid=@article_guid;
+
+select article.*,web.website_name,optsite_url from result_article as article
   left join input_website as web on web.website_guid=article.website_guid
   left join sys_opt_site on optsite_name=web.website_name
-where article_guid=@article_guid ");
+where article_guid=@article_guid 
+
+select d.research_guid,d.name as topic,w.name,w.name_stem from input_research_direction as d 
+left join input_related_word as w on w.research_guid=d.research_guid
+where project_guid=@pjguid
+order by d.name,w.name ");
         
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
-        DataTable ds = new DataTable();
+        DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@article_guid", article_guid);
 

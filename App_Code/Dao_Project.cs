@@ -763,7 +763,7 @@ and [tagtype_empno] = @tagtype_empno
         oCmd.Connection = DbUtil.GetConn();
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"Select * from input_research_direction where project_guid=@project_guid ");
+        sb.Append(@"Select * from input_research_direction where project_guid=@project_guid order by name ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
