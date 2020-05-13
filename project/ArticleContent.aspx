@@ -28,6 +28,16 @@
     <link rel="stylesheet" href="../assets/css/scrollbar.css" />
     <link rel="stylesheet" href="../assets/css/ochi.css" />
 
+
+    <%--<link rel="stylesheet" media="print" href="../assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" media="print" href="../assets/css/style.css" />
+    <link rel="stylesheet" media="print" href="../assets/plugins/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" media="print" href="../assets/plugins/sky-forms/css/custom-sky-forms.css" />
+    <link rel="stylesheet" media="print" href="../assets/css/custom.css" />
+    <link rel="stylesheet" media="print" href="../assets/css/iekicon.css" />
+    <link rel="stylesheet" media="print" href="../assets/css/scrollbar.css" />
+    <link rel="stylesheet" media="print" href="../assets/css/ochi.css" />--%>
+
     <!-- JS Global Compulsory -->
     <script type="text/javascript" src="../assets/plugins/jquery/jquery.js"></script>
     <script type="text/javascript" src="../assets/plugins/jquery/jquery-migrate.min.js"></script>
@@ -61,6 +71,8 @@
 
     <!--===my js-->
     <script type="text/javascript" src="articleContent.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+
     <title>IEKElf</title>
     <style>
         .navFixed {
@@ -76,9 +88,12 @@
     <input type="hidden" id="tmpPjGuid" value="<%= PjGuid %>" />
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
-        <div class="container">
+        <div id="printarea" class="container">
             <!--文字雲-->
-            <div class="twocol margin10T"><div class="left"><h1>See First : Word Cloud</h1></div></div>
+            <div class="twocol margin10T">
+                <div class="left"><h1>See First : Word Cloud</h1></div>
+                <div class="right"><input type="button" id="PrintBtn" class="btn btn-info" value="Generate pdf" style="color:black; font-size:16px;" /></div>
+            </div>
             <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
             <div id="blockMessage"></div>
             <input type="hidden" id="tmpCloud" />

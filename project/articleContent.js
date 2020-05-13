@@ -22,7 +22,7 @@
     $(window).resize(function () {
         $('.dropdowns').css("width", $('#ArticleContent').width() + "px");
     });
-    
+
     //checkbox check all
     $(document).on("click", "#Topic_all", function () {
         if ($("#Topic_all").prop("checked")) {
@@ -63,7 +63,12 @@
             $("span[name='" + this.value + "']").css("background-color", "#FFFFFF");
         }
     });
-});
+
+
+    $(document).on("click", "#PrintBtn", function () {
+        printHtml();
+    });
+});// end js
 
 function getData() {
     $.ajax({
@@ -87,14 +92,35 @@ function getData() {
                         $("#Summary").html($(this).children("abstract_iekelf").text().trim());
                         $("#ArticleTitle").html($(this).children("title").text().trim());
                         $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
-                        content = $(this).children("full_text").text().trim().replace(/\./g, ".<br><br>");
+                        content = $(this).children("full_text").text().trim().replace(/\n/g, " ");
+                        content = content.replace(/\./g, ".<br><br>");
                     });
                 }
 
                 if ($(data).find("word_item").length > 0) {
+                    var index = 0;
                     $(data).find("word_item").each(function (i) {
                         var word = new RegExp($(this).children("name").text(), 'g');
                         var color = $('input[name="cbTopic"][value="' + $(this).children("research_guid").text() + '"]').closest("li").find("label").attr("colorstr");
+                        index = content.indexOf($(this).children("name").text());
+                        if (index > -1 && $(this).children("name").text() == "AI") {
+                            var nextIndex = 0;
+                            while (nextIndex >= 0) {
+                                nextIndex = content.indexOf($(this).children("name").text(), index + 1);
+                                endIndex = content.indexOf(" ", index + 1);
+                                var i = index;
+                                do {
+                                    i = i - 1;
+                                }
+                                while (content.substr(i, 1) != " ");
+
+                                var newWord = content.substr((i + 1), (endIndex - i-1));
+                                newWord = newWord.replace(",", "").replace(".", "");
+                                index = nextIndex;
+                                var str = '<span class="tagword" name="' + $(this).children(" research_guid").text() + '" colorstr = "' + color + '" style = "background-color:' + color + ';" > ' + $(this).children("name").text() + '</span>';
+                                replaceWord(content, (i + 1), (endIndex - i - 1), str);
+                            }
+                        }
                         content = content.replace(word, '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + $(this).children("name").text() + '</span>');
                     });
                 }
@@ -102,6 +128,10 @@ function getData() {
             }
         }
     });
+}
+
+function replaceWord(ph, start, end, word) {
+    return ph.substr(0, start) + word + ph.substr(end);
 }
 
 function WordCloud() {
@@ -247,4 +277,13 @@ function GetRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+//列印功能
+function printHtml() {
+    var bodyHtml = document.body.innerHTML;
+    document.body.innerHTML = $("#printarea").html();
+    window.print();
+    document.body.innerHTML = bodyHtml;
+    
 }
