@@ -209,7 +209,7 @@ select article.*,web.website_name,optsite_url from result_article as article
 where article_guid=@article_guid 
 
 select d.research_guid,d.name as topic,w.name,w.name_stem from input_research_direction as d 
-left join input_related_word as w on w.research_guid=d.research_guid
+left join input_related_word as w on w.research_guid=d.research_guid and blacklist='0'
 where project_guid=@pjguid
 order by d.name,w.name ");
         
@@ -752,6 +752,47 @@ delete from WordLog where related_guid=@wGuid and createdate >= (select createda
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from result_article where article_guid=@article_guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@article_guid", article_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void RankingFeedBack(string atGuid , int score, string desc)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        oCmd.CommandText = @"
+update result_article set
+star_rating=@score,
+user_feedback=@desc
+where article_guid=@atGuid
+";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@atGuid", atGuid);
+        oCmd.Parameters.AddWithValue("@score", score);
+        oCmd.Parameters.AddWithValue("@desc", desc);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public DataTable GetArticleFeedback(string article_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select star_rating,user_feedback from result_article where article_guid=@article_guid ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;

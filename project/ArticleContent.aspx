@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="../assets/css/iekicon.css" />
     <link rel="stylesheet" href="../assets/css/scrollbar.css" />
     <link rel="stylesheet" href="../assets/css/ochi.css" />
+    <!-- Star Ranking CSS-->
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
 
 
     <%--<link rel="stylesheet" media="print" href="../assets/plugins/bootstrap/css/bootstrap.css" />
@@ -71,16 +73,20 @@
 
     <!--===my js-->
     <script type="text/javascript" src="articleContent.js"></script>
-    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="../js/snowball.babel.js"></script>
 
     <title>IEKElf</title>
     <style>
-        .navFixed {
-            z-index: 10;
-            position: fixed;
-            top: 0;
-            margin-top: 0;
-            /*min-width: 1140px;*/
+        .aStar:hover {
+            color: #FFD700;
+        }
+
+        .StarFull {
+            color: #FFD700;
+        }
+
+        .StarChecked {
+            color: #FFD700;
         }
     </style>
 </head>
@@ -98,7 +104,7 @@
             <div id="blockMessage"></div>
             <input type="hidden" id="tmpCloud" />
 
-            <div class="BoxBgWa margin-bottom-20 margin10T">
+            <div class="BoxBgWa margin-bottom-20 margin10T" style="padding:5px 10px;">
                 <div style="color: #2196F3; font-size: 2.92rem; font-family: Segoe UI;">Summary</div>
                 <div style="font-size: 2.28rem; margin-bottom: 10px; font-family: Segoe UI;">Auto Summary</div>
                 <div id="Summary" style="font-size: 18px; font-family: Segoe UI;"></div>
@@ -110,9 +116,24 @@
                 <ul id="topicTag" class="ks-cboxtags"></ul>
             </div>
 
-            <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI;"></div>
+            <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI; padding:10px 10px;"></div>
+            <div id="FeedBack" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;">
+                <div style="color: #2196F3; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>
+                <div style="font-size: 2.28rem;">Five Star Rating</div>
+                <div style="font-size:30px; margin-bottom:10px;">
+                    <a href="javascript:void(0);" class="aStar" name="star" rank="1"><span class="fa fa-star"></span></a>
+                    <a href="javascript:void(0);" class="aStar" name="star" rank="2"><span class="fa fa-star"></span></a>
+                    <a href="javascript:void(0);" class="aStar" name="star" rank="3"><span class="fa fa-star"></span></a>
+                    <a href="javascript:void(0);" class="aStar" name="star" rank="4"><span class="fa fa-star"></span></a>
+                    <a href="javascript:void(0);" class="aStar" name="star" rank="5"><span class="fa fa-star"></span></a>
+                </div>
+                <div id="ScoreBlock" style="font-size:1.64rem; color:#4CAF50; display:none;">score: <span id="RankScore"></span></div>
+                <div style="font-size: 2.28rem;">User Feedback</div>
+                <div style="margin-bottom:20px;"><input type="text" id="feedbackStr" name="keyword" value="" onkeypress="" class="form-control" placeholder="Write your feedback down" /></div>
+                <div><input type="button" id="SubBtn" class="btn btn-info" value="SUBMIT" style="color:black; font-size:16px;" /></div>
+            </div>
         </div>
-         <!--#include file="../templates/Footer.html"-->
+        <!--#include file="../templates/Footer.html"-->
     </div>
 </body>
 </html>
