@@ -225,6 +225,38 @@ order by d.name,w.name ");
         return ds;
     }
 
+    public DataTable CheckWordRepeat(string article_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+declare @pjguid nvarchar(50);
+select @pjguid=project_guid from result_article where article_guid=@article_guid;
+
+
+select w.name,count(w.name) as total into #tmp from input_research_direction as d 
+left join input_related_word as w on w.research_guid=d.research_guid and blacklist='0'
+where project_guid=@pjguid
+group by w.name
+
+select max(total) as MaxNum from #tmp
+
+drop table #tmp ");
+
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@article_guid", article_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetWebsite(string project_guid, string topic, int date, string myTag)
     {
         SqlCommand oCmd = new SqlCommand();
@@ -437,13 +469,14 @@ from #tmp
         return ds;
     }
 
-    public void addWord(SqlConnection oConn, SqlTransaction oTrans, string guid, string research_guid, string name, string blacklist)
+    public void addWord(SqlConnection oConn, SqlTransaction oTrans, string guid, string research_guid, string name,string name_stem, string blacklist)
     {
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = @"insert into input_related_word (
 related_guid,
 research_guid,
 name,
+name_stem,
 blacklist,
 schedule,
 analyst_give,
@@ -452,6 +485,7 @@ create_time
 @related_guid,
 @research_guid,
 @name,
+@name_stem,
 @blacklist,
 '1',
 '1',
@@ -462,6 +496,7 @@ create_time
         oCmd.Parameters.AddWithValue("@related_guid", guid);
         oCmd.Parameters.AddWithValue("@research_guid", research_guid);
         oCmd.Parameters.AddWithValue("@name", name);
+        oCmd.Parameters.AddWithValue("@name_stem", name_stem);
         oCmd.Parameters.AddWithValue("@blacklist", blacklist);
         oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
 

@@ -6,7 +6,7 @@
     d3.select(window).on('resize', WordCloud);
 
     getResources();
-
+    
     getData();
     GetFeedBack();
 
@@ -69,7 +69,8 @@
     $(document).on("click", "#PrintBtn", function () {
         printHtml();
     });
-    
+
+    // 評分 mouseover
     $(document).on("mouseover", "a[name='star']", function () {
         var rank = $(this).attr("rank");
         $("a[name='star']").each(function (i) {
@@ -80,6 +81,7 @@
         });
     });
 
+    // 評分 mouseout
     $(document).on("mouseout", "a[name='star']", function () {
         $("a[name='star'] span").removeClass("StarFull");
     });
@@ -102,6 +104,12 @@
         if ($("#RankScore").html() == "") {
             alert("送出前，請先對文章評分\nThank you!");
             return false;
+        }
+
+        if ($("#ranked").val() == "Y") {
+            if (!confirm("Sure about changing your feedback?")) {
+                return false;
+            }
         }
 
         $.ajax({
@@ -132,7 +140,7 @@
 function getData() {
     $.ajax({
         type: "POST",
-        async: false, //在沒有返回值之前,不會執行下一步動作
+        async: true, //在沒有返回值之前,不會執行下一步動作
         url: "projectHandler/GetArticleDetail.aspx",
         data: {
             atGuid: $.getQueryString("atGuid")
@@ -145,7 +153,6 @@ function getData() {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
-                var content = '';
                 var NewContent = '';
                 if ($(data).find("data_item").length > 0) {
                     $(data).find("data_item").each(function (i) {
@@ -155,7 +162,12 @@ function getData() {
                         NewContent = $(this).children("full_text").text().trim().replace(/\n/g, " ");
                     });
                 }
-                
+
+
+                if ($(data).find("ErrorRepeat").length > 0) {
+                    $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + $("ErrorRepeat", data).text() + '</span>');
+                }
+
                 if ($(data).find("word_item").length > 0) {
                     // 單字原型判斷套件設定語言
                     language = snowballFactory.newStemmer("english");
@@ -166,9 +178,9 @@ function getData() {
                         //NewContent = NewContent.replace(word, '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + $(this).children("name").text() + '</span>');
 
                         // debug 用
-                        var stop = '';
-                        if ($(this).children("name").text() == "Intel")
-                            stop = "OK";
+                        //var stop = '';
+                        //if ($(this).children("name").text() == "market")
+                        //    stop = "OK";
 
                         // **************** 文章處理 Start *******************
                         var index = 0;
@@ -181,7 +193,7 @@ function getData() {
                         var spaceCont = 0;
                         if (name.indexOf(" ") > -1)
                             spaceCont = name.split(" ").length;
-                        
+
                         // 第一個字 index
                         var tmpIndex = NewContent.indexOf(name, index);
 
@@ -228,11 +240,11 @@ function getData() {
                                 endIndex = NewContent.indexOf("?", index);
                             if (tmpstr.indexOf(":") > -1)
                                 endIndex = NewContent.indexOf(":", index);
-                            
+
                             tmpstr = NewContent.substring(tmpIndex, endIndex);
 
                             // 複合字長度(字數)
-                            if (mergeWord == true) 
+                            if (mergeWord == true)
                                 mergeLength = tmpstr.length;
 
                             // 判斷單字原型
@@ -249,7 +261,7 @@ function getData() {
                             // 文章有對應文字
                             if (tmpIndex >= 0) {
                                 if (boolWord)
-                                    tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + tmpstr + '</span>';
+                                    tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + '">' + tmpstr + '</span>';
                                 else
                                     tmpContent += NewContent.substring(headIndex, endIndex);
                             }
@@ -264,10 +276,10 @@ function getData() {
                             NewContent = tmpContent;
                         // **************** 文章處理 End *******************
                     });
-                }
 
-                NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\!/g, ".<br><br>").replace(/\?/g, ".<br><br>");
-                $("#ArticleContent").html(NewContent);
+                    NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\?/g, ".<br><br>");
+                    $("#ArticleContent").html(NewContent);
+                }
             }
         }
     });
@@ -398,8 +410,8 @@ function getResources(color) {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
-                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF;">All</label></li>';
-                var color = ["red", "orange", "yellow", "#00BB00", "#2894FF", "purple"];
+                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
+                var color = ["#FF7575 !important;", "#FFA042 !important;", "yellow !important;", "#02DF82 !important;", "#46A3FF !important;", "#CA8EFF !important;"];
                 $(data).find("topic_item").each(function (i) {
                     var ColorStr = (i > 5) ? GetRandomColor() : color[i];
                     ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
@@ -450,6 +462,8 @@ function GetFeedBack() {
                         $("#ScoreBlock").show();
                         $("#RankScore").html($(this).attr("star_rating"));
                         $("#feedbackStr").val($(this).attr("user_feedback"));
+                        if (score > 0)
+                            $("#ranked").val("Y");
                     });
                 }
             }

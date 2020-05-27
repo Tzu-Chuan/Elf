@@ -41,6 +41,7 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
             string wGuid = (string.IsNullOrEmpty(Request["wGuid"])) ? "" : Request["wGuid"].ToString().Trim();
             string TopicID = (string.IsNullOrEmpty(Request["TopicID"])) ? "" : Request["TopicID"].ToString().Trim();
             string Word = (string.IsNullOrEmpty(Request["Word"])) ? "" : Request["Word"].ToString().Trim();
+            string Word_stem = (string.IsNullOrEmpty(Request["Word_stem"])) ? "" : Request["Word_stem"].ToString().Trim();
             string Blacklist = (string.IsNullOrEmpty(Request["Blacklist"])) ? "" : Request["Blacklist"].ToString().Trim();
             string OrgTopic = (string.IsNullOrEmpty(Request["OrgTopic"])) ? "" : Request["OrgTopic"].ToString().Trim();
             string OrgWord = (string.IsNullOrEmpty(Request["OrgWord"])) ? "" : Request["OrgWord"].ToString().Trim();
@@ -64,7 +65,7 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
                 #endregion
 
                 string newGuid = Guid.NewGuid().ToString();
-                mgmt_db.addWord(oConn, myTrans, newGuid, TopicID, Word, Blacklist);
+                mgmt_db.addWord(oConn, myTrans, newGuid, TopicID, Word, Word_stem, Blacklist);
                 mgmt_db.InsertWordLog(oConn, myTrans, pjGuid, newGuid,"add");
                 xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>Add Success</Response></root>";
             }

@@ -78,15 +78,15 @@
     <title>IEKElf</title>
     <style>
         .aStar:hover {
-            color: #FFD700;
+            color: #FFD700 !important;
         }
 
         .StarFull {
-            color: #FFD700;
+            color: #FFD700 !important;
         }
 
         .StarChecked {
-            color: #FFD700;
+            color: #FFD700 !important;
         }
     </style>
 </head>
@@ -98,27 +98,28 @@
             <!--文字雲-->
             <div class="twocol margin10T">
                 <div class="left"><h1>See First : Word Cloud</h1></div>
-                <div class="right"><input type="button" id="PrintBtn" class="btn btn-info" value="Generate pdf" style="color:black; font-size:16px;" /></div>
+                <div class="right"><input type="button" id="PrintBtn" class="btn btn-info" value="Print" style="color:black; font-size:16px;" /></div>
             </div>
             <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
             <div id="blockMessage"></div>
             <input type="hidden" id="tmpCloud" />
 
-            <div class="BoxBgWa margin-bottom-20 margin10T" style="padding:5px 10px;">
-                <div style="color: #2196F3; font-size: 2.92rem; font-family: Segoe UI;">Summary</div>
+            <div class="BoxBgWa margin-bottom-20 margin5T" style="padding:5px 10px;">
+                <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Summary</div>
                 <div style="font-size: 2.28rem; margin-bottom: 10px; font-family: Segoe UI;">Auto Summary</div>
                 <div id="Summary" style="font-size: 18px; font-family: Segoe UI;"></div>
             </div>
             <div id="ArticleTitle" style="font-size: 2.92rem; margin-bottom: 10px; font-family: Segoe UI;"></div>
             <div id="WebSite" style="font-size: 1rem; margin-bottom: 10px; font-family: Segoe UI;"></div>
 
-            <div class="margin5TB dropdowns" style="background-color: #b0bec5; padding: 5px 0px;">
+            <div class="margin5TB dropdowns" style="background-color: #b0bec5 !important; padding: 5px 0px;">
                 <ul id="topicTag" class="ks-cboxtags"></ul>
             </div>
 
             <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI; padding:10px 10px;"></div>
             <div id="FeedBack" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;">
-                <div style="color: #2196F3; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>
+                <input id="ranked" type="hidden" value="N" />
+                <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>
                 <div style="font-size: 2.28rem;">Five Star Rating</div>
                 <div style="font-size:30px; margin-bottom:10px;">
                     <a href="javascript:void(0);" class="aStar" name="star" rank="1"><span class="fa fa-star"></span></a>
@@ -127,7 +128,7 @@
                     <a href="javascript:void(0);" class="aStar" name="star" rank="4"><span class="fa fa-star"></span></a>
                     <a href="javascript:void(0);" class="aStar" name="star" rank="5"><span class="fa fa-star"></span></a>
                 </div>
-                <div id="ScoreBlock" style="font-size:1.64rem; color:#4CAF50; display:none;">score: <span id="RankScore"></span></div>
+                <div id="ScoreBlock" style="font-size:1.64rem; color:#4CAF50 !important; display:none;">score: <span id="RankScore" style="color:#4CAF50 !important;"></span></div>
                 <div style="font-size: 2.28rem;">User Feedback</div>
                 <div style="margin-bottom:20px;"><input type="text" id="feedbackStr" name="keyword" value="" onkeypress="" class="form-control" placeholder="Write your feedback down" /></div>
                 <div><input type="button" id="SubBtn" class="btn btn-info" value="SUBMIT" style="color:black; font-size:16px;" /></div>

@@ -27,7 +27,7 @@ public partial class project_projectHandler_RankingFeedback : System.Web.UI.Page
             string xmlstr = string.Empty;
             db.RankingFeedBack(atGuid, score, feedback);
 
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>Success</Response></root>";
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>The rating is submitted</Response></root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)

@@ -40,6 +40,7 @@
     <script type="text/javascript" src="../js/PageList.js"></script>
     <script type="text/javascript" src="../js/jquery-ui.1.12.1.js"></script>
     <script type="text/javascript" src="../js/NickCommon.js"></script>
+    <script type="text/javascript" src="../js/snowball.babel.js"></script>
     <title>IEKElf</title>
     <script>
         $(document).ready(function () {
@@ -108,6 +109,7 @@
 
             // 新增字詞
             $(document).on("click", "#addbtn", function () {
+                language = snowballFactory.newStemmer("english");
                 $.ajax({
                     type: "POST",
                     async: false, //在沒有返回值之前,不會執行下一步動作
@@ -117,6 +119,7 @@
                         wGuid: $("#tmpGuid").val(),
                         TopicID: $("#m_ddlTopics").val(),
                         Word: $("#m_word").val(),
+                        Word_stem: language.stem($("#m_word").val()),
                         Blacklist: $("#m_blacklist").val(),
                         OrgTopic: $("#tmpTopic").val(),
                         OrgWord: $("#tmpWord").val(),
