@@ -144,19 +144,19 @@
                 <div class="well">
                     <div style="overflow:auto;">
                         <table id="tablist" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th style="text-align:center;">NO</th>
-                        <th style="text-align:center;">Project Name</th>
-                        <th style="text-align:center;">Tech Item</th>
-                        <th style="text-align:center; width:90px;">Status</th>
-                        <th style="text-align:center;">Owner</th>
-                        <th style="text-align:center;">Create Time</th>
-                        <th style="text-align:center;">Closed Time</th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                            <thead>
+                            <tr>
+                                <th style="text-align:center;">NO</th>
+                                <th style="text-align:center;">Project Name</th>
+                                <th style="text-align:center;">Tech Item</th>
+                                <th style="text-align:center; width:90px;">Status</th>
+                                <th style="text-align:center;">Owner</th>
+                                <th style="text-align:center;">Create Time</th>
+                                <th style="text-align:center;">Closed Time</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                     <div id="pageblock" style="text-align:center;"></div>
 

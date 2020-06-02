@@ -210,7 +210,7 @@ function getData() {
                                 mergeWord = true;
                                 do {
                                     tmpIndex = tmpIndex - 1;
-                                } while (NewContent.substr(tmpIndex, 1) != " ")
+                                } while (NewContent.substr(tmpIndex, 1) != " " && NewContent.substr(tmpIndex, 1) != ".")
                                 // +1 去掉前面的空白
                                 tmpIndex += 1;
                             }

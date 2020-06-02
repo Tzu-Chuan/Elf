@@ -30,16 +30,6 @@
     <!-- Star Ranking CSS-->
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
 
-
-    <%--<link rel="stylesheet" media="print" href="../assets/plugins/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" media="print" href="../assets/css/style.css" />
-    <link rel="stylesheet" media="print" href="../assets/plugins/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" media="print" href="../assets/plugins/sky-forms/css/custom-sky-forms.css" />
-    <link rel="stylesheet" media="print" href="../assets/css/custom.css" />
-    <link rel="stylesheet" media="print" href="../assets/css/iekicon.css" />
-    <link rel="stylesheet" media="print" href="../assets/css/scrollbar.css" />
-    <link rel="stylesheet" media="print" href="../assets/css/ochi.css" />--%>
-
     <!-- JS Global Compulsory -->
     <script type="text/javascript" src="../assets/plugins/jquery/jquery.js"></script>
     <script type="text/javascript" src="../assets/plugins/jquery/jquery-migrate.min.js"></script>
