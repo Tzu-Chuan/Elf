@@ -71,7 +71,7 @@ where 1=1 ");
         if (KeyWord != "")
         {
             sb.Append(@"and (lower(
-                                isnull(technology,'')+isnull(tn_related_word,'')+isnull(status_en_name,'')+isnull(PR.empname+'('+PR.empno+')','')
+                                isnull(project_name,'')+isnull(technology,'')+isnull(tn_related_word,'')+isnull(status_en_name,'')+isnull(PR.empname+'('+PR.empno+')','')
                                 ) like '%" + KeyWord.ToLower() + "%') ");
         }
 

@@ -158,7 +158,7 @@ function getData() {
                     $(data).find("data_item").each(function (i) {
                         $("#Summary").html($(this).children("abstract_iekelf").text().trim());
                         $("#ArticleTitle").html($(this).children("title").text().trim());
-                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("optsite_url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
+                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
                         NewContent = $(this).children("full_text").text().trim().replace(/\n/g, " ");
                     });
                 }
@@ -179,7 +179,7 @@ function getData() {
 
                         // debug 用
                         //var stop = '';
-                        //if ($(this).children("name").text() == "market")
+                        //if ($(this).children("name").text() == "communication")
                         //    stop = "OK";
 
                         // **************** 文章處理 Start *******************
