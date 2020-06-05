@@ -16,19 +16,23 @@ public partial class project_PjDetail : System.Web.UI.Page
     {
         string pjGuid = (string.IsNullOrEmpty(Request["pjGuid"])) ? "" : Request["pjGuid"].ToString().Trim();
 
-        #region 瀏覽權限 (是否為專案成員)
-        if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
+        // 2020/6/4 暫時修改全院可看的權限 -by Nick
+        if (pjGuid != "2b4b7012-503d-4888-a42c-696eea00e66c")
         {
-            m_db._PM_ProjectGuid = pjGuid;
-            m_db._PM_Empno = SSOUtil.GetCurrentUser().工號;
-            DataTable dt = m_db.getMemberByEmpno();
-            if (dt.Rows.Count == 0)
+            #region 瀏覽權限 (是否為專案成員)
+            if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
             {
-                Response.Write("Error message：do not have read right.");
-                Response.End();
+                m_db._PM_ProjectGuid = pjGuid;
+                m_db._PM_Empno = SSOUtil.GetCurrentUser().工號;
+                DataTable dt = m_db.getMemberByEmpno();
+                if (dt.Rows.Count == 0)
+                {
+                    Response.Write("Error message：do not have read right.");
+                    Response.End();
+                }
             }
+            #endregion
         }
-        #endregion
 
         #region 參數錯誤
         if (pjGuid == "")

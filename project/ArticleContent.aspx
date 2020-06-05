@@ -67,6 +67,14 @@
 
     <title>IEKElf</title>
     <style>
+        .navFixed {
+            z-index: 10;
+            position: fixed;
+            top: 0;
+            margin-top: 0;
+            /*min-width: 1140px;*/
+        }
+
         .aStar:hover {
             color: #FFD700 !important;
         }
@@ -80,8 +88,10 @@
         }
     </style>
 </head>
-<body class="header-fixed boxed-layout" >
+<body class="header-fixed boxed-layout">
+    <input type="hidden" id="TopDistance" />
     <input type="hidden" id="tmpPjGuid" value="<%= PjGuid %>" />
+    <input type="hidden" id="tmpComp" value="<%= Competence %>" />
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
         <div id="printarea" class="container">
@@ -107,6 +117,7 @@
             </div>
 
             <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI; padding:10px 10px;"></div>
+            <!-- Ranking Feedback -->
             <div id="FeedBack" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;">
                 <input id="ranked" type="hidden" value="N" />
                 <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>

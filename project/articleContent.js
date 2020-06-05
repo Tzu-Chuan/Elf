@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    var TopDistance = 0;
     // 文字雲
     WordCloud();
 
@@ -9,11 +10,9 @@
     
     getData();
     GetFeedBack();
-
-    var TopDistance = $(".dropdowns").offset().top;
-    $('.dropdowns').css("width", $('#ArticleContent').width() + "px");
+    
     $(window).scroll(function () {
-        if ($(this).scrollTop() >= TopDistance) {          /* 要滑動到選單的距離 */
+        if ($(this).scrollTop() >= $("#TopDistance").val()) {          /* 要滑動到選單的距離 */
             $('.dropdowns').addClass('navFixed');   /* 幫選單加上固定效果 */
         } else {
             $('.dropdowns').removeClass('navFixed'); /* 移除選單固定效果 */
@@ -21,7 +20,7 @@
     });
 
     $(window).resize(function () {
-        $('.dropdowns').css("width", $('#ArticleContent').width() + "px");
+        $('.dropdowns').css("width", $('#ArticleContent').width() + 20 + "px");
     });
 
     //checkbox check all
@@ -147,6 +146,10 @@ function getData() {
         },
         error: function (xhr) {
             alert(xhr.responseText);
+        },
+        complete: function () {
+            $("#TopDistance").val($(".dropdowns").offset().top);
+            $('.dropdowns').css("width", $('#ArticleContent').width() + 20 + "px");
         },
         success: function (data) {
             if ($(data).find("Error").length > 0) {
@@ -450,22 +453,28 @@ function GetFeedBack() {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
-                if ($(data).find("data_item").length > 0) {
-                    $(data).find("data_item").each(function () {
-                        var score = parseInt($(this).attr("star_rating"))
-                        $("a[name='star']").each(function (i) {
-                            if ((i + 1) <= score)
-                                $(this).find("span").addClass("StarChecked");
-                            else
-                                $(this).find("span").removeClass("StarChecked");
+                // 若為專案管理員或系統管理員
+                //if ($("#tmpComp").val() == "Y") {
+                    if ($(data).find("data_item").length > 0) {
+                        $(data).find("data_item").each(function () {
+                            var score = parseInt($(this).attr("star_rating"))
+                            $("a[name='star']").each(function (i) {
+                                if ((i + 1) <= score)
+                                    $(this).find("span").addClass("StarChecked");
+                                else
+                                    $(this).find("span").removeClass("StarChecked");
+                            });
+                            $("#ScoreBlock").show();
+                            $("#RankScore").html($(this).attr("star_rating"));
+                            $("#feedbackStr").val($(this).attr("user_feedback"));
+                            if (score > 0)
+                                $("#ranked").val("Y");
                         });
-                        $("#ScoreBlock").show();
-                        $("#RankScore").html($(this).attr("star_rating"));
-                        $("#feedbackStr").val($(this).attr("user_feedback"));
-                        if (score > 0)
-                            $("#ranked").val("Y");
-                    });
-                }
+                    }
+                //}
+                //else {
+                //    $("#FeedBack").hide();
+                //}
             }
         }
     });
