@@ -11,25 +11,29 @@ public partial class project_PjDetail : System.Web.UI.Page
 {
     Member m_db = new Member();
     ProjectMGMT_DB mgmt_db = new ProjectMGMT_DB();
-    public string ProjectName, Technology;
+    public string ProjectName, Technology, GlobalStatus;
     protected void Page_Load(object sender, EventArgs e)
     {
         string pjGuid = (string.IsNullOrEmpty(Request["pjGuid"])) ? "" : Request["pjGuid"].ToString().Trim();
 
-        // 2020/6/4 暫時修改全院可看的權限 -by Nick
-        if (pjGuid != "2b4b7012-503d-4888-a42c-696eea00e66c")
+        GlobalStatus = "N";
+        #region 瀏覽權限 (是否為專案成員)
+        if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
         {
-            #region 瀏覽權限 (是否為專案成員)
-            if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
+            m_db._PM_ProjectGuid = pjGuid;
+            m_db._PM_Empno = SSOUtil.GetCurrentUser().工號;
+            DataTable dt = m_db.getMemberByEmpno();
+            if (dt.Rows.Count == 0)
             {
-                m_db._PM_ProjectGuid = pjGuid;
-                m_db._PM_Empno = SSOUtil.GetCurrentUser().工號;
-                DataTable dt = m_db.getMemberByEmpno();
-                if (dt.Rows.Count == 0)
+                // 2020/6/4 暫時修改全院可看的權限 -by Nick
+                if (pjGuid != "2b4b7012-503d-4888-a42c-696eea00e66c")
                 {
                     Response.Write("Error message：do not have read right.");
                     Response.End();
                 }
+                else
+                    GlobalStatus = "Y";
+
             }
             #endregion
         }

@@ -4,12 +4,16 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Xsl;
+using System.Data;
 
 public partial class project_articleDetail : System.Web.UI.Page
 {
+    ProjectMGMT_DB mgmt_db = new ProjectMGMT_DB();
+    Member m_db = new Member();
     protected void Page_Load(object sender, EventArgs e)
     {
         LocalReq req = GetRequest(Request);
+        
 
         ////string url = "http://61.61.246.46:8100/articles/tagging_tool/";
         string url = ConfigUtil.AppArticle;
@@ -17,8 +21,26 @@ public partial class project_articleDetail : System.Web.UI.Page
         string startTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
         string isProjectOwner = "Y";
         string isSystemManager = "Y";
-        //req.pjGuid = "A4BC1360-7B3D-4AE3-A1C8-8196FF878BA9";
-        //req.atGuid = "320C0F20-7437-4C50-8BED-6912BB396880";
+        // 建專案者
+        DataTable OwnerDt = mgmt_db.GetProjectOwner(req.pjGuid);
+        if (OwnerDt.Rows.Count > 0)
+        {
+            isProjectOwner = (SSOUtil.GetCurrentUser().工號 == OwnerDt.Rows[0]["empno"].ToString()) ? "Y" : "N";
+        }
+        
+        #region 瀏覽權限 (是否為專案成員)
+        if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
+        {
+            m_db._PM_ProjectGuid = req.pjGuid;
+            m_db._PM_Empno = SSOUtil.GetCurrentUser().工號;
+            DataTable dt = m_db.getMemberByEmpno();
+            if (dt.Rows.Count == 0)
+            {
+                isSystemManager = "N";
+            }
+        }
+        #endregion
+        // isProjectOwner、isSystemManager兩個都是N 則tagging tool的ranking feedback 跟單篇詞庫 會隱藏
 
         ///string keyid = string.Format(@"930424^2018/01/03 14:55^Y^Y^A4BC1360-7B3D-4AE3-A1C8-8196FF878BA9^320C0F20-7437-4C50-8BED-6912BB396880");
 

@@ -37,6 +37,25 @@ public class ProjectMGMT_DB
         return ds;
     }
 
+    public DataTable GetProjectOwner(string project_guid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from sys_project_right where project_guid=@project_guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataSet GetMGMT_List(string empno,string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();

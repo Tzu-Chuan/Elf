@@ -65,6 +65,7 @@
     <title>IEKElf</title>
 </head>
 <body class="header-fixed boxed-layout">
+    <input id="ProjectOpen" type="hidden" value="<%= GlobalStatus %>" />
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
         <div class="breadcrumbs">
