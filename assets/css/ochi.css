@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* 基本兩欄排版 */
 .twocol:after{display:block; clear:both; content:"."; visibility:hidden; height:0;}
 .twocol .right{float:right;}

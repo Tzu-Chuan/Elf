@@ -65,6 +65,8 @@
     <script type="text/javascript" src="articleContent.js"></script>
     <script type="text/javascript" src="../js/snowball.babel.js"></script>
 
+    <link rel="stylesheet" href="ArticleContent.css" />
+
     <title>IEKElf</title>
     <style>
         .navFixed {
@@ -117,7 +119,10 @@
             </div>
 
             <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI; padding:10px 10px;"></div>
-            <!-- Ranking Feedback -->
+        </div>
+
+        <!-- Ranking Feedback -->
+        <div class="container">
             <div id="FeedBack" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;">
                 <input id="ranked" type="hidden" value="N" />
                 <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>

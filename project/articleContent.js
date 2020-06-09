@@ -414,7 +414,8 @@ function getResources(color) {
             }
             else {
                 var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
-                var color = ["#FF7575 !important;", "#FFA042 !important;", "yellow !important;", "#02DF82 !important;", "#46A3FF !important;", "#CA8EFF !important;"];
+                //var color = ["#FF7575 !important;", "#FFA042 !important;", "#F9F900 !important;", "#02DF82 !important;", "#46A3FF !important;", "#CA8EFF !important;"];
+                var color = ["#FF7575", "#FFA042", "#F9F900", "#02DF82", "#46A3FF", "#CA8EFF"];
                 $(data).find("topic_item").each(function (i) {
                     var ColorStr = (i > 5) ? GetRandomColor() : color[i];
                     ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
@@ -480,21 +481,6 @@ function GetFeedBack() {
     });
 }
 
-function handleContent(ArticleAry,word) {
-    language = snowballFactory.newStemmer("english");
-    $.each(ArticleAry,function (i) {
-        var tmpAry = ArticleAry[i].split(" ");
-        var word_ary = tmpAry.filter(function (v) { return v !== "" });
-        var newSentence = "";
-        $.each(word_ary, function (i) {
-            if (language.stem(word_ary[i]) == word) {
-                word_ary[i] = "哈哈哈";
-            }
-        });
-
-    });
-}
-
 function printstem(word) {
     return language.stem(word);
 }
@@ -502,7 +488,17 @@ function printstem(word) {
 //列印功能
 function printHtml() {
     var bodyHtml = document.body.innerHTML;
-    document.body.innerHTML = $("#printarea").html();
+    var index = 0;
+    var newHtml = $("#printarea").html();
+    var tmpIndex = newHtml.indexOf("#");
+    while (tmpIndex >= 0) {
+        newHtml = newHtml.substring(0, tmpIndex) + newHtml.substr(tmpIndex, 7) + " !important" + newHtml.substring(tmpIndex + 7);
+
+        index = tmpIndex + 1;
+        tmpIndex = newHtml.indexOf("#", index);
+
+    }
+    document.body.innerHTML = newHtml;
     window.print();
     document.body.innerHTML = bodyHtml;
     
