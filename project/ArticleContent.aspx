@@ -92,6 +92,7 @@
 </head>
 <body class="header-fixed boxed-layout">
     <input type="hidden" id="TopDistance" />
+    <input type="hidden" id="TypeAry" />
     <input type="hidden" id="tmpPjGuid" value="<%= PjGuid %>" />
     <input type="hidden" id="tmpComp" value="<%= Competence %>" />
     <div class="wrapper">

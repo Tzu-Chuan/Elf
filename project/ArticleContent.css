@@ -1,0 +1,10 @@
+﻿@media print {
+    @page {
+        margin: 0.5mm;
+    }
+
+    .red_print {
+        background-color: #FF7575 !important;
+    }
+}
+

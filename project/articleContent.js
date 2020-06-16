@@ -171,11 +171,13 @@ function getData() {
                     $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + $("ErrorRepeat", data).text() + '</span>');
                 }
 
+                var ResearchAry=$("#TypeAry").val().split(",");
                 if ($(data).find("word_item").length > 0) {
                     // 單字原型判斷套件設定語言
                     language = snowballFactory.newStemmer("english");
                     $(data).find("word_item").each(function (i) {
                         var color = $('input[name="cbTopic"][value="' + $(this).children("research_guid").text() + '"]').closest("li").find("label").attr("colorstr");
+
                         // 全文文字取代(比對用)
                         //var word = new RegExp($(this).children("name").text(), 'g');
                         //NewContent = NewContent.replace(word, '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + $(this).children("name").text() + '</span>');
@@ -263,10 +265,15 @@ function getData() {
                             // 加入標籤
                             // 文章有對應文字
                             if (tmpIndex >= 0) {
-                                if (boolWord)
+                                if (boolWord) {
                                     tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + '">' + tmpstr + '</span>';
+
+                                    if ($.inArray($(this).children("research_guid").text(), ResearchAry) >= 0)
+                                        ResearchAry.splice($.inArray($(this).children("research_guid").text(), ResearchAry), 1);
+                                }
                                 else
                                     tmpContent += NewContent.substring(headIndex, endIndex);
+
                             }
                             // 文章無對應文字
                             else
@@ -282,6 +289,8 @@ function getData() {
 
                     NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\?/g, ".<br><br>");
                     $("#ArticleContent").html(NewContent);
+
+                    RemoveResources(ResearchAry);
                 }
             }
         }
@@ -413,18 +422,28 @@ function getResources(color) {
                 alert($(data).find("Error").attr("Message"));
             }
             else {
+                var researchAry = [];
                 var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
                 //var color = ["#FF7575 !important;", "#FFA042 !important;", "#F9F900 !important;", "#02DF82 !important;", "#46A3FF !important;", "#CA8EFF !important;"];
                 var color = ["#FF7575", "#FFA042", "#F9F900", "#02DF82", "#46A3FF", "#CA8EFF"];
                 $(data).find("topic_item").each(function (i) {
                     var ColorStr = (i > 5) ? GetRandomColor() : color[i];
                     ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
+                    researchAry.push($(this).children("research_guid").text().trim());
                 });
                 $("#topicTag").empty();
                 $("#topicTag").append(ULstr);
+                $("#TypeAry").val(researchAry);
             }
         }
     });
+}
+
+function RemoveResources(Ary) {
+    $.each(Ary, function (key, value) {
+        $('#topicTag li input[value="' + value + '"]').parent().remove();
+    });
+   
 }
 
 // 隨機顏色
