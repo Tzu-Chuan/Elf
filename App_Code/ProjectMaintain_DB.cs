@@ -201,4 +201,66 @@ create_empname
         oCmd.ExecuteNonQuery();
         oCmd.Connection.Close();
     }
+
+    public DataSet GetLoginLog(string pStart, string pEnd)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * into #tmp
+from sys_loginlog
+where 1=1");
+
+        sb.Append(@"and LOWER(log_empno) like '%" + KeyWord.ToLower() + "%' ");
+        sb.Append(@"
+        select count(*) as total from #tmp
+
+        select * from (
+select ROW_NUMBER() over (order by log_datetime desc) itemNo,#tmp.*
+from #tmp 
+)#t where itemNo between @pStart and @pEnd
+
+        drop table #tmp ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetEmpInfo(string com_empno)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Common"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"Select 
+com_orgcd,
+com_empno,
+com_cname,
+com_deptid,
+com_mailadd 
+from comper where 1=1 ");
+
+        if(com_empno!="")
+            sb.Append(@"and com_empno=@com_empno ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@com_empno", com_empno);
+
+        oda.Fill(ds);
+        return ds;
+    }
 }
