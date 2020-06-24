@@ -89,9 +89,9 @@
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_userdeptid").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_empno").text().trim() + '</td>';
-								tabstr += '<td align="center" nowrap="nowrap">' + GetEmp($(this).children("log_empno").text().trim()) + '</td>';
+								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("com_cname").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_ip").text().trim() + '</td>';
-								tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("log_datetime").text().trim())) + '<br>' + $.FormatTime($(this).children("log_datetime").text().trim()) + '</td>';
+								tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("log_datetime").text().trim())) + '&nbsp;&nbsp;' + $.FormatTime($(this).children("log_datetime").text().trim()) + '</td>';
 								tabstr += '</tr>';
 							});
 						}
@@ -106,34 +106,6 @@
 					}
 				}
 			});
-		}
-
-		function GetEmp(empno) {
-			var rec = '';
-			$.ajax({
-				type: "POST",
-				async: false, //在沒有返回值之前,不會執行下一步動作
-				url: "../Handler/GetEmpInfo.aspx",
-				data: {
-					empno: empno
-				},
-				error: function (xhr) {
-					alert(xhr.responseText);
-				},
-				success: function (data) {
-					if ($(data).find("Error").length > 0) {
-						alert($(data).find("Error").attr("Message"));
-					}
-					else {
-						if ($(data).find("data_item").length > 0) {
-							$(data).find("data_item").each(function (i) {
-								rec = $(this).children("com_cname").text().trim();
-							});
-						}
-					}
-				}
-			});
-			return rec;
 		}
 	</script>
 </head>

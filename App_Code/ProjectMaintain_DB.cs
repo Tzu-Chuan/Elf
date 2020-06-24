@@ -208,11 +208,16 @@ create_empname
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * into #tmp
+        sb.Append(@"
+SELECT com_empno,com_cname into #emp_tmp
+FROM OPENDATASOURCE('SQLOLEDB', 'Data Source=(local); User ID=nick;Password=nicklai770528').common.dbo.comper
+
+select * into #tmp
 from sys_loginlog
+left join #emp_tmp on log_empno=com_empno collate Chinese_Taiwan_Stroke_CI_AS
 where 1=1");
 
-        sb.Append(@"and LOWER(log_empno) like '%" + KeyWord.ToLower() + "%' ");
+        sb.Append(@"and (LOWER(isnull(com_cname,'')+isnull(log_empno,'')) like '%" + KeyWord.ToLower() + "%' ) ");
         sb.Append(@"
         select count(*) as total from #tmp
 
@@ -235,32 +240,5 @@ from #tmp
         oda.Fill(ds);
         return ds;
     }
-
-    public DataTable GetEmpInfo(string com_empno)
-    {
-        SqlCommand oCmd = new SqlCommand();
-        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Common"]);
-        StringBuilder sb = new StringBuilder();
-
-        sb.Append(@"Select 
-com_orgcd,
-com_empno,
-com_cname,
-com_deptid,
-com_mailadd 
-from comper where 1=1 ");
-
-        if(com_empno!="")
-            sb.Append(@"and com_empno=@com_empno ");
-
-        oCmd.CommandText = sb.ToString();
-        oCmd.CommandType = CommandType.Text;
-        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
-        DataTable ds = new DataTable();
-
-        oCmd.Parameters.AddWithValue("@com_empno", com_empno);
-
-        oda.Fill(ds);
-        return ds;
-    }
+    
 }

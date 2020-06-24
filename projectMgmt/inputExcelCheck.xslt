@@ -93,7 +93,7 @@ template：
           <div class="bg-color-grey2" style="padding:10px;">
             <div class="row">
               <xsl:for-each select="./*">
-                <ul>
+                <ul style="list-style-type: decimal;">
                   <li class="col-xs-6 col-md-3">
                     <span>
                       <xsl:value-of select="./text()"/>

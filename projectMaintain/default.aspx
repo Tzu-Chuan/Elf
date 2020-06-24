@@ -311,7 +311,8 @@
               <div class="margin-bottom-10 animated">
                 <!--新增-->
                 <div class="col-md-4 col-md-push-8 text-right">
-                  <a id="newManager" href="javascript:void(0);" class="btn-u btn-u-sea btn-u-lg">Add manager</a>
+                  <a id="newManager" href="javascript:void(0);" class="btn-u btn-u-sea btn-u-lg">Add manager</a>&nbsp;
+                  <a href="LoginLog.aspx" class="btn-u btn-u-primary btn-u-lg" target="_blank">Login Log</a>
                 </div>
                 <!--查詢-->
                 <div class="col-md-8 col-md-pull-4">
