@@ -214,7 +214,7 @@ FROM OPENDATASOURCE('SQLOLEDB', 'Data Source=(local); User ID=nick;Password=nick
 
 select * into #tmp
 from sys_loginlog
-left join #emp_tmp on log_empno=com_empno collate Chinese_Taiwan_Stroke_CI_AS
+left join #emp_tmp on log_empno=com_empno
 where 1=1");
 
         sb.Append(@"and (LOWER(isnull(com_cname,'')+isnull(log_empno,'')) like '%" + KeyWord.ToLower() + "%' ) ");
