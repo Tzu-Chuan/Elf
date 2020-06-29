@@ -101,7 +101,7 @@
             <!--文字雲-->
             <div class="twocol margin10T">
                 <div class="left"><h1>See First : Word Cloud</h1></div>
-                <div class="right"><%--<input type="button" id="PrintBtn" class="btn btn-info" value="Print" style="color:black; font-size:16px;" />--%></div>
+                <div class="right"><input type="button" id="PrintBtn" class="btn btn-info" value="Print" style="color:black; font-size:16px;" /></div>
             </div>
             <div class="maxheightB BoxBorderSa BoxBgWa padding5ALL"><div id="blockTag" class="width100"></div></div>
             <div id="blockMessage"></div>
@@ -142,7 +142,7 @@
             </div>
         </div>
 		<div class="container col-12" style="margin-bottom:10px;">
-			<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info btn-lg btn-block" style="color:black;">Setup Key Word</a>
+			<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info btn-lg btn-block" style="color:black;">To maintain key words</a>
 		</div>
         <!--#include file="../templates/Footer.html"-->
     </div>

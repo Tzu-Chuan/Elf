@@ -202,7 +202,7 @@ create_empname
         oCmd.Connection.Close();
     }
 
-    public DataSet GetLoginLog(string pStart, string pEnd)
+    public DataSet GetLoginLog(string sday, string eday,string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
@@ -218,6 +218,14 @@ left join #emp_tmp on log_empno=com_empno
 where 1=1");
 
         sb.Append(@"and (LOWER(isnull(com_cname,'')+isnull(log_empno,'')) like '%" + KeyWord.ToLower() + "%' ) ");
+
+        if (sday != "" && eday != "")
+            sb.Append(@"and log_datetime between CONVERT(datetime,@sday) and DATEADD(day,1,CONVERT(datetime,@eday)) ");
+        else if (sday != "")
+            sb.Append(@"and log_datetime >= CONVERT(datetime,@sday) ");
+        else if (eday != "")
+            sb.Append(@"and log_datetime <= DATEADD(day,1, CONVERT(datetime,@eday)) ");
+
         sb.Append(@"
         select count(*) as total from #tmp
 
@@ -234,6 +242,8 @@ from #tmp
         DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
+        oCmd.Parameters.AddWithValue("@sday", sday);
+        oCmd.Parameters.AddWithValue("@eday", eday);
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
 

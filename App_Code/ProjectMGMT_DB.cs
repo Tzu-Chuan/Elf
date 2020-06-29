@@ -858,4 +858,26 @@ where article_guid=@atGuid
         oda.Fill(ds);
         return ds;
     }
+
+    public void ReOpenProjcet(string PjGuid)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+        oCmd.CommandText = @"
+update input_project set
+stop_time=NULL,
+update_time=@gettime,
+status=40
+where project_guid=@PjGuid
+";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@PjGuid", PjGuid);
+        oCmd.Parameters.AddWithValue("@gettime", DateTime.Now);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }

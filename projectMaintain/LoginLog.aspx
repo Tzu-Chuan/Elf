@@ -39,11 +39,34 @@
 <script type="text/javascript" src="../js/PageList.js"></script>
 <script type="text/javascript" src="../js/NickCommon.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.1.12.1.js"></script>
+<!--===jquery dp-->
+<link rel="stylesheet" type="text/css" href="../js/j_dp/css/bootstrap-datepicker.standalone.min.css" />
+<script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.min.js">;</script>
+<script type="text/javascript" src="../js/j_dp/bootstrap-datepicker.zh-TW.min.js">;</script>
 <head>
 	<title>IEKElf</title>
 	<script type="text/javascript">
 		$(document).ready(function () {
 			getData(0);
+
+			$("input[name='input_date']").datepicker({
+                format: 'yyyy-mm-dd',
+                clearBtn: true
+            }).on('changeDate', function (e) {
+                var msg = "";
+                $(this).datepicker('hide');
+                if ($("#startdate").val() != "" && $("#enddate").val() != "") {
+                    var sd = $("#startdate").val().replace(/-/g, "");
+                    var ed = $("#enddate").val().replace(/-/g, "");
+                    if (parseInt(sd) > parseInt(ed))
+                        msg = "Time range error !!";
+                }
+
+                if (msg == "")
+                    getData(0);
+                else
+                    alert(msg);
+            });
 
 			// 查詢
 			$(document).on("click", "#SearchBtn", function () {
@@ -72,7 +95,9 @@
 				url: "maintainHandler/GetLoginLog.aspx",
 				data: {
 					PageNo: p,
-					keyword: $("#emp_keyword").val()
+					keyword: $("#emp_keyword").val(),
+                    StartDate: $("#startdate").val(),
+                    EndDate: $("#enddate").val()
 				},
 				error: function (xhr) {
 					alert(xhr.responseText);
@@ -114,19 +139,22 @@
          <!--#include file="../templates/Header.html"-->
         <div class="container">
             <div class="content">
-              <!--=====關鍵字搜尋-->
-              <div class="margin-bottom-10 animated">
-                <!--查詢-->
-                <div class="col-md-12">
-                  <div class="btn-group">
+				<div class="btn-group">
+					<div class="btn-group">
+						<input type="text" id="emp_keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input Empno" />
+					</div>
+					<a href="javascript:void(0);" class="btn btn-main" id="SearchBtn"><i class="fa fa-search"></i>&nbsp;Search</a>
+				</div>
+				
+				<div class="margin10TB">
+                    <span style="margin-right: 55px;">Time</span>
                     <div class="btn-group">
-                      <input type="text" id="emp_keyword" name="keyword" value="" onkeypress="" class="form-control" placeholder="Please input Empno" />
+                        <input type="text" id="startdate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="Start Date" maxlength="10" style="background-color: white;" />
                     </div>
-                    <a href="javascript:void(0);" class="btn btn-main" id="SearchBtn"><i class="fa fa-search"></i>&nbsp;Search</a>
-                  </div>
+                    <div class="btn-group">
+                        <input type="text" id="enddate" name="input_date" value="" onkeypress="" class="form-control" readonly="readonly" placeholder="End Date" maxlength="10" style="background-color: white;" />
+                    </div>
                 </div>
-                <div class="clearfix"></div>
-              </div>
 
               <!--PageList-->
               <div class="well">

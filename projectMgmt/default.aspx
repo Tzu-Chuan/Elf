@@ -42,43 +42,62 @@
     <script type="text/javascript" src="../js/jquery-ui.1.12.1.js"></script>
     <title>IEKElf</title>
     <script>
-        $(document).ready(function () {
-            getData(0);
+		$(document).ready(function () {
+			getData(0);
 
-            $(document).on("keypress", "#keyword", function (e) {
-                if ((e.keyCode == 13) || (e.key == "Enter") || (e.code == "Enter")) {
-                    try {
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }
-                    catch (err) {
-                        e.cancelBubble = true;
-                    }
-                    getData(0);
-                    return false;
-                }
-            });
+			$(document).on("keypress", "#keyword", function (e) {
+				if ((e.keyCode == 13) || (e.key == "Enter") || (e.code == "Enter")) {
+					try {
+						e.stopPropagation();
+						e.preventDefault();
+					}
+					catch (err) {
+						e.cancelBubble = true;
+					}
+					getData(0);
+					return false;
+				}
+			});
 
-            $(document).on("click", "#StartBtn", function () {
-                doPjStart($(this).attr("pjguid"));
-            });
-            
-            $(document).on("click", "#DeleteBtn", function () {
-                doPjDelete($(this).attr("pjguid"));
-            });
+			$(document).on("click", "#StartBtn", function () {
+				doPjStart($(this).attr("pjguid"));
+			});
 
-            $(document).on("click", "#CloseBtn", function () {
-                doPjClose($(this).attr("pjguid"));
-            });
+			$(document).on("click", "#DeleteBtn", function () {
+				doPjDelete($(this).attr("pjguid"));
+			});
 
-            $(document).on("click", "#MaintainBtn", function () {
-                doRelatedWordMaintain($(this).attr("pjguid"));
-            });
+			$(document).on("click", "#CloseBtn", function () {
+				doPjClose($(this).attr("pjguid"));
+			});
 
-            $(document).on("click", "#ExportBtn", function () {
-                doExport($(this).attr("pjguid"));
-            });
-        });
+			$(document).on("click", "#MaintainBtn", function () {
+				doRelatedWordMaintain($(this).attr("pjguid"));
+			});
+
+			$(document).on("click", "#ExportBtn", function () {
+				doExport($(this).attr("pjguid"));
+			});
+
+			$(document).on("click", "#reStartBtn", function () {
+				if (confirm("Do you sure want to reopen this project?")) {
+					$.ajax({
+						type: "POST",
+						async: false, //在沒有返回值之前,不會執行下一步動作
+						url: "mgmtHandler/ReOpenProject.aspx",
+						data: {
+							pjGuid: $(this).attr("pjguid")
+						},
+						error: function (xhr) {
+							alert(xhr.responseText);
+						},
+						success: function (data) {
+							getData(0);
+						}
+					});
+				}
+			});
+        });// End JS
         
         function getData(p) {
             $.ajax({
@@ -104,7 +123,8 @@
                                 tabstr += '<tr>';
                                 tabstr += '<td align="center">' + $(this).children("itemNo").text().trim() + '</td>';
                                 tabstr += '<td><a href="../project/PjDetail.aspx?pjGuid=' + $(this).children("project_guid").text().trim() + '">' + $(this).children("project_name").text().trim() + '</a></td>';
-                                tabstr += '<td>' + $(this).children("technology").text().trim() + '</td>';
+								tabstr += '<td>' + $(this).children("technology").text().trim() + '</td>';
+								// 狀態標籤
                                 var StatusColor = '';
                                 if ($(this).children("status").text().trim() == 1)
                                     StatusColor = "label rounded-2x label-info col-sm-12 col-md-9";
@@ -116,11 +136,13 @@
                                     StatusColor = "label rounded-2x label-dark col-sm-12 col-md-9";
                                 else if (parseInt($(this).children("status").text().trim()) >= 60 && parseInt($(this).children("status").text().trim()) <= 69)
                                     StatusColor = "label rounded-2x label-danger col-sm-12 col-md-9";
-                                tabstr += '<td align="center"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
+								tabstr += '<td align="center"><span class="' + StatusColor + '">' + $(this).children("status_en_name").text().trim() + '</span></td>';
+								// 專案建立者
                                 tabstr += '<td align="center">' + $(this).children("OwnerName").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("create_time").text().trim())) + '</td>';
                                 var closed_time = ($(this).children("stop_time").text().trim() == "") ? "" : $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("stop_time").text().trim()));
-                                tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
+								tabstr += '<td align="center" nowrap="nowrap">' + closed_time + '</td>';
+								// Function
                                 tabstr += '<td align="center" nowrap="nowrap">';
                                 if ($(this).children("status").text().trim() == 1) {
                                     tabstr += '<a id="StartBtn" href="javascript:void(0);" class="btn-u btn-u-red margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-power-off margin-right-5"></i>Start</a>';
@@ -130,6 +152,8 @@
                                     tabstr += '<a id="CloseBtn" href="javascript:void(0);" class="btn-u btn-u-sea margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa  fa-power-off margin-right-5"></i>Close</a>';
                                 if ($(this).children("status").text().trim() != 1 && $(this).children("status").text().trim() != 50)
                                     tabstr += '<a href="WordList.aspx?pjGuid='+$(this).children("project_guid").text().trim()+'" class="btn-u btn-u-dark-blue margin-right-5"><i class="fa fa-wrench margin-right-5"></i>Maintain</a>';
+                                if ($(this).children("status").text().trim() == 50)
+                                    tabstr += '<a id="reStartBtn" href="javascript:void(0);" class="btn-u btn-u-red margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-power-off margin-right-5"></i>ReOpen</a>';
                                 tabstr += '<a id="ExportBtn" href="javascript:void(0);" class="btn-u btn-u-dark margin-right-5" pjguid="' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-tasks margin-right-5"></i>Export</a>';
                                 if ($(this).children("MemberStatus").text().trim() == "Y")
                                     tabstr += '<a class="btn-u margin-right-5" href="MemberManage.aspx?pj=' + $(this).children("project_guid").text().trim() + '"><i class="fa fa-wrench margin-right-5"></i>Member</a>';

@@ -22,13 +22,15 @@ public partial class projectMaintain_maintainHandler_GetLoginLog : System.Web.UI
             string PageNo = (string.IsNullOrEmpty(Request["PageNo"])) ? "0" : Request["PageNo"].ToString().Trim();
             int PageSize = (string.IsNullOrEmpty(Request["PageSize"])) ? 20 : int.Parse(Request["PageSize"].ToString().Trim());
             string keyword = (string.IsNullOrEmpty(Request["keyword"])) ? "" : Request["keyword"].ToString().Trim();
+            string StartDate = (string.IsNullOrEmpty(Request["StartDate"])) ? "" : Request["StartDate"].ToString().Trim();
+            string EndDate = (string.IsNullOrEmpty(Request["EndDate"])) ? "" : Request["EndDate"].ToString().Trim();
 
             //計算起始與結束
             int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
             int pageStart = pageEnd - PageSize + 1;
 
             pm_db._KeyWord = keyword;
-            DataSet ds = pm_db.GetLoginLog(pageStart.ToString(), pageEnd.ToString());
+            DataSet ds = pm_db.GetLoginLog(StartDate, EndDate, pageStart.ToString(), pageEnd.ToString());
 
             string xmlstr = string.Empty;
             string xmlstr2 = string.Empty;
