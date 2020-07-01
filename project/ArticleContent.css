@@ -1,10 +1,68 @@
 ﻿@media print {
     @page {
-        margin: 0.5mm;
+        margin: 0.1mm;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
     }
 
     .red_print {
         background-color: #FF7575 !important;
+    }
+
+    .orange_print {
+        background-color: #FFA042 !important;
+    }
+
+    .yellow_print {
+        background-color: #F9F900 !important;
+    }
+
+    .green_print {
+        background-color: #02DF82 !important;
+    }
+
+    .blue_print {
+        background-color: #46A3FF !important;
+    }
+
+    .purple_print {
+        background-color: #CA8EFF !important;
+    }
+
+    .white_print {
+        background-color: #FFFFFF !important;
+    }
+}
+
+@media screen{
+    .red_print {
+        background-color: #FF7575 !important;
+    }
+
+    .orange_print {
+        background-color: #FFA042 !important;
+    }
+
+    .yellow_print {
+        background-color: #F9F900 !important;
+    }
+
+    .green_print {
+        background-color: #02DF82 !important;
+    }
+
+    .blue_print {
+        background-color: #46A3FF !important;
+    }
+
+    .purple_print {
+        background-color: #CA8EFF !important;
+    }
+
+    .white_print {
+        background-color: #FFFFFF !important;
     }
 }
 

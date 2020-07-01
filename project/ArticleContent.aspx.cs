@@ -9,10 +9,11 @@ using System.Data;
 public partial class project_ArticleContent : System.Web.UI.Page
 {
     ProjectMGMT_DB mgmt_db = new ProjectMGMT_DB();
-    public string PjGuid, Competence;
+    public string PjGuid, Competence, BrowserName;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(string.IsNullOrEmpty(Request["atGuid"]))
+        BrowserName = Request.Browser.Browser.ToLower();
+        if (string.IsNullOrEmpty(Request["atGuid"]))
         {
             Response.Write("Message：Parameter Error !!");
             Response.End();

@@ -90,14 +90,15 @@
         }
     </style>
 </head>
-<body class="header-fixed boxed-layout">
+<body class="header-fixed boxed-layout" >
     <input type="hidden" id="TopDistance" />
     <input type="hidden" id="TypeAry" />
     <input type="hidden" id="tmpPjGuid" value="<%= PjGuid %>" />
     <input type="hidden" id="tmpComp" value="<%= Competence %>" />
+    <input type="hidden" id="tmpBrowser" value="<%= BrowserName %>" />
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
-        <div id="printarea" class="container">
+        <div id="printarea" class="container" style="font-family: Segoe UI;">
             <!--文字雲-->
             <div class="twocol margin10T">
                 <div class="left"><h1>See First : Word Cloud</h1></div>
@@ -108,26 +109,26 @@
             <input type="hidden" id="tmpCloud" />
 
             <div class="BoxBgWa margin-bottom-20 margin5T" style="padding:5px 10px;">
-                <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Summary</div>
-                <div style="font-size: 2.28rem; margin-bottom: 10px; font-family: Segoe UI;">Auto Summary</div>
-                <div id="Summary" style="font-size: 18px; font-family: Segoe UI;"></div>
+                <div style="color: #2196F3 !important; font-size: 2.42rem; margin-bottom:5px;">Auto Summary</div>
+                <div id="Summary" style="font-size: 18px; "></div>
             </div>
-            <div id="ArticleTitle" style="font-size: 2.92rem; margin-bottom: 10px; font-family: Segoe UI;"></div>
-            <div id="WebSite" style="font-size: 1rem; margin-bottom: 10px; font-family: Segoe UI;"></div>
+            <div id="ArticleTitle" style="font-size: 2.42rem; margin-bottom: 10px; "></div>
+            <div id="WebSite" style="font-size: 1rem; margin-bottom: 10px; "></div>
 
-            <div class="margin5TB dropdowns" style="background-color: #b0bec5 !important; padding: 5px 0px;">
+            <div class="margin5TB dropdowns" style="background-color: #b0bec5; padding: 5px 0px;">
                 <ul id="topicTag" class="ks-cboxtags"></ul>
             </div>
 
-            <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; font-family: Segoe UI; padding:10px 10px;"></div>
+            <div id="ArticleContent" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;"></div>
         </div>
 
         <!-- Ranking Feedback -->
-        <div class="container">
+        <div class="container" style="font-family: Segoe UI;">
             <div id="FeedBack" class="BoxBgWa margin-bottom-20" style="font-size: 18px; padding:10px 10px;">
                 <input id="ranked" type="hidden" value="N" />
-                <div style="color: #2196F3 !important; font-size: 2.92rem; font-family: Segoe UI;">Ranking Feedback</div>
-                <div style="font-size: 2.28rem;">Five Star Rating</div>
+                <div style="color: #2196F3 !important; font-size: 2.92rem; ">Ranking Feedback</div>
+                <%--<div style="font-size: 2.28rem;">Rating</div>--%>
+                <div id="ScoreBlock" style="font-size:1.64rem; color:#4CAF50 !important; display:none;">score: <span id="RankScore" style="color:#4CAF50 !important;"></span></div>
                 <div style="font-size:30px; margin-bottom:10px;">
                     <a href="javascript:void(0);" class="aStar" name="star" rank="1"><span class="fa fa-star"></span></a>
                     <a href="javascript:void(0);" class="aStar" name="star" rank="2"><span class="fa fa-star"></span></a>
@@ -135,14 +136,14 @@
                     <a href="javascript:void(0);" class="aStar" name="star" rank="4"><span class="fa fa-star"></span></a>
                     <a href="javascript:void(0);" class="aStar" name="star" rank="5"><span class="fa fa-star"></span></a>
                 </div>
-                <div id="ScoreBlock" style="font-size:1.64rem; color:#4CAF50 !important; display:none;">score: <span id="RankScore" style="color:#4CAF50 !important;"></span></div>
-                <div style="font-size: 2.28rem;">User Feedback</div>
+                <div style="font-size: 2.28rem;">Comments</div>
                 <div style="margin-bottom:20px;"><input type="text" id="feedbackStr" name="keyword" value="" onkeypress="" class="form-control" placeholder="Write your feedback down" /></div>
                 <div><input type="button" id="SubBtn" class="btn btn-info" value="SUBMIT" style="color:black; font-size:16px;" /></div>
             </div>
         </div>
 		<div class="container col-12" style="margin-bottom:10px;">
-			<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info btn-lg btn-block" style="color:black;">To maintain key words</a>
+			<div style="font-size:16pt;">To maintain key words：<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank">Click Here</a></div>
+			<%--<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info btn-lg btn-block" style="color:black;">To maintain key words</a>--%>
 		</div>
         <!--#include file="../templates/Footer.html"-->
     </div>

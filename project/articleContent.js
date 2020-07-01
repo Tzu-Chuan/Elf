@@ -2,7 +2,13 @@
     var TopDistance = 0;
     // 文字雲
     WordCloud();
-
+    //if ($.browser.chrome) {
+    //    alert("chrome Ver." + $.browser.version);
+    //} else if ($.browser.mozilla) {
+    //    alert("firefox Ver." + $.browser.version);
+    //} else if ($.browser.msie) {
+    //    alert("IE");
+    //}
     // RWD 依視窗大小重繪文字雲
     d3.select(window).on('resize', WordCloud);
 
@@ -26,41 +32,91 @@
     //checkbox check all
     $(document).on("click", "#Topic_all", function () {
         if ($("#Topic_all").prop("checked")) {
-            // Topic
-            $("input[name='cbTopic']").each(function () {
-                var color = $(this).closest("li").find("label").attr("colorstr");
-                $(this).closest("li").find("label").css("background-color", color);
-                $(this).prop("checked", true);
-            });
+            // IE
+            if ($("#tmpBrowser").val() == "internetexplorer") {
+                // Topic
+                $("input[name='cbTopic']").each(function () {
+                    var color = $(this).closest("li").find("label").attr("colorstr");
+                    $(this).closest("li").find("label").css("background-color", color);
+                    $(this).prop("checked", true);
+                });
 
-            // 標記文字
-            $(".tagword").each(function () {
-                $(this).css("background-color", $(this).attr("colorstr"));
-            });
+                // 標記文字
+                $(".tagword").each(function () {
+                    $(this).css("background-color", $(this).attr("colorstr"));
+                });
+            }
+            // Chrome & FireFox
+            else {
+                // Topic
+                $("input[name='cbTopic']").each(function () {
+                    var color = $(this).closest("li").find("label").attr("colorstr");
+                    $(this).closest("li").find("label").removeClass("white_print");
+                    $(this).closest("li").find("label").addClass(color);
+                    $(this).prop("checked", true);
+                });
+
+                // 標記文字
+                $(".tagword").each(function () {
+                    $(this).addClass($(this).attr("colorstr"));
+                });
+            }
         }
         else {
-            // Topic
             $("input[name='cbTopic']").prop("checked", false);
-            $("input[name='cbTopic']").closest("li").find("label").css("background-color", "#FFFFFF");
-            // 標記文字
-            $(".tagword").css("background-color", "#FFFFFF");
+            if ($("#tmpBrowser").val() == "internetexplorer") {
+                // Topic
+                $("input[name='cbTopic']").closest("li").find("label").css("background-color", "");
+                // 標記文字
+                $(".tagword").css("background-color", "");
+            }
+            else {
+                // Topic
+                $("input[name='cbTopic']").closest("li").find("label").removeClass();
+                $("input[name='cbTopic']").closest("li").find("label").addClass("white_print");
+                // 標記文字
+                $(".tagword").each(function () {
+                    $(this).removeClass($(this).attr("colorstr"));
+                });
+            }
         }
     });
 
     $(document).on("click", "input[name='cbTopic']", function () {
+        var color = $(this).closest("li").find("label").attr("colorstr");
         if ($(this).is(":checked")) {
-            var color = $(this).closest("li").find("label").attr("colorstr");
-            $(this).closest("li").find("label").css("background-color", color);
+            if ($("#tmpBrowser").val() == "internetexplorer")
+                $(this).closest("li").find("label").css("background-color", color);
+            else {
+                $(this).closest("li").find("label").removeClass("white_print");
+                $(this).closest("li").find("label").addClass(color);
+            }
+
             // 標記文字
             $("span[name='" + this.value + "']").each(function () {
-                $(this).css("background-color", color);
+                if ($("#tmpBrowser").val() == "internetexplorer")
+                    $(this).css("background-color", color);
+                else {
+                    $(this).removeClass("white_print");
+                    $(this).addClass(color);
+                }
             });
         }
         else {
-            // Topic
-            $(this).closest("li").find("label").css("background-color", "#FFFFFF");
-            // 標記文字
-            $("span[name='" + this.value + "']").css("background-color", "#FFFFFF");
+            if ($("#tmpBrowser").val() == "internetexplorer") {
+                // Topic
+                $(this).closest("li").find("label").css("background-color", "");
+                // 標記文字
+                $("span[name='" + this.value + "']").css("background-color", "");
+            }
+            else {
+                // Topic
+                $(this).closest("li").find("label").removeClass(color);
+                $(this).closest("li").find("label").addClass("white_print");
+                // 標記文字
+                $("span[name='" + this.value + "']").removeClass(color);
+                $("span[name='" + this.value + "']").addClass("white_print");
+            }
         }
     });
 
@@ -139,7 +195,7 @@
 function getData() {
     $.ajax({
         type: "POST",
-        async: true, //在沒有返回值之前,不會執行下一步動作
+        async: false, //在沒有返回值之前,不會執行下一步動作
         url: "projectHandler/GetArticleDetail.aspx",
         data: {
             atGuid: $.getQueryString("atGuid")
@@ -266,8 +322,11 @@ function getData() {
                             // 文章有對應文字
                             if (tmpIndex >= 0) {
                                 if (boolWord) {
-                                    tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + '">' + tmpstr + '</span>';
-
+                                    if ($("#tmpBrowser").val() == "internetexplorer") // IE
+                                        tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + '">' + tmpstr + '</span>';
+                                    else 
+                                        tmpContent += NewContent.substring(headIndex, tmpIndex) + '<span class="tagword ' + color + '" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '">' + tmpstr + '</span>';
+                                    
                                     if ($.inArray($(this).children("research_guid").text(), ResearchAry) >= 0)
                                         ResearchAry.splice($.inArray($(this).children("research_guid").text(), ResearchAry), 1);
                                 }
@@ -423,12 +482,18 @@ function getResources(color) {
             }
             else {
                 var researchAry = [];
-                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
-                //var color = ["#FF7575 !important;", "#FFA042 !important;", "#F9F900 !important;", "#02DF82 !important;", "#46A3FF !important;", "#CA8EFF !important;"];
-                var color = ["#FF7575", "#FFA042", "#F9F900", "#02DF82", "#46A3FF", "#CA8EFF"];
+                var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" colorstr="#FFFFFF !important;" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
+                if ($("#tmpBrowser").val() == "internetexplorer") // IE
+                    var color = ["lightcoral !important", "lightsalmon !important", "yellow !important", "lightgreen !important", "lightskyblue !important", "mediumpurple !important"];
+                else //Chrome & FireFox & Edge
+                    var color = ["red_print", "orange_print", "yellow_print", "green_print", "blue_print", "purple_print"];
+                //var color = ["#FF7575", "#FFA042", "#F9F900", "#02DF82", "#46A3FF", "#CA8EFF"];
                 $(data).find("topic_item").each(function (i) {
                     var ColorStr = (i > 5) ? GetRandomColor() : color[i];
-                    ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
+                    if ($("#tmpBrowser").val() == "internetexplorer") // IE
+                        ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px; background-color:' + ColorStr + '">' + $(this).children("name").text().trim() + '</label></li>';
+                    else
+                        ULstr += '<li><input type="checkbox" id="Topic' + i + '" value="' + $(this).children("research_guid").text().trim() + '" name="cbTopic" checked="checked" /><label class="' + ColorStr + '" for="Topic' + i + '" colorstr="' + ColorStr + '" style="margin-right: 5px; font-weight: bold; font-size: 18px;">' + $(this).children("name").text().trim() + '</label></li>';
                     researchAry.push($(this).children("research_guid").text().trim());
                 });
                 $("#topicTag").empty();
@@ -443,7 +508,6 @@ function RemoveResources(Ary) {
     $.each(Ary, function (key, value) {
         $('#topicTag li input[value="' + value + '"]').parent().remove();
     });
-   
 }
 
 // 隨機顏色
@@ -506,19 +570,10 @@ function printstem(word) {
 
 //列印功能
 function printHtml() {
-    var bodyHtml = document.body.innerHTML;
-    var index = 0;
-    var newHtml = $("#printarea").html();
-    var tmpIndex = newHtml.indexOf("#");
-    while (tmpIndex >= 0) {
-        newHtml = newHtml.substring(0, tmpIndex) + newHtml.substr(tmpIndex, 7) + " !important" + newHtml.substring(tmpIndex + 7);
-
-        index = tmpIndex + 1;
-        tmpIndex = newHtml.indexOf("#", index);
-
-    }
-    document.body.innerHTML = newHtml;
+    //var bodyHtml = document.body.innerHTML;
+    //var newHtml = $("#printarea").html();
+    //document.body.innerHTML = newHtml;
     window.print();
-    document.body.innerHTML = bodyHtml;
+    //document.body.innerHTML = bodyHtml;
     
 }
