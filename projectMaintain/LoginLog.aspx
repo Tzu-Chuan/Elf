@@ -114,7 +114,7 @@
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("itemNo").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_userdeptid").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_empno").text().trim() + '</td>';
-								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("com_cname").text().trim() + '</td>';
+								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_empname").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("log_ip").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap">' + $.datepicker.formatDate('yy-mm-dd', new Date($(this).children("log_datetime").text().trim())) + '&nbsp;&nbsp;' + $.FormatTime($(this).children("log_datetime").text().trim()) + '</td>';
 								tabstr += '</tr>';

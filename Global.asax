@@ -45,7 +45,7 @@
                 if (tFlag == false)
                 {
                     /*add system login log */
-                    Dao_Common.Save_Loginlog(SSOUtil.GetCurrentUser().工號, CommonUtil.GetCurrentUserIP(), DateTime.Now, "登入", "IEKElf", "", SSOUtil.GetCurrentUser().部門);
+                    Dao_Common.Save_Loginlog(SSOUtil.GetCurrentUser().工號,SSOUtil.GetCurrentUser().姓名, CommonUtil.GetCurrentUserIP(), DateTime.Now, "登入", "IEKElf", "", SSOUtil.GetCurrentUser().部門);
                 }
             }
         }

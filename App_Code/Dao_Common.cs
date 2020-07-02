@@ -13,20 +13,21 @@ public class Dao_Common
 {
     /*============================================================================*/
     /*儲存登入記錄(save login log)*/
-    public static int Save_Loginlog(string log_empno, string log_ip, DateTime log_datetime, string log_modulename, string log_systemname, string log_systemid, string log_userdeptid)
+    public static int Save_Loginlog(string log_empno,string log_empname, string log_ip, DateTime log_datetime, string log_modulename, string log_systemname, string log_systemid, string log_userdeptid)
     {
         try
         {
             SqlCommand oCmd = new SqlCommand();
             StringBuilder sb = new StringBuilder();
             sb.Append(@"
-insert into [sys_loginlog]([log_empno],[log_ip],[log_datetime],[log_modulename],[log_systemname],[log_systemid],[log_userdeptid])
+insert into [sys_loginlog]([log_empno],log_empname,[log_ip],[log_datetime],[log_modulename],[log_systemname],[log_systemid],[log_userdeptid])
 values(@log_empno,@log_ip,@log_datetime,@log_modulename,@log_systemname,@log_systemid,@log_userdeptid)
 ;");
 
             oCmd.CommandText = sb.ToString();
             oCmd.Connection = DbUtil.GetConn();
             oCmd.Parameters.AddWithValue("@log_empno", log_empno);
+            oCmd.Parameters.AddWithValue("@log_empname", log_empname);
             oCmd.Parameters.AddWithValue("@log_ip", log_ip);
             oCmd.Parameters.AddWithValue("@log_datetime", log_datetime);
             oCmd.Parameters.AddWithValue("@log_modulename", log_modulename);
