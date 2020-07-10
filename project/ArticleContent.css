@@ -36,6 +36,25 @@
     }
 }
 
+@media (max-width: 1990px) {
+    .rwd-height {
+        height: 220px;
+    }
+}
+
+@media (max-width: 992px) {
+    .rwd-height {
+        height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rwd-height {
+        height: 270px;
+    }
+}
+
+
 @media screen{
     .red_print {
         background-color: #FF7575 !important;
@@ -63,6 +82,22 @@
 
     .white_print {
         background-color: #FFFFFF !important;
+    }
+
+    .feedback-left {
+        width: 49%;
+        height: 100%;
+        float: left;
+        border-radius: 10px;
+        padding: 0px 10px;
+    }
+
+    .feedback-right {
+        width: 49%;
+        height: 100%;
+        float: right;
+        border-radius: 10px;
+        padding: 10px 10px;
     }
 }
 

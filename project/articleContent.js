@@ -217,7 +217,7 @@ function getData() {
                     $(data).find("data_item").each(function (i) {
                         $("#Summary").html($(this).children("abstract_iekelf").text().trim());
                         $("#ArticleTitle").html($(this).children("title").text().trim());
-                        $("#WebSite").html('Article from: <a target="_blank" href="' + $(this).children("url").text().trim() + '">' + $(this).children("website_name").text().trim() + '</a>');
+                        $("#WebSite").html('Source: ' + $(this).children("website_name").text().trim() + '.  click <a target="_blank" href="' + $(this).children("url").text().trim() + '">here</a>' + ' to view the original article.');
                         NewContent = $(this).children("full_text").text().trim().replace(/\n/g, " ");
                     });
                 }
@@ -240,7 +240,7 @@ function getData() {
 
                         // debug 用
                         //var stop = '';
-                        //if ($(this).children("name").text() == "communication")
+                        //if ($(this).children("name").text() == "Uber")
                         //    stop = "OK";
 
                         // **************** 文章處理 Start *******************
@@ -267,11 +267,11 @@ function getData() {
 
                             // 判斷文字前面是否為空白(複合字)
                             var mergeWord = false;
-                            if (NewContent.substr((tmpIndex - 1), 1) != " " && tmpIndex > 0) {
+                            if (NewContent.substr((tmpIndex - 1), 1).trim() != "" && tmpIndex > 0) {
                                 mergeWord = true;
                                 do {
                                     tmpIndex = tmpIndex - 1;
-                                } while (NewContent.substr(tmpIndex, 1) != " " && NewContent.substr(tmpIndex, 1) != ".")
+                                } while (NewContent.substr(tmpIndex, 1).trim() != "" && NewContent.substr(tmpIndex, 1) != ".")
                                 // +1 去掉前面的空白
                                 tmpIndex += 1;
                             }
