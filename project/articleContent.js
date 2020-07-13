@@ -1,14 +1,6 @@
 ﻿$(document).ready(function () {
-    var TopDistance = 0;
     // 文字雲
     WordCloud();
-    //if ($.browser.chrome) {
-    //    alert("chrome Ver." + $.browser.version);
-    //} else if ($.browser.mozilla) {
-    //    alert("firefox Ver." + $.browser.version);
-    //} else if ($.browser.msie) {
-    //    alert("IE");
-    //}
     // RWD 依視窗大小重繪文字雲
     d3.select(window).on('resize', WordCloud);
 
@@ -195,7 +187,7 @@
 function getData() {
     $.ajax({
         type: "POST",
-        async: false, //在沒有返回值之前,不會執行下一步動作
+        async: true, //在沒有返回值之前,不會執行下一步動作
         url: "projectHandler/GetArticleDetail.aspx",
         data: {
             atGuid: $.getQueryString("atGuid")
@@ -203,9 +195,24 @@ function getData() {
         error: function (xhr) {
             alert(xhr.responseText);
         },
+        beforeSend: function () {
+            $.blockUI({
+                message: $('#msgblock'),
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#ffffff',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .6,
+                    color: '#000000'
+                }
+            });
+        },
         complete: function () {
             $("#TopDistance").val($(".dropdowns").offset().top);
             $('.dropdowns').css("width", $('#ArticleContent').width() + 20 + "px");
+            $.unblockUI();
         },
         success: function (data) {
             if ($(data).find("Error").length > 0) {
@@ -267,7 +274,12 @@ function getData() {
 
                             // 判斷文字前面是否為空白(複合字)
                             var mergeWord = false;
-                            if (NewContent.substr((tmpIndex - 1), 1).trim() != "" && tmpIndex > 0) {
+                            if (NewContent.substr((tmpIndex - 1), 1).trim() != "" && 
+                                NewContent.substr((tmpIndex - 1), 1).trim() != "?" &&
+                                NewContent.substr((tmpIndex - 1), 1).trim() != "!" &&
+                                NewContent.substr((tmpIndex - 1), 1).trim() != ":" &&
+                                NewContent.substr((tmpIndex - 1), 1).trim() != "," &&
+                                NewContent.substr((tmpIndex - 1), 1).trim() != "." && tmpIndex > 0) {
                                 mergeWord = true;
                                 do {
                                     tmpIndex = tmpIndex - 1;
@@ -346,7 +358,7 @@ function getData() {
                         // **************** 文章處理 End *******************
                     });
 
-                    NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\?/g, ".<br><br>");
+                    NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\?/g, "?<br><br>");
                     $("#ArticleContent").html(NewContent);
 
                     RemoveResources(ResearchAry);
@@ -361,7 +373,7 @@ function WordCloud() {
     if ($("#tmpCloud").val() == "") {
         $.ajax({
             type: "POST",
-            async: false, //在沒有返回值之前,不會執行下一步動作
+            async: true, //在沒有返回值之前,不會執行下一步動作
             url: "projectHandler/GetArticleWordCloud.aspx",
             data: {
                 atGuid: $.getQueryString("atGuid")

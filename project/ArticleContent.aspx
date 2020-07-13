@@ -64,6 +64,7 @@
     <!--===my js-->
     <script type="text/javascript" src="articleContent.js"></script>
     <script type="text/javascript" src="../js/snowball.babel.js"></script>
+    <script type="text/javascript" src="../js/jquery.blockUI.js"></script>
 
     <link rel="stylesheet" href="ArticleContent.css" />
 
@@ -96,6 +97,7 @@
     <input type="hidden" id="tmpPjGuid" value="<%= PjGuid %>" />
     <input type="hidden" id="tmpComp" value="<%= Competence %>" />
     <input type="hidden" id="tmpBrowser" value="<%= BrowserName %>" />
+	<div id="msgblock" style="display:none; text-align: left;"><img id="displayBox" src="../assets/loading.gif" width="200" />Article Analysing...</div>
     <div class="wrapper">
          <!--#include file="../templates/Header.html"-->
 		<div class="container" style="font-family: Segoe UI;">
