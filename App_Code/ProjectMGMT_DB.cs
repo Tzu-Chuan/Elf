@@ -260,7 +260,7 @@ left join input_related_word as w on w.research_guid=d.research_guid and blackli
 where project_guid=@pjguid
 group by w.name
 
-select max(total) as MaxNum from #tmp
+select ISNULL(max(total),0) as MaxNum from #tmp
 
 drop table #tmp ");
 
