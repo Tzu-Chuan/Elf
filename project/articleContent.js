@@ -234,6 +234,28 @@ function getData() {
                     $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + $("ErrorRepeat", data).text() + '</span>');
                 }
 
+                //  **************** 文章段落處理 Start *******************
+                var point_index = NewContent.indexOf(".");
+                var h_index = 0;
+                var e_index = 0;
+                var tmpPointStr = "";
+                if (point_index > -1) {
+                    while (point_index >= 0) {
+                        tmpPointStr += NewContent.substring(h_index, point_index) + ".";
+                        if (NewContent.substr(point_index - 2, 2).trim() != "Dr"
+                            && NewContent.substr(point_index - 2, 2).trim() != "Mr"
+                            && NewContent.substr(point_index - 2, 2).trim() != "Ms") {
+                            tmpPointStr += "<br><br>";
+                        }
+                        e_index = NewContent.indexOf(" ", point_index + 1);
+                        h_index = e_index;
+                        point_index = NewContent.indexOf(".", point_index + 1);
+                    }
+                }
+
+                NewContent = tmpPointStr;
+                // **************** 文章段落處理 End *******************
+
                 var ResearchAry=$("#TypeAry").val().split(",");
                 if ($(data).find("word_item").length > 0) {
                     // 單字原型判斷套件設定語言
@@ -272,7 +294,7 @@ function getData() {
 
                             tmpIndex = NewContent.indexOf(name, index);
 
-                            // 判斷文字前面是否為空白(複合字)
+                            // 判斷文字是否為複合字
                             var mergeWord = false;
                             if (NewContent.substr((tmpIndex - 1), 1).trim() != "" && 
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "?" &&
@@ -358,7 +380,9 @@ function getData() {
                         // **************** 文章處理 End *******************
                     });
 
-                    NewContent = NewContent.replace(/\./g, ".<br><br>").replace(/\?/g, "?<br><br>");
+                   
+                    //NewContent = NewContent.replace(/\./g, ".<br><br>");//.replace(/\?/g, "?<br><br>");
+                    
                     $("#ArticleContent").html(NewContent);
 
                     RemoveResources(ResearchAry);
@@ -496,7 +520,7 @@ function getResources(color) {
                 var researchAry = [];
                 var ULstr = '<li><input type="checkbox" id="Topic_all" value="" name="cbTopic" checked="checked" /><label for="Topic_all" colorstr="#FFFFFF !important;" style="margin-right: 5px; font-weight: bold; font-size: 18px; font-family: Segoe UI; background-color:#FFFFFF !important;">All</label></li>';
                 if ($("#tmpBrowser").val() == "internetexplorer") // IE
-                    var color = ["lightcoral !important", "lightsalmon !important", "yellow !important", "lightgreen !important", "lightskyblue !important", "mediumpurple !important"];
+                    var color = ["lightpink !important", "sandybrown !important", "yellow !important", "lightgreen !important", "lightskyblue !important", "mediumpurple !important"];
                 else //Chrome & FireFox & Edge
                     var color = ["red_print", "orange_print", "yellow_print", "green_print", "blue_print", "purple_print"];
                 //var color = ["#FF7575", "#FFA042", "#F9F900", "#02DF82", "#46A3FF", "#CA8EFF"];

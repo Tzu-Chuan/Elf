@@ -113,7 +113,7 @@
 				
 				<div style="color: #2196F3 !important; font-size: 2.42rem; margin-bottom:5px;">Auto Summary</div>
 				<div class="BoxBgWa margin-bottom-20 margin5T" style="padding:5px 10px;">
-					<div id="Summary" style="font-size: 18px; "></div>
+					<div id="Summary" style="font-size: 18px;"></div>
 				</div>
 				<div id="ArticleTitle" style="font-size: 2.42rem; margin-bottom: 10px; "></div>
 				<div id="WebSite" style="font-size: 1rem; margin-bottom: 10px; "></div>

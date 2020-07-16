@@ -8,11 +8,11 @@
     }
 
     .red_print {
-        background-color: #FF7575 !important;
+        background-color: #FFB6C1 !important;
     }
 
     .orange_print {
-        background-color: #FFA042 !important;
+        background-color: #F4A460 !important;
     }
 
     .yellow_print {
@@ -57,11 +57,11 @@
 
 @media screen{
     .red_print {
-        background-color: #FF7575 !important;
+        background-color: #FFB6C1 !important;
     }
 
     .orange_print {
-        background-color: #FFA042 !important;
+        background-color: #F4A460 !important;
     }
 
     .yellow_print {
