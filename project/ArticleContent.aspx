@@ -147,9 +147,9 @@
 				<div style="font-size:16pt;">To maintain key words：<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank">Click Here</a></div>
 				<%--<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info btn-lg btn-block" style="color:black;">To maintain key words</a>--%>
 			</div>-->
-
-			<div style="color: #2196F3 !important; font-size: 2.92rem;  margin-bottom:10px;">Ranking Feedback</div>
-			<div  id="FeedBack" class="rwd-height margin10B" style="overflow:hidden; border-radius: 10px;">
+			<div id="FeedBack">
+				<div style="color: #2196F3 !important; font-size: 2.92rem;  margin-bottom:10px;">Ranking Feedback</div>
+				<div class="rwd-height margin10B" style="overflow:hidden; border-radius: 10px;">
 				<div class="BoxBgWa feedback-left">
 					<div style="font-size: 2.3em;">Rating</div>
 					<div style="font-size:1.64rem; color:#4CAF50 !important;">score: <span id="RankScore" style="color:#4CAF50 !important;">0</span></div>
@@ -173,6 +173,7 @@
 					<span>Maintain key words：</span>
 					<a href="../projectMgmt/WordList.aspx?pjGuid=<%= PjGuid %>" target="_blank" class="btn btn-info" style="color:black; font-size:1rem; width:100px;">Go</a>
 				</div>
+			</div>
 			</div>
 		</div>
         <!--#include file="../templates/Footer.html"-->

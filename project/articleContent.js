@@ -542,6 +542,7 @@ function getResources(color) {
     });
 }
 
+// 刪除沒出現關鍵字的分類
 function RemoveResources(Ary) {
     $.each(Ary, function (key, value) {
         $('#topicTag li input[value="' + value + '"]').parent().remove();
@@ -576,7 +577,7 @@ function GetFeedBack() {
             }
             else {
                 // 若為專案管理員或系統管理員
-                //if ($("#tmpComp").val() == "Y") {
+                if ($("#tmpComp").val() == "Y") {
                     if ($(data).find("data_item").length > 0) {
                         $(data).find("data_item").each(function () {
                             var score = parseInt($(this).attr("star_rating"))
@@ -593,10 +594,10 @@ function GetFeedBack() {
                                 $("#ranked").val("Y");
                         });
                     }
-                //}
-                //else {
-                //    $("#FeedBack").hide();
-                //}
+                }
+                else {
+                    $("#FeedBack").hide();
+                }
             }
         }
     });
