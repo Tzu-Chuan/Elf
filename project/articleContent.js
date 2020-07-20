@@ -239,12 +239,13 @@ function getData() {
                 var h_index = 0;
                 var e_index = 0;
                 var tmpPointStr = "";
+                var twoWord = ["Dr", "Mr", "Ms"];
+                var threeWord = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
                 if (point_index > -1) {
                     while (point_index >= 0) {
                         tmpPointStr += NewContent.substring(h_index, point_index) + ".";
-                        if (NewContent.substr(point_index - 2, 2).trim() != "Dr"
-                            && NewContent.substr(point_index - 2, 2).trim() != "Mr"
-                            && NewContent.substr(point_index - 2, 2).trim() != "Ms") {
+                        if ($.inArray(NewContent.substr(point_index - 2, 2).trim(), twoWord) == -1
+                            && $.inArray(NewContent.substr(point_index - 3, 3).toUpperCase().trim(), threeWord) == -1) {
                             tmpPointStr += "<br><br>";
                         }
                         e_index = NewContent.indexOf(" ", point_index + 1);
@@ -391,6 +392,7 @@ function getData() {
         }
     });
 }
+
 
 // 文字雲
 function WordCloud() {
