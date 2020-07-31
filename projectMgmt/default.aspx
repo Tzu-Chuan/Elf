@@ -169,7 +169,7 @@
                     }
                 }
             });
-        }
+		}
     </script>
 </head>
 <body class="header-fixed boxed-layout">
@@ -316,7 +316,7 @@
             <br/>
 
             <!-- ===excel content -->
-            <div id="excelContentBlock_02"></div>
+            <div id="excelContent"></div>
 
             <!-- ===btn -->
             <div class="col-sm-12 col-md-12 text-right">

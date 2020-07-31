@@ -17,7 +17,6 @@ jQuery(document).ready(function () {
     });
 
     $("#btn_01_next").click(function (event) {
-        ///doUpload(event);
         excelUpload(event);
     });
 
@@ -103,10 +102,6 @@ function doUpload(event) {
     }
 }
 
-
-/*https://dotblogs.com.tw/cross/2010/09/21/17840 */
-/*https://www.mkyong.com/jquery/jquery-ajax-submit-a-multipart-form */
-/*===上載1*/
 function excelUpload(event) {
     //stop submit the form, we will post it manually.
     event.preventDefault();
@@ -123,34 +118,30 @@ function excelUpload(event) {
     // disabled the submit button
     $("#btn_01_next").prop("disabled", true);
 
-
-
     $.ajax({
         type: "POST",
         enctype: 'multipart/form-data',
-        url: "inputExcelCheck.aspx",
+        url: "mgmtHandler/UpLoadExcel.aspx",
         data: data,
         processData: false,
         contentType: false,
         cache: false,
         timeout: 600000,
+        error: function (xhr) {
+            $("#btn_01_next").prop("disabled", false);
+            $("#message_01").text(xhr.responseText);
+        },
         success: function (data) {
             $("#btn_01_next").prop("disabled", false);
-            if (data.substring(0, 14) == "Error message,") {
-                $("#message_01").text(data);
+            if ($(data).find("Error").length > 0) {
+                $("#message_01").text($(data).find("Error").attr("Message"));
             }
             else {
-                /////alert(data);
-                ////$("#result").text(data);
-                $("#InitiateProject_01").modal('hide');
+                $("#excelContent").html(data);
 
-                $("#excelContentBlock_02").html(data);
+                $("#InitiateProject_01").modal('hide');
                 $("#InitiateProject_02").modal('show');
             }
-        },
-        error: function (e) {
-            $("#btn_01_next").prop("disabled", false);
-            $("#message_01").text(e.responseText);
         }
     });
 }
