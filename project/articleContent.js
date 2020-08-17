@@ -291,6 +291,7 @@ function getData() {
 
                             tmpIndex = NewContent.indexOf(name, index);
 
+                            // 重覆字詞狀態
                             var repeatWord = false;
                             // 判斷文字是否為複合字
                             var mergeWord = false;
@@ -300,7 +301,8 @@ function getData() {
                                 NewContent.substr((tmpIndex - 1), 1).trim() != ":" &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "," &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "." &&
-                                NewContent.substr((tmpIndex - 1), 1).trim() != ">" && tmpIndex > 0) {
+                                NewContent.substr((tmpIndex - 1), 1).trim() != ">" && // 文字重複
+                                tmpIndex > 0) {
                                 mergeWord = true;
                                 do {
                                     tmpIndex = tmpIndex - 1;
@@ -308,8 +310,8 @@ function getData() {
                                 // +1 去掉前面的空白
                                 tmpIndex += 1;
                             }
-                            // 判斷是否為重複字
                             else {
+                                // 字詞重覆出現時
                                 if (NewContent.substr((tmpIndex - 1), 1).trim() == ">")
                                     repeatWord = true;
                             }
@@ -317,7 +319,6 @@ function getData() {
                             index = tmpIndex + 1;
 
                             // 單字結尾位置
-                            //var endIndex = NewContent.indexOf(" ", index);
                             var endIndex='';
                             if (repeatWord)
                                 endIndex = NewContent.indexOf("<", index);
