@@ -555,14 +555,14 @@ create_time
         return ds;
     }
 
-    public DataTable CheckWordExist(string project_guid,string name)
+    public DataTable CheckWordExist(string project_guid,string name,string research_guid)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from input_related_word where
-research_guid in (SELECT research_guid FROM input_research_direction where project_guid=@project_guid) and name=@name ");
+research_guid in (SELECT research_guid FROM input_research_direction where project_guid=@project_guid) and name=@name and research_guid=@research_guid ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -571,8 +571,9 @@ research_guid in (SELECT research_guid FROM input_research_direction where proje
 
         oCmd.Parameters.AddWithValue("@project_guid", project_guid);
         oCmd.Parameters.AddWithValue("@name", name);
+        oCmd.Parameters.AddWithValue("@research_guid", research_guid);
 
-        oda.Fill(ds);
+		oda.Fill(ds);
         return ds;
     }
 

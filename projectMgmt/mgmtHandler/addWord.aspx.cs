@@ -53,18 +53,18 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
             string xmlstr = string.Empty;
             if (wGuid == "")
             {
-                #region 檢查字詞是否存在
-                DataTable dt = mgmt_db.CheckWordExist(pjGuid, Word);
-                if (dt.Rows.Count > 0)
-                {
-                    xDoc = ExceptionUtil.GetErrorMassageDocument("The word is already in the list.");
-                    Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
-                    xDoc.Save(Response.Output);
-                    return;
-                }
-                #endregion
+				#region 檢查字詞是否存在
+				DataTable dt = mgmt_db.CheckWordExist(pjGuid, Word, TopicID);
+				if (dt.Rows.Count > 0)
+				{
+					xDoc = ExceptionUtil.GetErrorMassageDocument("The word is already in the list.");
+					Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
+					xDoc.Save(Response.Output);
+					return;
+				}
+				#endregion
 
-                string newGuid = Guid.NewGuid().ToString();
+				string newGuid = Guid.NewGuid().ToString();
                 mgmt_db.addWord(oConn, myTrans, newGuid, TopicID, Word, Word_stem, Blacklist);
                 mgmt_db.InsertWordLog(oConn, myTrans, pjGuid, newGuid,"add");
                 xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>Add Success</Response></root>";
@@ -74,7 +74,7 @@ public partial class projectMgmt_mgmtHandler_addWord : System.Web.UI.Page
                 if (Word != OrgWord)
                 {
                     #region 檢查字詞是否存在
-                    DataTable dt = mgmt_db.CheckWordExist(pjGuid, Word);
+                    DataTable dt = mgmt_db.CheckWordExist(pjGuid, Word, TopicID);
                     if (dt.Rows.Count > 0)
                     {
                         xDoc = ExceptionUtil.GetErrorMassageDocument("The word is already in the list.");

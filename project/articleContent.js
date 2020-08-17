@@ -107,7 +107,7 @@
                 $(this).closest("li").find("label").addClass("white_print");
                 // 標記文字
                 $("span[name='" + this.value + "']").removeClass(color);
-                $("span[name='" + this.value + "']").addClass("white_print");
+                //$("span[name='" + this.value + "']").addClass("white_print");
             }
         }
     });
@@ -193,7 +193,8 @@ function getData() {
             atGuid: $.getQueryString("atGuid")
         },
         error: function (xhr) {
-            alert(xhr.responseText);
+            $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + xhr.status + '</span>');
+            console.log(xhr.responseText);
         },
         beforeSend: function () {
             $.blockUI({
@@ -216,7 +217,7 @@ function getData() {
         },
         success: function (data) {
             if ($(data).find("Error").length > 0) {
-                alert($(data).find("Error").attr("Message"));
+                $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + $(data).find("Error").attr("Message") + '</span>');
             }
             else {
                 var NewContent = '';
@@ -227,11 +228,6 @@ function getData() {
                         $("#WebSite").html('Source: ' + $(this).children("website_name").text().trim() + '.  click <a target="_blank" href="' + $(this).children("url").text().trim() + '">here</a>' + ' to view the original article.');
                         NewContent = $(this).children("full_text").text().trim().replace(/\n/g, " ");
                     });
-                }
-
-
-                if ($(data).find("ErrorRepeat").length > 0) {
-                    $("#ArticleContent").html('<span style="color:red;">Error Message：<br>' + $("ErrorRepeat", data).text() + '</span>');
                 }
 
                 //  **************** 文章段落處理 Start *******************
@@ -269,9 +265,9 @@ function getData() {
                         //NewContent = NewContent.replace(word, '<span class="tagword" name="' + $(this).children("research_guid").text() + '" colorstr="' + color + '" style="background-color:' + color + ';">' + $(this).children("name").text() + '</span>');
 
                         // debug 用
-                        //var stop = '';
-                        //if ($(this).children("name").text() == "Uber")
-                        //    stop = "OK";
+                        var stop = '';
+                        if ($(this).children("name").text() == "coronavirus")
+                            stop = "OK";
 
                         // **************** 文章處理 Start *******************
                         var index = 0;
@@ -295,14 +291,16 @@ function getData() {
 
                             tmpIndex = NewContent.indexOf(name, index);
 
+                            var repeatWord = false;
                             // 判斷文字是否為複合字
                             var mergeWord = false;
-                            if (NewContent.substr((tmpIndex - 1), 1).trim() != "" && 
+                            if (NewContent.substr((tmpIndex - 1), 1).trim() != "" &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "?" &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "!" &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != ":" &&
                                 NewContent.substr((tmpIndex - 1), 1).trim() != "," &&
-                                NewContent.substr((tmpIndex - 1), 1).trim() != "." && tmpIndex > 0) {
+                                NewContent.substr((tmpIndex - 1), 1).trim() != "." &&
+                                NewContent.substr((tmpIndex - 1), 1).trim() != ">" && tmpIndex > 0) {
                                 mergeWord = true;
                                 do {
                                     tmpIndex = tmpIndex - 1;
@@ -310,11 +308,21 @@ function getData() {
                                 // +1 去掉前面的空白
                                 tmpIndex += 1;
                             }
+                            // 判斷是否為重複字
+                            else {
+                                if (NewContent.substr((tmpIndex - 1), 1).trim() == ">")
+                                    repeatWord = true;
+                            }
 
                             index = tmpIndex + 1;
 
                             // 單字結尾位置
-                            var endIndex = NewContent.indexOf(" ", index);
+                            //var endIndex = NewContent.indexOf(" ", index);
+                            var endIndex='';
+                            if (repeatWord)
+                                endIndex = NewContent.indexOf("<", index);
+                            else
+                                endIndex = NewContent.indexOf(" ", index);
 
                             // 句子處理
                             if (spaceCont > 0) {
