@@ -92,15 +92,15 @@ template：
           <!--列表-->
           <div class="bg-color-grey2" style="padding:10px;">
             <div class="row">
-              <xsl:for-each select="./*">
-                <ul style="list-style-type: decimal;">
+              <ul style="list-style-type: decimal;">
+                <xsl:for-each select="./*">
                   <li class="col-xs-6 col-md-3">
                     <span>
                       <xsl:value-of select="./text()"/>
                     </span>
                   </li>
-                </ul>
-              </xsl:for-each>
+                </xsl:for-each>
+              </ul>
             </div>
           </div>
 

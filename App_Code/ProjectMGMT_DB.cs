@@ -881,4 +881,189 @@ where project_guid=@PjGuid
         oCmd.ExecuteNonQuery();
         oCmd.Connection.Close();
     }
+
+	public DataTable InesrtProjectOptSite()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["DSN.Default"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select * from sys_opt_site where disable=0 ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		//oCmd.Parameters.AddWithValue("@project_guid", project_guid);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public void InsertPj_Right(string projectGuid, SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into sys_project_right (
+right_guid,
+project_guid,
+role_id,
+empno,
+empname,
+orgcd,
+deptid,
+create_time,
+create_empno,
+create_empname
+) values (
+@right_guid,
+@project_guid,
+@role_id,
+@empno,
+@empname,
+@orgcd,
+@deptid,
+@create_time,
+@create_empno,
+@create_empname
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@right_guid", Guid.NewGuid().ToString());
+		oCmd.Parameters.AddWithValue("@project_guid", projectGuid);
+		oCmd.Parameters.AddWithValue("@role_id", "owner");
+		oCmd.Parameters.AddWithValue("@empno", SSOUtil.GetCurrentUser().工號);
+		oCmd.Parameters.AddWithValue("@empname", SSOUtil.GetCurrentUser().姓名);
+		oCmd.Parameters.AddWithValue("@orgcd", SSOUtil.GetCurrentUser().單位代碼);
+		oCmd.Parameters.AddWithValue("@deptid", SSOUtil.GetCurrentUser().部門代碼);
+		oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+		oCmd.Parameters.AddWithValue("@create_empno", SSOUtil.GetCurrentUser().工號);
+		oCmd.Parameters.AddWithValue("@create_empname", SSOUtil.GetCurrentUser().姓名);
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
+
+	public void InsertPj_Project(string projectGuid, string projectName, string technology, string tn_related_word, SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into input_project (
+project_guid,
+project_name,
+technology,
+tn_related_word,
+status,
+create_time
+) values (
+@project_guid,
+@project_name,
+@technology,
+@tn_related_word,
+@status,
+@create_time
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@project_guid", projectGuid);
+		oCmd.Parameters.AddWithValue("@project_name", projectName);
+		oCmd.Parameters.AddWithValue("@technology", technology);
+		oCmd.Parameters.AddWithValue("@tn_related_word", tn_related_word);
+		oCmd.Parameters.AddWithValue("@status", "1");
+		oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
+
+	public void InsertPj_Website(string projectGuid, string WebName, SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into input_website (
+website_guid,
+project_guid, 
+schedule, 
+website_name, 
+create_time
+) values (
+@website_guid,
+@project_guid, 
+@schedule, 
+@website_name, 
+@create_time
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@website_guid", Guid.NewGuid().ToString());
+		oCmd.Parameters.AddWithValue("@project_guid", projectGuid);
+		oCmd.Parameters.AddWithValue("@schedule", "1");
+		oCmd.Parameters.AddWithValue("@website_name", WebName);
+		oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
+
+	public void InsertPj_ResearchDirection(string projectGuid, string research_guid, string name, SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into input_research_direction (
+research_guid, 
+name, 
+project_guid,
+create_time
+) values (
+@research_guid, 
+@name, 
+@project_guid,
+@create_time
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@research_guid", research_guid);
+		oCmd.Parameters.AddWithValue("@name", name);
+		oCmd.Parameters.AddWithValue("@project_guid", projectGuid);
+		oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
+
+	public void InsertPj_RelatedWord(string projectGuid, string research_guid, string name, SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into input_related_word (
+related_guid, 
+research_guid, 
+name, 
+blacklist, 
+schedule, 
+analyst_give, 
+create_time
+) values (
+@related_guid, 
+@research_guid, 
+@name, 
+@blacklist, 
+@schedule, 
+@analyst_give, 
+@create_time
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@related_guid", Guid.NewGuid().ToString());
+		oCmd.Parameters.AddWithValue("@research_guid", research_guid);
+		oCmd.Parameters.AddWithValue("@name", name);
+		oCmd.Parameters.AddWithValue("@blacklist", "0"); // 白名單 0 / 黑名單 1
+		oCmd.Parameters.AddWithValue("@schedule", "1");
+		oCmd.Parameters.AddWithValue("@analyst_give", "0");
+		oCmd.Parameters.AddWithValue("@create_time", DateTime.Now);
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
 }

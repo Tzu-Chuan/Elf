@@ -7,24 +7,21 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using FlexCel.Core;
 using FlexCel.XlsAdapter;
+using System.Data;
 
 public partial class projectMgmt_mgmtHandler_UpLoadExcel : System.Web.UI.Page
 {
+	ProjectMGMT_DB db = new ProjectMGMT_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         XmlDocument xDoc = new XmlDocument();
 
-        #region 權限
-        if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
-        {
-            xDoc = ExceptionUtil.GetErrorMassageDocument("Error message：do not have read right.");
-            Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
-            xDoc.Save(Response.Output);
-            return;
-        }
-        #endregion
+		#region 權限
+		if (!RightUtil.Get_BaseRight().角色是系統或專案管理人員)
+			throw new Exception("do not have read right.");
+		#endregion
 
-        try
+		try
         {
             HttpFileCollection uploadFiles = Request.Files;//檔案集合
             HttpPostedFile aFile = uploadFiles[0];
@@ -36,7 +33,6 @@ public partial class projectMgmt_mgmtHandler_UpLoadExcel : System.Web.UI.Page
 
             XmlDocument xmldoc = new XmlDocument();
             XmlElement pInfo = xmldoc.CreateElement("ProjectInfo");
-            pInfo.SetAttribute("project_guid", Guid.NewGuid().ToString());
             xmldoc.AppendChild(pInfo);
 
             XmlElement xCol = null;
@@ -54,7 +50,7 @@ public partial class projectMgmt_mgmtHandler_UpLoadExcel : System.Web.UI.Page
                 {
                     cellStr = (excelObj.GetCellValue(row, col) == null) ? "" : excelObj.GetCellValue(row, col).ToString().Trim();
                     tmpAry = cellStr.Split('(');
-                    cellStr = tmpAry[0].Trim();/*只取()內容前面的文字, 再去1次頭尾空白*/
+                    cellStr = tmpAry[0].Trim(); // 只取()內容前面的文字, 再去1次頭尾空白
 
                     if (row == 3)
                     {
@@ -80,7 +76,11 @@ public partial class projectMgmt_mgmtHandler_UpLoadExcel : System.Web.UI.Page
             // 將excel xml物件放入session
             Session["__Session_xmlDoc"] = xmldoc;
 
-            string xmlStr = "<?xml version='1.0' encoding='UTF-8'?><root>" + xmldoc.OuterXml.ToString() + "</root>";
+			string xStr = string.Empty;
+			DataTable dt = db.InesrtProjectOptSite();
+			xStr = DataTableToXml.ConvertDatatableToXML(dt, "optsiteList", "optsite_item");
+
+			string xmlStr = "<?xml version='1.0' encoding='UTF-8'?><root>" + xmldoc.OuterXml.ToString() + xStr + "</root>";
             xDoc.LoadXml(xmlStr);
         }
         catch (Exception ex)

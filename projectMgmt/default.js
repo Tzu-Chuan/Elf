@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
         $("#InitiateProject_02").modal('hide');
     });
     $("#btn_02a_save, #btn_02b_save").click(function (event) {
-        excelSave(event);
+        excelSave();
     });
 
 });
@@ -106,6 +106,8 @@ function excelUpload(event) {
     //stop submit the form, we will post it manually.
     event.preventDefault();
 
+    $("#message_01").empty();
+
     // Get form
     var form = $('#formFileUplad')[0];
 
@@ -134,10 +136,56 @@ function excelUpload(event) {
         success: function (data) {
             $("#btn_01_next").prop("disabled", false);
             if ($(data).find("Error").length > 0) {
-                $("#message_01").text($(data).find("Error").attr("Message"));
+                $("#message_01").html($(data).find("Error").attr("Message"));
             }
             else {
-                $("#excelContent").html(data);
+                var contentStr = '';
+                // websites
+                contentStr += '<h3>Choose monitored websites：</h3>';
+                contentStr += '<ol>';
+                if ($(data).find("optsite_item").length > 0) {
+                    $(data).find("optsite_item").each(function () {
+                        contentStr += '<li><div class="checkbox"><label><input type="checkbox" name="optsite" value="' + $(this).children("optsite_name").text().trim() + '" />';
+                        contentStr += '<a href="' + $(this).children("optsite_url").text().trim() + '" target="_black">' + $(this).children("optsite_name").text().trim() + '</a></label></div></li>';
+                    });
+                }
+                contentStr += '</ol><br />';
+
+                // Project Information
+                contentStr += '<h3>Project Information：</h3>';
+                contentStr += '<div style="margin-left:20px">';
+                contentStr += '<table class="table table-striped"><tbody>';
+                contentStr += '<tr><th style="width:130px;">Project Name：</th><td>' + $(data).find("Category[col_num='2']").children("rec").text().trim()+'</td></tr>';
+                contentStr += '<tr><th>Item：</th><td>' + $(data).find("Category[col_num='3']").children("rec").text().trim() + '</td></tr>';
+                var abbrStr = '';
+                $(data).find("Category[col_num='4']").children("rec").each(function () {
+                    if (abbrStr != "") abbrStr += '、';
+                    abbrStr += $(this).text().trim();
+                });
+                contentStr += '<tr><th>Abbreviation：</th><td>' + abbrStr + '</td></tr>';
+                contentStr += '</tbody></table></div><br />';
+
+                // Project research topics and related word
+                contentStr += '<h3>Project research topics and related word：</h3>';
+                contentStr += '<ol>';
+                $(data).find("Category").each(function (i) {
+                    if (parseInt($(this).attr("col_num")) >= 5) {
+                        contentStr += '<li>';
+                        contentStr += '<div>' + $(this).attr("item_name") + '：</div>';
+                        contentStr += '<div class="bg-color-grey2" style="padding:10px;">';
+                        contentStr += '<div class="row">';
+                        contentStr += '<ul style="list-style-type: decimal;">';
+                        $(this).children("rec").each(function () {
+                            contentStr += '<li class="col-xs-6 col-md-3"><span>' + $(this).text().trim() + '</span></li>';
+                        });
+                        contentStr += '</ul>';
+                        contentStr += '</div></div>';
+                        contentStr += '</li><br/>';
+                    }
+                });
+                contentStr += '</ol>';
+
+                $("#excelContent").html(contentStr);
 
                 $("#InitiateProject_01").modal('hide');
                 $("#InitiateProject_02").modal('show');
@@ -149,33 +197,43 @@ function excelUpload(event) {
 
 /*===上載2*/
 function excelSave() {
-    var optsite = getCheckBoxVal("optsite");
-    if (optsite == "") {
-        $("#message_02").text("Error message, please choose monitored websites!!");
+    $("#message_02").empty();
+
+    var websiteStr = '';
+    if ($("input[name='optsite']:checked").length == 0) {
+        $("#message_02").text("Error message: please choose monitored websites!!");
         return false;
+    }
+    else {
+        $("input[name='optsite']:checked").each(function () {
+            if (websiteStr != '') websiteStr += ",";
+            websiteStr += this.value;
+        });
     }
 
     // disabled the submit button
     $("#btn_02a_save, #btn_02b_save").prop("disabled", true);
-
+    
     $.ajax({
         type: "POST",
-        url: "inputExcelSave.aspx",
-        data: { optsite: optsite },
-        dataType: 'html',
-        success: function (data) {
+        async: false, //在沒有返回值之前,不會執行下一步動作
+        url: "mgmtHandler/SaveExcel.aspx",
+        data: {
+            optsite: websiteStr
+        },
+        error: function (xhr) {
             $("#btn_02a_save, #btn_02b_save").prop("disabled", false);
-            if (data == "OK.") {
-                $("#InitiateProject_02").modal('hide');
-                getData(0);
+            $("#message_02").text(xhr.responseText);
+        },
+        success: function (data) {
+            if ($(data).find("Error").length > 0) {
+                $("#message_02").html($(data).find("Error").attr("Message"));
             }
             else {
-                $("#message_02").text(data);
+                $("#btn_02a_save, #btn_02b_save").prop("disabled", false);
+                getData(0);
+                $("#InitiateProject_02").modal('hide');
             }
-        },
-        error: function (e) {
-            $("#btn_02a_save, #btn_02b_save").prop("disabled", false);
-            $("#message_02").text(e.responseText);
         }
     });
 }
@@ -276,20 +334,6 @@ function doPjClose(pjGuid) {
 function doExport(pjGuid) {
     location.href = "outputExcel.aspx?pjGuid=" + pjGuid;
 }
-
-
-/*===============*/
-/*===工具-取得被選取之checkbox value*/
-function getCheckBoxVal(elementName) {
-    var result = '';
-    $("input[name=" + elementName + "]").each(function () {
-        if (this.checked) {
-            result += this.value + ',';
-        }
-    });
-    return result.substring(0, result.length - 1);
-}
-
 
 function GetManager() {
     $.ajax({
