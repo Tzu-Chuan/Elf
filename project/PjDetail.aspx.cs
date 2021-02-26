@@ -25,14 +25,15 @@ public partial class project_PjDetail : System.Web.UI.Page
             DataTable dt = m_db.getMemberByEmpno();
             if (dt.Rows.Count == 0)
             {
-                // 2020/6/4 暫時修改全院可看的權限 -by Nick
-                if (pjGuid != "2b4b7012-503d-4888-a42c-696eea00e66c")
-                {
-                    Response.Write("Error message：do not have read right.");
+				/// 2021/2/8 取消全院可觀看 - by Nick
+				//// 2020/6/4 全院可看的權限 - by Nick
+				//if (pjGuid != "2b4b7012-503d-4888-a42c-696eea00e66c")
+				//{
+				Response.Write("Error message：do not have read right.");
                     Response.End();
-                }
-                else
-                    GlobalStatus = "Y";
+                //}
+                //else
+                //    GlobalStatus = "Y";
 
             }
             #endregion
